@@ -1,0 +1,109 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.triplet.play'
+
+android {
+  if (file('../signing/play.json').exists()) {
+    playAccountConfigs {
+      release {
+        jsonFile = file("../signing/play.json")
+      }
+    }
+  }
+
+  compileSdkVersion 28
+  defaultConfig {
+    applicationId "ie.pennylabs.lekkie"
+    minSdkVersion 21
+    targetSdkVersion 28
+    versionCode 2
+    versionName "0.1.$versionCode"
+    archivesBaseName = "lekkie-$versionName"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    if (file('../signing/play.json').exists()) {
+      playAccountConfig = playAccountConfigs.release
+    }
+  }
+
+  signingConfigs {
+    if (file('../signing/release.keystore').exists()) {
+      release {
+        storeFile file(Keystore.RELEASE_STORE)
+        storePassword Keystore.STORE_PASSWORD
+        keyAlias Keystore.KEY_ALIAS
+        keyPassword Keystore.KEY_PASSWORD
+      }
+    }
+
+    debug {
+      storeFile file('../signing/debug.keystore')
+    }
+  }
+
+  buildTypes {
+    debug {
+      signingConfig signingConfigs.debug
+      applicationIdSuffix '.debug'
+    }
+
+    release {
+      if (file('../signing/release.keystore').exists()) {
+        signingConfig signingConfigs.release
+      } else {
+        signingConfig signingConfigs.debug
+      }
+      postprocessing {
+        proguardFiles 'proguard-rules.pro'
+        removeUnusedResources = true
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
+    }
+  }
+}
+
+play {
+  track = 'internal'
+  untrackOld = true
+  uploadImages = true
+}
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Deps.kotlin"
+  implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
+
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
+}
+
+check.dependsOn rootProject.detektCheck
+
+task prepareNextRelease {
+  description "Prepares the project for the next release version, see: RELEASING.md"
+
+  doLast {
+    def new_version = project.android.defaultConfig.versionName
+
+    // 7. Create a new release branch `git checkout -b release-{versionName}`
+    exec { commandLine 'git', 'checkout', '-b', "release-$new_version" }
+
+    def stdout = new ByteArrayOutputStream()
+    exec {
+      commandLine 'git', 'rev-parse', '--short', 'HEAD'
+      standardOutput = stdout
+    }
+    exec {
+      def short_hash = stdout.toString().take(7) // make sure there's no unwanted chars
+
+      // 8. Update previous `CHANGELOG.md` entry to append title with the build commit of that release
+      commandLine 'sed', '-i', "", '-e', "1 s/\$/ - $short_hash/", file('../CHANGELOG.md')
+    }
+
+    // 9. Commit changes `git commit -am 'bump version to {versionName}'`
+    exec { commandLine 'git', 'commit', '-am', "bump version to $new_version" }
+  }
+}

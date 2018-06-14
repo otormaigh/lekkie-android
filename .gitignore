@@ -1,0 +1,20 @@
+# IDEA
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
+!.idea/copyright
+
+# Gradle
+.gradle
+build
+/reports
+
+# Gradle Android
+/local.properties
+/captures
+
+# OSX
+.DS_Store
+
+signing/release.keystore
+signing/play.json
