@@ -23,6 +23,7 @@ import ie.pennylabs.lekkie.BuildConfig
 import ie.pennylabs.lekkie.api.ApiService
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -47,6 +48,7 @@ object BaseApiModule {
   @JvmStatic
   fun provideOkHttp(): OkHttpClient =
     OkHttpClient.Builder()
+      .protocols(listOf(Protocol.HTTP_1_1))
       .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
       .readTimeout(TIMEOUT, TimeUnit.SECONDS)
       .writeTimeout(TIMEOUT, TimeUnit.SECONDS)

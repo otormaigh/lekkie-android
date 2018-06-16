@@ -1,4 +1,8 @@
-Version 0.1.4
+Version 0.1.5
+------------------------
+8b91fc1 - add explicit HTTP_1 protocol to OkHttp client to fix PROTOCOL_ERROR on proguarded builds (Sat, 16 Jun 2018 20:11:05 +0100) <Elliot Tormey>
+
+Version 0.1.4 - 9a3be79
 ------------------------
 0a01ae0 - fix detekt issues (Sat, 16 Jun 2018 19:03:15 +0100) <Elliot Tormey>
 082bddb - Outage list item #10 (Sat, 16 Jun 2018 18:57:37 +0100) <Elliot Tormey>
