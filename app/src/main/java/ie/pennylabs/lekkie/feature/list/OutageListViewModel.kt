@@ -33,16 +33,12 @@ class OutageListViewModel(
   private val job = Job()
   val liveData = persister.fetchAll()
 
-  init {
-    fetchOutages()
-  }
-
   override fun onCleared() {
     super.onCleared()
     job.cancel()
   }
 
-  private fun fetchOutages() {
+  fun fetchOutages() {
     launch(job) {
       val result = fetcher.getOutages().awaitResult()
       when (result) {
