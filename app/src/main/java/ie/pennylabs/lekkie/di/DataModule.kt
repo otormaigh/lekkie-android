@@ -17,6 +17,7 @@
 
 package ie.pennylabs.lekkie.di
 
+import android.location.Geocoder
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -25,6 +26,7 @@ import ie.pennylabs.lekkie.LekkieApplication
 import ie.pennylabs.lekkie.data.model.OutageDao
 import ie.pennylabs.lekkie.data.moshi.EpochAdapter
 import ie.pennylabs.lekkie.data.room.LekkieDatabase
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -48,4 +50,8 @@ object DataModule {
   @Provides
   @JvmStatic
   fun provideOutageDao(database: LekkieDatabase): OutageDao = database.outageDao()
+
+  @Provides
+  @JvmStatic
+  fun provideGeocoder(application: LekkieApplication): Geocoder = Geocoder(application, Locale.getDefault())
 }

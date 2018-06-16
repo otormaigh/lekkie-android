@@ -17,6 +17,7 @@
 
 package ie.pennylabs.lekkie.feature.list
 
+import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,20 +38,23 @@ class OutageListController : BaseController() {
   lateinit var api: ApiService
   @Inject
   lateinit var outageDao: OutageDao
+  @Inject
+  lateinit var geocoder: Geocoder
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
     inflater.inflate(R.layout.controller_outage_list, container, false)
 
   override fun onAttach(view: View) {
     ConductorInjection.inject(this)
-
     super.onAttach(view)
 
-    val viewModel = OutageListViewModel(api, outageDao)
+    val viewModel = OutageListViewModel(api, outageDao, geocoder)
     view.rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
-      viewModel.liveData.observe(lifecycleOwner, Observer { recyclerAdapter.submitList(it) })
+      viewModel.liveData.observe(lifecycleOwner, Observer {
+        recyclerAdapter.submitList(it)
+      })
     }
 
     view.swipeRefresh.setOnRefreshListener {

@@ -26,6 +26,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import com.squareup.moshi.Json
+import ie.pennylabs.lekkie.data.model.Outage.Key.COUNTY
+import ie.pennylabs.lekkie.data.model.Outage.Key.ID
 import ie.pennylabs.lekkie.data.model.Outage.Key.START_TIME
 import ie.pennylabs.lekkie.data.model.Outage.Key.TABLE_NAME
 import ie.pennylabs.lekkie.data.moshi.EpochTime
@@ -34,12 +36,15 @@ import ie.pennylabs.lekkie.data.moshi.EpochTime
 data class Outage(
   @PrimaryKey
   @field:Json(name = "outageId")
+  @ColumnInfo(name = ID)
   val id: String,
   @field:Json(name = "outageType")
   val type: String,
   @field:EpochTime
   val estRestoreTime: Long,
   val location: String,
+  @ColumnInfo(name = COUNTY)
+  val county: String?,
   val numCustAffected: String,
   @field:EpochTime
   @ColumnInfo(name = "start_time")
@@ -49,7 +54,9 @@ data class Outage(
 ) {
   object Key {
     const val TABLE_NAME = "outage"
+    const val ID = "id"
     const val START_TIME = "start_time"
+    const val COUNTY = "county"
   }
 }
 
@@ -60,6 +67,9 @@ interface OutageDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insert(outage: Outage)
+
+  @Query("UPDATE $TABLE_NAME SET $COUNTY=:county WHERE $ID = :id")
+  fun updateCounty(county: String, id: String)
 }
 
 data class OutageConcise(
