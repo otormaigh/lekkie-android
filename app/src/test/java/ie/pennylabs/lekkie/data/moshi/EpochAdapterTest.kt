@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.room
+package ie.pennylabs.lekkie.data.moshi
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class RoomConverterTest {
+class EpochAdapterTest {
   @Test
   fun testDateFromJson() {
-    assertThat(RoomConverter.fromJson("14/06/2018 14:00"))
+    assertThat(EpochAdapter().fromJson("14/06/2018 14:00"))
       .isEqualTo(1528981200000)
   }
 }
