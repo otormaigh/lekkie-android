@@ -38,7 +38,7 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
 
   inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     fun bind(outage: Outage) {
-      tvLocation.text = outage.location
+      tvLocation.text = "${outage.location}, ${outage.county ?: ""}"
       tvType.text = outage.type
     }
   }
