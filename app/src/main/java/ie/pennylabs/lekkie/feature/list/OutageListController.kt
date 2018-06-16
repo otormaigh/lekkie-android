@@ -15,22 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.feature
+package ie.pennylabs.lekkie.feature.list
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.AndroidInjection
+import com.christianbahl.conductor.ConductorInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.feature.map.OutageMapActivity
-import kotlinx.android.synthetic.main.activity_outage_list.*
+import kotlinx.android.synthetic.main.controller_outage_list.view.*
 import javax.inject.Inject
 
-class OutageListActivity : AppCompatActivity() {
+class OutageListController : BaseController() {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
 
   @Inject
@@ -38,19 +38,19 @@ class OutageListActivity : AppCompatActivity() {
   @Inject
   lateinit var outageDao: OutageDao
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
+    inflater.inflate(R.layout.controller_outage_list, container, false)
 
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_outage_list)
+  override fun onAttach(view: View) {
+    ConductorInjection.inject(this)
+
+    super.onAttach(view)
 
     val viewModel = OutageListViewModel(api, outageDao)
-    rvOutages.apply {
+    view.rvOutages.apply {
       adapter = recyclerAdapter
-      layoutManager = LinearLayoutManager(this@OutageListActivity)
-      viewModel.liveData.observe(this@OutageListActivity, Observer { recyclerAdapter.submitList(it) })
+      layoutManager = LinearLayoutManager(view.context)
+      viewModel.liveData.observe(lifecycleOwner, Observer { recyclerAdapter.submitList(it) })
     }
-
-    btnMap.setOnClickListener { startActivity(Intent(this@OutageListActivity, OutageMapActivity::class.java)) }
   }
 }
