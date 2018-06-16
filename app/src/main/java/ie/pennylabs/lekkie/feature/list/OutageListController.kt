@@ -52,5 +52,10 @@ class OutageListController : BaseController() {
       layoutManager = LinearLayoutManager(view.context)
       viewModel.liveData.observe(lifecycleOwner, Observer { recyclerAdapter.submitList(it) })
     }
+
+    view.swipeRefresh.setOnRefreshListener {
+      view.swipeRefresh.isRefreshing = false
+      viewModel.fetchOutages()
+    }
   }
 }
