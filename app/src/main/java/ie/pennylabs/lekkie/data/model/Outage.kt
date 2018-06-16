@@ -52,6 +52,12 @@ data class Outage(
   val statusMessage: String,
   val point: Point
 ) {
+  companion object {
+    const val PLANNED = "Planned"
+    const val FAULT = "Fault"
+  }
+
+
   object Key {
     const val TABLE_NAME = "outage"
     const val ID = "id"

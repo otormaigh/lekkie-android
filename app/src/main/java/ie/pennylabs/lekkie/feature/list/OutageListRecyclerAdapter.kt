@@ -27,8 +27,16 @@ import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.data.model.Outage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_item_outage.*
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 
 class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.ViewHolder>(diffCallback) {
+  private val dateFormatter =
+    DateTimeFormatter
+      .ofPattern("dd/MM/yyyy HH:mm")
+      .withZone(ZoneId.systemDefault())
+
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
     ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_outage, parent, false))
 
@@ -40,6 +48,15 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
     fun bind(outage: Outage) {
       tvLocation.text = "${outage.location}, ${outage.county ?: ""}"
       tvType.text = outage.type
+
+      val timeStamp = dateFormatter.format(Instant.ofEpochSecond(outage.estRestoreTime).atZone(ZoneId.systemDefault()))
+      tvEstimatedRestore.text = "Est restore: $timeStamp"
+
+      ivType.setImageResource(when (outage.type) {
+        Outage.PLANNED -> R.drawable.ic_outage_planned
+        Outage.FAULT -> R.drawable.ic_outage_fault
+        else -> R.drawable.ic_outage_unkonwn
+      })
     }
   }
 }
