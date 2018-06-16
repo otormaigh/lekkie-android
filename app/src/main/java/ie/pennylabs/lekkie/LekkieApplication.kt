@@ -20,6 +20,7 @@ package ie.pennylabs.lekkie
 import android.app.Activity
 import android.app.Application
 import android.os.StrictMode
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -50,6 +51,8 @@ class LekkieApplication : Application(), HasActivityInjector {
       .application(this)
       .build()
       .inject(this)
+
+    AndroidThreeTen.init(this)
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector

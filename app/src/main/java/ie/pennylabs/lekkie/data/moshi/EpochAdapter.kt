@@ -20,20 +20,25 @@ package ie.pennylabs.lekkie.data.moshi
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.ToJson
-import java.text.SimpleDateFormat
-import java.util.*
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 @Retention(AnnotationRetention.RUNTIME)
 @JsonQualifier
 annotation class EpochTime
 
-private const val DATE_FORMAT = "dd/MM/yyyy HH:mm"
+private val dateFormatter =
+  DateTimeFormatter
+    .ofPattern("dd/MM/yyyy HH:mm")
+    .withZone(ZoneId.of("Europe/Dublin"))
 
 class EpochAdapter {
   @FromJson
   @EpochTime
-  fun fromJson(value: String): Long = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(value).time
+  fun fromJson(value: String): Long = ZonedDateTime.parse(value, dateFormatter).toEpochSecond()
 
   @ToJson
-  fun toJson(@EpochTime value: Long) = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(value)
+  fun toJson(@EpochTime value: Long): String? = dateFormatter.format(Instant.ofEpochSecond(value))
 }

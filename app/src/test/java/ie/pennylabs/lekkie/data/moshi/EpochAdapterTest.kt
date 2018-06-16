@@ -24,6 +24,12 @@ class EpochAdapterTest {
   @Test
   fun testDateFromJson() {
     assertThat(EpochAdapter().fromJson("14/06/2018 14:00"))
-      .isEqualTo(1528981200000)
+      .isEqualTo(1528981200)
+  }
+
+  @Test
+  fun testDateToJson() {
+    assertThat(EpochAdapter().toJson(1528981200))
+      .isEqualTo("14/06/2018 14:00")
   }
 }
