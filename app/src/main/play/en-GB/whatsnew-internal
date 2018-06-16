@@ -1,8 +1,1 @@
-- fix detekt issues
-- Outage list item #10
-- remove some missing outageDetail objects from resources/outages.json
-- Outage location #9
-- add swipe refresh widget to OutageLit
-- convert OutageMap to Controller
-- add info item to bottom bar
-- convert OutageList to Controller, create MainActivity as controller main router, add bottomNav to MainActivity
+- add explicit HTTP_1 protocol to OkHttp client to fix PROTOCOL_ERROR on proguarded builds
