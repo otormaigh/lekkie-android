@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018 Elliot Tormey
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ie.pennylabs.lekkie.data.model
 
 import androidx.lifecycle.LiveData
@@ -12,7 +29,6 @@ import com.squareup.moshi.Json
 import ie.pennylabs.lekkie.data.model.Outage.Key.START_TIME
 import ie.pennylabs.lekkie.data.model.Outage.Key.TABLE_NAME
 import ie.pennylabs.lekkie.data.moshi.EpochTime
-
 
 @Entity(tableName = Outage.Key.TABLE_NAME)
 data class Outage(
@@ -37,9 +53,6 @@ data class Outage(
   }
 }
 
-/*
-* {"outageId":"1652560","outageType":"Fault","point":{"coordinates":"53.450282774946,-7.191009303344"},"estRestoreTime":"15/06/2018 22:00","location":"Ballinderry","numCustAffected":"33","startTime":"15/06/2018 18:09","statusMessage":"We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."}*/
-
 @Dao
 interface OutageDao {
   @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME")
@@ -53,24 +66,3 @@ data class OutageConcise(
   @field:Json(name = "outageId")
   val id: String
 )
-
-/*{
-    "outageId": "1650887",
-    "outageType": "Fault",
-    "point": {
-        "coordinates": "54.108286954538,-7.758841138269"
-    },
-    "estRestoreTime": "14/06/2018 23:30",
-    "location": "Carrigallen",
-    "numCustAffected": "24",
-    "startTime": "14/06/2018 08:31",
-    "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
-}*/
-
-/*{
-  "outageId": "1650887",
-  "outageType": "Fault",
-  "point": {
-      "coordinates": "54.108286954538,-7.758841138269"
-  }
-}*/

@@ -17,14 +17,18 @@
 
 package ie.pennylabs.lekkie.data.room
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageDao
+import androidx.room.TypeConverter
+import ie.pennylabs.lekkie.data.model.Point
+import ie.pennylabs.lekkie.di.DataModule
 
-@Database(entities = [Outage::class], version = 1)
-@TypeConverters(PointTypeConverter::class)
-abstract class LekkieDatabase : RoomDatabase() {
-  abstract fun outageDao(): OutageDao
+object PointTypeConverter {
+  private val adapter = DataModule.provideMoshi().adapter<Point>(Point::class.java)
+
+  @TypeConverter
+  @JvmStatic
+  fun fromJson(json: String): Point = adapter.fromJson(json)!!
+
+  @TypeConverter
+  @JvmStatic
+  fun toJson(data: Point): String = adapter.toJson(data)
 }
