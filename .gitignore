@@ -18,3 +18,4 @@ build
 
 signing/release.keystore
 signing/play.json
+enc.properties

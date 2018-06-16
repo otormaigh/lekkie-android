@@ -1,0 +1,12 @@
+{
+  "outageId": "1652673",
+  "outageType": "Planned",
+  "point": {
+    "coordinates": "53.842364803213,-7.459281099775"
+  },
+  "estRestoreTime": "16/06/2018 17:00",
+  "location": "Finea",
+  "numCustAffected": "24",
+  "startTime": "16/06/2018 09:14",
+  "statusMessage": "We apologise for the loss of supply.  We are carrying out essential improvement / maintenance works in your area and will restore power as quickly as possible."
+}

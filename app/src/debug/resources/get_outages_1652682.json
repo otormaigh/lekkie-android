@@ -1,0 +1,12 @@
+{
+  "outageId": "1652682",
+  "outageType": "Planned",
+  "point": {
+    "coordinates": "52.053836271693,-8.418800403656"
+  },
+  "estRestoreTime": "16/06/2018 15:30",
+  "location": "Whitechurch",
+  "numCustAffected": "33",
+  "startTime": "16/06/2018 09:30",
+  "statusMessage": "We apologise for the loss of supply.  We are carrying out essential improvement / maintenance works in your area and will restore power as quickly as possible."
+}

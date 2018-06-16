@@ -1,0 +1,12 @@
+{
+  "outageId": "1652552",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "53.287064639724,-6.518568796566"
+  },
+  "estRestoreTime": "15/06/2018 21:15",
+  "location": "Saggart",
+  "numCustAffected": "10",
+  "startTime": "15/06/2018 17:33",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}

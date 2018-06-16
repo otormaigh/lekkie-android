@@ -1,0 +1,12 @@
+{
+  "outageId": "1652560",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "53.450282774946,-7.191009303344"
+  },
+  "estRestoreTime": "15/06/2018 22:00",
+  "location": "Ballinderry",
+  "numCustAffected": "33",
+  "startTime": "15/06/2018 18:09",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}
