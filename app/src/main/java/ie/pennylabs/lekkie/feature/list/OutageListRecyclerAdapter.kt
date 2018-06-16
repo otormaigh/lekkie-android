@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.feature
+package ie.pennylabs.lekkie.feature.list
 
 import android.view.LayoutInflater
 import android.view.View

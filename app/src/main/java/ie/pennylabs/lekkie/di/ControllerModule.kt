@@ -17,29 +17,18 @@
 
 package ie.pennylabs.lekkie.di
 
-import com.christianbahl.conductor.ConductorInjectionModule
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import ie.pennylabs.lekkie.LekkieApplication
-import javax.inject.Singleton
+import com.bluelinelabs.conductor.Controller
+import com.christianbahl.conductor.ControllerKey
+import dagger.Binds
+import dagger.Module
+import dagger.android.AndroidInjector
+import dagger.multibindings.IntoMap
+import ie.pennylabs.lekkie.feature.list.OutageListController
 
-@Singleton
-@Component(modules = [
-  AndroidInjectionModule::class,
-  ConductorInjectionModule::class,
-  ActivityBuilder::class,
-  ApiModule::class,
-  ControllerModule::class,
-  DataModule::class])
-interface AppComponent {
-  @Component.Builder
-  interface Builder {
-    @BindsInstance
-    fun application(application: LekkieApplication): Builder
-
-    fun build(): AppComponent
-  }
-
-  fun inject(application: LekkieApplication)
+@Module(subcomponents = [OutageListComponent::class])
+interface ControllerModule {
+  @Binds
+  @IntoMap
+  @ControllerKey(OutageListController::class)
+  fun bindOutageList(builder: OutageListComponent.Builder): AndroidInjector.Factory<out Controller>
 }

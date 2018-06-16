@@ -15,7 +15,20 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/rvOutages"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+    android:id="@+id/menuMap"
+    android:icon="@drawable/ic_map"
+    android:title="Map" />
+
+  <!-- Stub menu item to add padding between items -->
+  <item
+    android:id="@+id/menuStub"
+    android:enabled="false"
+    android:title="" />
+
+  <item
+    android:id="@+id/menuList"
+    android:icon="@drawable/ic_list"
+    android:title="List" />
+</menu>

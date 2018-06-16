@@ -20,6 +20,8 @@ package ie.pennylabs.lekkie
 import android.app.Activity
 import android.app.Application
 import android.os.StrictMode
+import com.bluelinelabs.conductor.Controller
+import com.christianbahl.conductor.HasControllerInjector
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -28,9 +30,12 @@ import ie.pennylabs.lekkie.di.DaggerAppComponent
 import timber.log.Timber
 import javax.inject.Inject
 
-class LekkieApplication : Application(), HasActivityInjector {
+class LekkieApplication : Application(), HasActivityInjector, HasControllerInjector {
   @Inject
   lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+  @Inject
+  lateinit var controllerInjector: DispatchingAndroidInjector<Controller>
 
   override fun onCreate() {
     super.onCreate()
@@ -56,4 +61,5 @@ class LekkieApplication : Application(), HasActivityInjector {
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+  override fun controllerInjector(): DispatchingAndroidInjector<Controller> = controllerInjector
 }
