@@ -1,9 +1,8 @@
-- add threetenbp to handle date things
-- update circleci/config to store all reports in artifacts
-- move room/RoomConverterTest to moshi/EpochAdapterTest, delete unneded room schema json
-- update secret stuff
-- add better flavouring management to ApiModule
-- use location name instead of ID in list_item_outage
-- add lint-config to ignore warning about bouncycastle
-- add copyright notice to all project files
-- add initial data and api stuff. add basic map to plot outage pins
+- fix detekt issues
+- Outage list item #10
+- remove some missing outageDetail objects from resources/outages.json
+- Outage location #9
+- add swipe refresh widget to OutageLit
+- convert OutageMap to Controller
+- add info item to bottom bar
+- convert OutageList to Controller, create MainActivity as controller main router, add bottomNav to MainActivity

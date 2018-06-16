@@ -43,13 +43,6 @@
       }
     },
     {
-      "outageId": "1652627",
-      "outageType": "Fault",
-      "point": {
-        "coordinates": "53.975221740994,-6.672834184539"
-      }
-    },
-    {
       "outageId": "1652652",
       "outageType": "Fault",
       "point": {
@@ -89,13 +82,6 @@
       "outageType": "Planned",
       "point": {
         "coordinates": "52.053836271693,-8.418800403656"
-      }
-    },
-    {
-      "outageId": "1652692",
-      "outageType": "Fault",
-      "point": {
-        "coordinates": "51.925904984307,-8.744732110242"
       }
     }
   ]

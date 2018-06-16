@@ -14,32 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+@file:Suppress("detekt.StringLiteralDuplication")
+package ie.pennylabs.lekkie.toolbox.extension
 
-package ie.pennylabs.lekkie.di
+import android.content.Context
+import com.bluelinelabs.conductor.Controller
 
-import com.christianbahl.conductor.ConductorInjectionModule
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import ie.pennylabs.lekkie.LekkieApplication
-import javax.inject.Singleton
+fun Controller.requireContext(): Context = view?.context.takeIf { it != null }
+  ?: throw NullPointerException("Controller : $this not attached to an Activity")
 
-@Singleton
-@Component(modules = [
-  AndroidInjectionModule::class,
-  ConductorInjectionModule::class,
-  ActivityBuilder::class,
-  ApiModule::class,
-  ControllerModule::class,
-  DataModule::class])
-interface AppComponent {
-  @Component.Builder
-  interface Builder {
-    @BindsInstance
-    fun application(application: LekkieApplication): Builder
+fun Controller.requireActivity(): Context = activity.takeIf { it != null }
+  ?: throw NullPointerException("Controller : $this not attached to an Activity")
 
-    fun build(): AppComponent
-  }
-
-  fun inject(application: LekkieApplication)
-}
+fun Controller.requireApplicationContext(): Context = applicationContext.takeIf { it != null }
+  ?: throw NullPointerException("Controller : $this not attached to an Activity")

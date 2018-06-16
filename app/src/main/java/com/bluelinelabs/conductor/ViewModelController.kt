@@ -15,31 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.di
+package com.bluelinelabs.conductor
 
-import com.christianbahl.conductor.ConductorInjectionModule
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import ie.pennylabs.lekkie.LekkieApplication
-import javax.inject.Singleton
+import android.os.Bundle
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStore
 
-@Singleton
-@Component(modules = [
-  AndroidInjectionModule::class,
-  ConductorInjectionModule::class,
-  ActivityBuilder::class,
-  ApiModule::class,
-  ControllerModule::class,
-  DataModule::class])
-interface AppComponent {
-  @Component.Builder
-  interface Builder {
-    @BindsInstance
-    fun application(application: LekkieApplication): Builder
+abstract class ViewModelController : Controller, LifecycleOwner {
+  val viewModelStore = ViewModelStore()
+  val lifecycleOwner = ControllerLifecycleOwner(this)
 
-    fun build(): AppComponent
+  constructor() : super()
+  constructor(bundle: Bundle) : super(bundle)
+
+  override fun onDestroy() {
+    super.onDestroy()
+    viewModelStore.clear()
   }
 
-  fun inject(application: LekkieApplication)
+  override fun getLifecycle(): Lifecycle = lifecycleOwner.getLifecycle()
 }

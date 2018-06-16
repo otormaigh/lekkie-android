@@ -17,37 +17,46 @@
 
 package ie.pennylabs.lekkie.feature.map
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.christianbahl.conductor.ConductorInjection
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import dagger.android.AndroidInjection
 import ie.pennylabs.lekkie.R
+import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
-import kotlinx.android.synthetic.main.activity_outage_map.*
+import kotlinx.android.synthetic.main.controller_outage_map.view.*
 import javax.inject.Inject
 
-class OutageMapActivity : AppCompatActivity(), OnMapReadyCallback {
+class OutageMapController : BaseController(), OnMapReadyCallback {
   @Inject
   lateinit var outageDao: OutageDao
-  private lateinit var map: GoogleMap
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
+    inflater.inflate(R.layout.controller_outage_map, container, false)
 
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_outage_map)
-    (mapFragment as SupportMapFragment).getMapAsync(this)
+  override fun onAttach(view: View) {
+    ConductorInjection.inject(this)
+
+    super.onAttach(view)
+    view.mapView.apply {
+      onCreate(null)
+      onResume()
+      getMapAsync(this@OutageMapController)
+    }
   }
 
-  override fun onMapReady(googleMap: GoogleMap) {
-    map = googleMap
+  override fun onDetach(view: View) {
+    super.onDetach(view)
+    view.mapView.onDestroy()
+  }
 
+  override fun onMapReady(map: GoogleMap) {
     val middleish = LatLng(53.304886, -8.009181)
     map.moveCamera(CameraUpdateFactory.newLatLng(middleish))
     map.animateCamera(CameraUpdateFactory.newLatLngZoom(middleish, 7f))

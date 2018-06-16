@@ -15,20 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.feature
+package ie.pennylabs.lekkie.feature.list
 
+import android.location.Geocoder
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import ru.gildor.coroutines.retrofit.Result
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
+import java.io.IOException
 
 class OutageListViewModel(
   private val fetcher: ApiService,
-  private val persister: OutageDao
+  private val persister: OutageDao,
+  private val geocoder: Geocoder
 ) : ViewModel() {
   private val job = Job()
   val liveData = persister.fetchAll()
@@ -42,7 +47,7 @@ class OutageListViewModel(
     job.cancel()
   }
 
-  private fun fetchOutages() {
+  fun fetchOutages() {
     launch(job) {
       val result = fetcher.getOutages().awaitResult()
       when (result) {
@@ -52,10 +57,25 @@ class OutageListViewModel(
     }
   }
 
+  private fun updateOutageCounty(outage: Outage) {
+    launch(job) {
+      try {
+        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.subAdminArea?.let { subAdminArea ->
+          persister.updateCounty(subAdminArea, outage.id)
+        }
+      } catch (e: IOException) {
+        Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")
+      }
+    }
+  }
+
   private suspend fun fetchOutageDetail(id: String) = launch(job) {
     val result = fetcher.getOutage(id).awaitResult()
     when (result) {
-      is Result.Ok -> persister.insert(result.value)
+      is Result.Ok -> {
+        persister.insert(result.value)
+        updateOutageCounty(result.value)
+      }
       else -> Timber.e("result -> $result")
     }
   }

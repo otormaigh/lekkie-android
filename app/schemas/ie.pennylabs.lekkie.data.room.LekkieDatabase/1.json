@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "87d931471cb39f9f5a2a504c65a01dff",
+    "identityHash": "8053261462d1145a0caf043d32b8a530",
     "entities": [
       {
         "tableName": "outage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `estRestoreTime` INTEGER NOT NULL, `location` TEXT NOT NULL, `numCustAffected` TEXT NOT NULL, `start_time` INTEGER NOT NULL, `statusMessage` TEXT NOT NULL, `point` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `estRestoreTime` INTEGER NOT NULL, `location` TEXT NOT NULL, `county` TEXT, `numCustAffected` TEXT NOT NULL, `start_time` INTEGER NOT NULL, `statusMessage` TEXT NOT NULL, `point` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,12 @@
             "columnName": "location",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "county",
+            "columnName": "county",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "numCustAffected",
@@ -69,7 +75,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"87d931471cb39f9f5a2a504c65a01dff\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8053261462d1145a0caf043d32b8a530\")"
     ]
   }
 }
