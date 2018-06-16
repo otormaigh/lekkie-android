@@ -27,7 +27,7 @@ import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
-import kotlinx.android.synthetic.main.activity_outage_list.view.*
+import kotlinx.android.synthetic.main.controller_outage_list.view.*
 import javax.inject.Inject
 
 class OutageListController : BaseController() {
@@ -39,7 +39,7 @@ class OutageListController : BaseController() {
   lateinit var outageDao: OutageDao
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
-    inflater.inflate(R.layout.activity_outage_list, container, false)
+    inflater.inflate(R.layout.controller_outage_list, container, false)
 
   override fun onAttach(view: View) {
     ConductorInjection.inject(this)

@@ -24,6 +24,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.feature.list.OutageListController
+import ie.pennylabs.lekkie.feature.map.OutageMapController
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,5 +36,21 @@ class MainActivity : AppCompatActivity() {
 
     router = Conductor.attachRouter(this, controllerContainer, savedInstanceState)
     router.setRoot(RouterTransaction.with(OutageListController()))
+
+    bottomNav.selectedItemId = R.id.menuList
+    bottomNav.setOnNavigationItemSelectedListener { item ->
+      when (item.itemId) {
+        R.id.menuMap-> {
+          router.setRoot(RouterTransaction.with(OutageMapController()))
+          true
+        }
+        R.id.menuList -> {
+          router.setRoot(RouterTransaction.with(OutageListController()))
+          true
+        }
+        else -> false
+      }
+    }
+
   }
 }
