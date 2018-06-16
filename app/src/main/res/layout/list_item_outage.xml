@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2018 Elliot Tormey
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,27 +20,50 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:paddingTop="16dp"
-  android:paddingBottom="16dp">
+  android:paddingTop="8dp"
+  android:paddingBottom="8dp">
 
   <TextView
     android:id="@+id/tvLocation"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+    app:layout_constraintBottom_toTopOf="@id/tvEstimatedRestore"
+    app:layout_constraintHorizontal_bias="0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:text="Middletown" />
 
   <TextView
+    android:id="@+id/tvEstimatedRestore"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+    app:layout_constraintBottom_toTopOf="@id/tvType"
+    app:layout_constraintStart_toStartOf="@id/tvLocation"
+    app:layout_constraintTop_toBottomOf="@id/tvLocation"
+    tools:text="January 1, 1970" />
+
+  <TextView
     android:id="@+id/tvType"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="16dp"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="@id/tvLocation"
+    app:layout_constraintTop_toBottomOf="@id/tvEstimatedRestore"
     tools:text="Planned" />
+
+  <ImageView
+    android:id="@+id/ivType"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginStart="16dp"
+    android:padding="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintDimensionRatio="H,1:1"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
