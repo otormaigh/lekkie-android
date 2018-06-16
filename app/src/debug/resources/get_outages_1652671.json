@@ -1,0 +1,12 @@
+{
+  "outageId": "1652671",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "52.921783973741,-6.73464364031"
+  },
+  "estRestoreTime": "16/06/2018 12:45",
+  "location": "Baltinglass",
+  "numCustAffected": "51",
+  "startTime": "16/06/2018 08:49",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}

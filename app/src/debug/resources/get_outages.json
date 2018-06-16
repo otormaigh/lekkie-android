@@ -1,0 +1,102 @@
+{
+  "outageMessage": [
+    {
+      "outageId": "1650887",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "54.108286954538,-7.758841138269"
+      }
+    },
+    {
+      "outageId": "1651175",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "52.601761105165,-7.044705880911"
+      }
+    },
+    {
+      "outageId": "1652552",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.287064639724,-6.518568796566"
+      }
+    },
+    {
+      "outageId": "1652560",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.450282774946,-7.191009303344"
+      }
+    },
+    {
+      "outageId": "1652576",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.918552586409,-9.193861727633"
+      }
+    },
+    {
+      "outageId": "1651175",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "52.601761105165,-7.044705880911"
+      }
+    },
+    {
+      "outageId": "1652627",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.975221740994,-6.672834184539"
+      }
+    },
+    {
+      "outageId": "1652652",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.617478994785,-9.290130726875"
+      }
+    },
+    {
+      "outageId": "1652669",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.95048833257,-8.082496592035"
+      }
+    },
+    {
+      "outageId": "1652671",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "52.921783973741,-6.73464364031"
+      }
+    },
+    {
+      "outageId": "1652673",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "53.842364803213,-7.459281099775"
+      }
+    },
+    {
+      "outageId": "1652677",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.347766949724,-8.302254690186"
+      }
+    },
+    {
+      "outageId": "1652682",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "52.053836271693,-8.418800403656"
+      }
+    },
+    {
+      "outageId": "1652692",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "51.925904984307,-8.744732110242"
+      }
+    }
+  ]
+}

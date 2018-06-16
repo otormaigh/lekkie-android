@@ -1,0 +1,12 @@
+{
+  "outageId": "1650887",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "54.108286954538,-7.758841138269"
+  },
+  "estRestoreTime": "14/06/2018 23:30",
+  "location": "Carrigallen",
+  "numCustAffected": "24",
+  "startTime": "14/06/2018 08:31",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}

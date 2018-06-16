@@ -1,0 +1,12 @@
+{
+  "outageId": "1652576",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "53.918552586409,-9.193861727633"
+  },
+  "estRestoreTime": "16/06/2018 00:30",
+  "location": "Turlough Road",
+  "numCustAffected": "14",
+  "startTime": "15/06/2018 19:05",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}

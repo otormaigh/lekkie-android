@@ -1,0 +1,12 @@
+{
+  "outageId": "1651175",
+  "outageType": "Planned",
+  "point": {
+    "coordinates": "52.601761105165,-7.044705880911"
+  },
+  "estRestoreTime": "14/06/2018 14:00",
+  "location": "Goresbridge",
+  "numCustAffected": "41",
+  "startTime": "14/06/2018 09:37",
+  "statusMessage": "We apologise for the loss of supply.  We are carrying out essential improvement / maintenance works in your area and will restore power as quickly as possible."
+}

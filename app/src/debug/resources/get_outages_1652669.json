@@ -1,0 +1,12 @@
+{
+  "outageId": "1652669",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "53.95048833257,-8.082496592035"
+  },
+  "estRestoreTime": "16/06/2018 12:45",
+  "location": "Carrick On Shannon",
+  "numCustAffected": "50",
+  "startTime": "16/06/2018 09:02",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}
