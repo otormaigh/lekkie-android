@@ -1,4 +1,4 @@
-Version 0.1.3
+Version 0.1.3 - e2d8971
 ------------------------
 8538d4f - add threetenbp to handle date things (Sat, 16 Jun 2018 15:09:01 +0100) <Elliot Tormey>
 5467083 - update circleci/config to store all reports in artifacts (Sat, 16 Jun 2018 14:31:05 +0100) <Elliot Tormey>

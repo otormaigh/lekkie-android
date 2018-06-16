@@ -38,7 +38,7 @@ android {
     applicationId "ie.pennylabs.lekkie"
     minSdkVersion 21
     targetSdkVersion 28
-    versionCode 3
+    versionCode 4
     versionName "0.1.$versionCode"
     archivesBaseName = "lekkie-$versionName"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
