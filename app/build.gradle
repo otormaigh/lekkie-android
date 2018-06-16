@@ -98,6 +98,10 @@ android {
   packagingOptions {
     exclude 'META-INF/main.kotlin_module'
   }
+
+  lintOptions {
+    lintConfig file("../quality/lint-config.xml")
+  }
 }
 
 play {
