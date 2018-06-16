@@ -15,21 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
 package ie.pennylabs.lekkie.di
 
 import dagger.Module
 import dagger.Provides
+import ie.pennylabs.lekkie.api.ApiResponseDispatcher
 import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockWebServer
 
-@Module(includes = [ApiModule::class])
-object DebugApiModule {
+@Module(includes = [BaseApiModule::class])
+object ApiModule {
   @Provides
   @JvmStatic
-  fun provideMockWebServer(): MockWebServer = MockWebServer()
+  fun provideMockWebServer(): MockWebServer =
+    MockWebServer().apply {
+      setDispatcher(ApiResponseDispatcher())
+    }
 
   @Provides
   @JvmStatic
   fun provideBaseUrl(mockWebServer: MockWebServer): HttpUrl = mockWebServer.url("/")
-}*/
+}
