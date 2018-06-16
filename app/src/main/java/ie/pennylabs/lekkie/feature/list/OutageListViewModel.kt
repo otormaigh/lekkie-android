@@ -28,6 +28,7 @@ import kotlinx.coroutines.experimental.launch
 import ru.gildor.coroutines.retrofit.Result
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
+import java.io.IOException
 
 class OutageListViewModel(
   private val fetcher: ApiService,
@@ -62,7 +63,7 @@ class OutageListViewModel(
         geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.subAdminArea?.let { subAdminArea ->
           persister.updateCounty(subAdminArea, outage.id)
         }
-      } catch (e: Exception) {
+      } catch (e: IOException) {
         Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")
       }
     }
