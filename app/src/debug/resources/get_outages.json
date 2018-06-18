@@ -43,13 +43,6 @@
       }
     },
     {
-      "outageId": "1652652",
-      "outageType": "Fault",
-      "point": {
-        "coordinates": "53.617478994785,-9.290130726875"
-      }
-    },
-    {
       "outageId": "1652669",
       "outageType": "Fault",
       "point": {
@@ -82,6 +75,55 @@
       "outageType": "Planned",
       "point": {
         "coordinates": "52.053836271693,-8.418800403656"
+      }
+    },
+    {
+      "outageId": "1651175",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "52.601761105165,-7.044705880911"
+      }
+    },
+    {
+      "outageId": "1653164",
+      "outageType": "Planned",
+      "point": {
+        "coordinates": "53.521719070812,-6.317794784864"
+      }
+    },
+    {
+      "outageId": "1653303",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "52.401009527224,-9.903383870101"
+      }
+    },
+    {
+      "outageId": "1653409",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "54.402785633201,-7.018836076626"
+      }
+    },
+    {
+      "outageId": "1653420",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.776426227645,-7.639390814243"
+      }
+    },
+    {
+      "outageId": "1653435",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.451557887874,-8.8724184116"
+      }
+    },
+    {
+      "outageId": "1653438",
+      "outageType": "Fault",
+      "point": {
+        "coordinates": "53.52953321733,-8.871412445371"
       }
     }
   ]

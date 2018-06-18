@@ -1,0 +1,12 @@
+{
+  "outageId": "1653409",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "54.402785633201,-7.018836076626"
+  },
+  "estRestoreTime": "18/06/2018 22:45",
+  "location": "Emyvale",
+  "numCustAffected": "13",
+  "startTime": "18/06/2018 18:55",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}
