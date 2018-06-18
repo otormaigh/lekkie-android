@@ -1,1 +1,4 @@
-- add explicit HTTP_1 protocol to OkHttp client to fix PROTOCOL_ERROR on proguarded builds
+- improve lifecycleness of mapview
+- add hasStableIds to list recycler adapter
+- update outage geocoder fetcher to get locality to make data more accurate
+- add some more mocked api data
