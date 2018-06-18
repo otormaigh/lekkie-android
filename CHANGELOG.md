@@ -1,4 +1,4 @@
-Version 0.1.5
+Version 0.1.5 - 1df8d62
 ------------------------
 8b91fc1 - add explicit HTTP_1 protocol to OkHttp client to fix PROTOCOL_ERROR on proguarded builds (Sat, 16 Jun 2018 20:11:05 +0100) <Elliot Tormey>
 
