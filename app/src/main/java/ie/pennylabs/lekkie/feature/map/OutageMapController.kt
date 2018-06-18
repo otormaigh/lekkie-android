@@ -17,6 +17,7 @@
 
 package ie.pennylabs.lekkie.feature.map
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,14 +39,15 @@ class OutageMapController : BaseController(), OnMapReadyCallback {
   lateinit var outageDao: OutageDao
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
-    inflater.inflate(R.layout.controller_outage_map, container, false)
+    inflater.inflate(R.layout.controller_outage_map, container, false).apply {
+      mapView.onCreate(args)
+    }
 
   override fun onAttach(view: View) {
     ConductorInjection.inject(this)
 
     super.onAttach(view)
     view.mapView.apply {
-      onCreate(null)
       onResume()
       getMapAsync(this@OutageMapController)
     }
@@ -53,7 +55,17 @@ class OutageMapController : BaseController(), OnMapReadyCallback {
 
   override fun onDetach(view: View) {
     super.onDetach(view)
+    view.mapView.onPause()
+  }
+
+  override fun onDestroyView(view: View) {
+    super.onDestroyView(view)
     view.mapView.onDestroy()
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    view?.mapView?.onSaveInstanceState(outState)
   }
 
   override fun onMapReady(map: GoogleMap) {

@@ -1,0 +1,12 @@
+{
+  "outageId": "1653438",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "53.52953321733,-8.871412445371"
+  },
+  "estRestoreTime": "19/06/2018 01:00",
+  "location": "Tuam North",
+  "numCustAffected": "2145",
+  "startTime": "18/06/2018 21:22",
+  "statusMessage": "We apologise for the loss of supply. We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}

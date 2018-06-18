@@ -20,6 +20,7 @@ package ie.pennylabs.lekkie.feature.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
+import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import ie.pennylabs.lekkie.R
@@ -40,8 +41,10 @@ class MainActivity : AppCompatActivity() {
     bottomNav.selectedItemId = R.id.menuList
     bottomNav.setOnNavigationItemSelectedListener { item ->
       when (item.itemId) {
-        R.id.menuMap-> {
-          router.setRoot(RouterTransaction.with(OutageMapController()))
+        R.id.menuMap -> {
+          router.setRoot(RouterTransaction.with(OutageMapController().apply {
+            retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
+          }))
           true
         }
         R.id.menuList -> {
@@ -51,6 +54,5 @@ class MainActivity : AppCompatActivity() {
         else -> false
       }
     }
-
   }
 }

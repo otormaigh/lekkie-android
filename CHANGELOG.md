@@ -1,4 +1,11 @@
-Version 0.1.5
+Version 0.1.6
+------------------------
+bf65cf1 - improve lifecycleness of mapview (Mon, 18 Jun 2018 22:41:18 +0100) <Elliot Tormey>
+20a0dcb - add hasStableIds to list recycler adapter (Mon, 18 Jun 2018 22:40:30 +0100) <Elliot Tormey>
+f680e13 - update outage geocoder fetcher to get locality to make data more accurate (Mon, 18 Jun 2018 22:39:51 +0100) <Elliot Tormey>
+f942e5d - add some more mocked api data (Mon, 18 Jun 2018 22:37:12 +0100) <Elliot Tormey>
+
+Version 0.1.5 - 1df8d62
 ------------------------
 8b91fc1 - add explicit HTTP_1 protocol to OkHttp client to fix PROTOCOL_ERROR on proguarded builds (Sat, 16 Jun 2018 20:11:05 +0100) <Elliot Tormey>
 

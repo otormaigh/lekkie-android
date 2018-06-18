@@ -37,12 +37,19 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
       .ofPattern("dd/MM/yyyy HH:mm")
       .withZone(ZoneId.systemDefault())
 
+  init {
+    setHasStableIds(true)
+  }
+
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
     ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_outage, parent, false))
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.bind(getItem(position))
   }
+
+  override fun getItemId(position: Int): Long =
+    getItem(position).id.hashCode().toLong()
 
   inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     fun bind(outage: Outage) {

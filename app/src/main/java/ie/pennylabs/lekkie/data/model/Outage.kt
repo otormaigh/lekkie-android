@@ -25,9 +25,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Transaction
 import com.squareup.moshi.Json
 import ie.pennylabs.lekkie.data.model.Outage.Key.COUNTY
 import ie.pennylabs.lekkie.data.model.Outage.Key.ID
+import ie.pennylabs.lekkie.data.model.Outage.Key.LOCATION
 import ie.pennylabs.lekkie.data.model.Outage.Key.START_TIME
 import ie.pennylabs.lekkie.data.model.Outage.Key.TABLE_NAME
 import ie.pennylabs.lekkie.data.moshi.EpochTime
@@ -42,6 +44,7 @@ data class Outage(
   val type: String,
   @field:EpochTime
   val estRestoreTime: Long,
+  @ColumnInfo(name = LOCATION)
   val location: String,
   @ColumnInfo(name = COUNTY)
   val county: String?,
@@ -63,19 +66,29 @@ data class Outage(
     const val ID = "id"
     const val START_TIME = "start_time"
     const val COUNTY = "county"
+    const val LOCATION = "location"
   }
 }
 
 @Dao
 interface OutageDao {
-  @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME")
+  @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
   fun fetchAll(): LiveData<List<Outage>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insert(outage: Outage)
 
+  @Transaction
+  fun update(county: String?, location: String?, id: String) {
+    county?.let { updateCounty(county, id) }
+    location?.let { updateLocation(location, id) }
+  }
+
   @Query("UPDATE $TABLE_NAME SET $COUNTY=:county WHERE $ID = :id")
   fun updateCounty(county: String, id: String)
+
+  @Query("UPDATE $TABLE_NAME SET $LOCATION=:location WHERE $ID = :id")
+  fun updateLocation(location: String, id: String)
 }
 
 data class OutageConcise(

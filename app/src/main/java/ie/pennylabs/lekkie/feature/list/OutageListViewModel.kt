@@ -58,10 +58,11 @@ class OutageListViewModel(
   }
 
   private fun updateOutageCounty(outage: Outage) {
+    if (outage.county?.isEmpty() == true) return
     launch(job) {
       try {
-        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.subAdminArea?.let { subAdminArea ->
-          persister.updateCounty(subAdminArea, outage.id)
+        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.let { address ->
+          persister.update(address.subAdminArea, address.locality, outage.id)
         }
       } catch (e: IOException) {
         Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")

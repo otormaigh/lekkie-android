@@ -1,0 +1,12 @@
+{
+  "outageId": "1653303",
+  "outageType": "Fault",
+  "point": {
+    "coordinates": "52.401009527224,-9.903383870101"
+  },
+  "estRestoreTime": "18/06/2018 22:30",
+  "location": "Causeway",
+  "numCustAffected": "29",
+  "startTime": "18/06/2018 14:54",
+  "statusMessage": "We apologise for the loss of supply.  We are currently working to repair a fault affecting your premises and will restore power as quickly as possible."
+}
