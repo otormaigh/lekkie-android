@@ -18,10 +18,12 @@
 package ie.pennylabs.lekkie.feature.list
 
 import android.location.Geocoder
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluelinelabs.conductor.ViewModelController
@@ -29,13 +31,19 @@ import com.christianbahl.conductor.ConductorInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
+import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_outage_list.view.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class OutageListController : ViewModelController(), SearchView.OnQueryTextListener {
+class OutageListController : ViewModelController(), TextWatcher {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
   private val viewModel by viewModelProvider { OutageListViewModel(api, outageDao, geocoder) }
+  private val queryJob = Job()
 
   @Inject
   lateinit var api: ApiService
@@ -60,20 +68,65 @@ class OutageListController : ViewModelController(), SearchView.OnQueryTextListen
     }
 
     view.swipeRefresh.setOnRefreshListener {
+      view.etQuery.isEnabled = false
+      view.etQuery.hideKeyboard()
       view.swipeRefresh.isRefreshing = false
       viewModel.fetchOutages()
     }
 
-    view.searchView.setOnQueryTextListener(this)
+    view.ivSearch.setOnClickListener {
+      view.etQuery.requestFocus()
+      view.etQuery.isEnabled = true
+      view.etQuery.showKeyboard()
+      afterTextChanged(null)
+    }
+
+    view.ivClear.setOnClickListener {
+      afterTextChanged(null)
+      view.etQuery.apply {
+        text.clear()
+        isEnabled = false
+        hideKeyboard()
+      }
+    }
+
+    view.etQuery.apply {
+      addTextChangedListener(this@OutageListController)
+      setOnKeyListener { view, _, keyEvent ->
+        when (keyEvent.keyCode) {
+          KeyEvent.KEYCODE_ENTER -> {
+            view.isEnabled = false
+            view.hideKeyboard()
+            viewModel.queryQao(view.etQuery.text.toString())
+            true
+          }
+          else -> false
+        }
+      }
+    }
   }
 
-  override fun onQueryTextSubmit(query: String): Boolean {
-    viewModel.queryQao(query)
-    return true
+  override fun onDetach(view: View) {
+    super.onDetach(view)
+    queryJob.cancel()
   }
 
-  override fun onQueryTextChange(newText: String): Boolean {
-    if (newText.isEmpty()) viewModel.queryQao(null)
-    return true
+  override fun afterTextChanged(text: Editable?) {
+    if (text.isNullOrEmpty()) {
+      viewModel.queryQao(null)
+      view?.ivClear?.visibility = View.INVISIBLE
+    } else {
+      view?.ivClear?.visibility = View.VISIBLE
+    }
+  }
+
+  override fun beforeTextChanged(text: CharSequence, p1: Int, p2: Int, p3: Int) {
+  }
+
+  override fun onTextChanged(text: CharSequence, p1: Int, p2: Int, p3: Int) {
+    launch(queryJob) {
+      delay(200)
+      viewModel.queryQao(text.toString())
+    }
   }
 }
