@@ -19,6 +19,7 @@ package ie.pennylabs.lekkie.feature.list
 
 import android.location.Geocoder
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.data.model.Outage
@@ -36,9 +37,10 @@ class OutageListViewModel(
   private val geocoder: Geocoder
 ) : ViewModel() {
   private val job = Job()
-  val liveData = persister.fetchAll()
+  var liveData: MutableLiveData<List<Outage>> = MutableLiveData()
 
   init {
+    queryQao(null)
     fetchOutages()
   }
 
@@ -54,6 +56,16 @@ class OutageListViewModel(
         is Result.Ok -> result.value.outageMessage.forEach { fetchOutageDetail(it.id) }
         else -> Timber.e("result -> $result")
       }
+    }
+  }
+
+  fun queryQao(query: String?) {
+    launch(job) {
+      liveData.postValue(if (query == null) {
+        persister.fetchAll()
+      } else {
+        persister.searchForCountyAndLocation("%$query%")
+      })
     }
   }
 

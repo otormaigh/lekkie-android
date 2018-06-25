@@ -15,26 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.arch
+package ie.pennylabs.lekkie.toolbox.extension
 
-import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStore
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.ControllerLifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.bluelinelabs.conductor.ViewModelController
 
-abstract class BaseController : Controller, LifecycleOwner {
-  val viewModelStore = ViewModelStore()
-  val lifecycleOwner = ControllerLifecycleOwner(this)
+@Suppress("UNCHECKED_CAST")
+inline fun <reified VM : ViewModel> ViewModelController.viewModelProvider(
+  mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
+  crossinline provider: () -> VM) = lazy(mode) {
 
-  constructor() : super()
-  constructor(bundle: Bundle) : super(bundle)
-
-  override fun onDestroy() {
-    super.onDestroy()
-    viewModelStore.clear()
+  val factory = object : ViewModelProvider.Factory {
+    override fun <M : ViewModel> create(klass: Class<M>) = provider() as M
   }
-
-  override fun getLifecycle(): Lifecycle = lifecycleOwner.lifecycle
+  ViewModelProvider(viewModelStore, factory).get(VM::class.java)
 }

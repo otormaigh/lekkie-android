@@ -21,18 +21,21 @@ import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bluelinelabs.conductor.ViewModelController
 import com.christianbahl.conductor.ConductorInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
-import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_outage_list.view.*
 import javax.inject.Inject
 
-class OutageListController : BaseController() {
+class OutageListController : ViewModelController(), SearchView.OnQueryTextListener {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
+  private val viewModel by viewModelProvider { OutageListViewModel(api, outageDao, geocoder) }
 
   @Inject
   lateinit var api: ApiService
@@ -48,11 +51,10 @@ class OutageListController : BaseController() {
     ConductorInjection.inject(this)
     super.onAttach(view)
 
-    val viewModel = OutageListViewModel(api, outageDao, geocoder)
     view.rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
-      viewModel.liveData.observe(lifecycleOwner, Observer {
+      viewModel.liveData.observe(this@OutageListController, Observer {
         recyclerAdapter.submitList(it)
       })
     }
@@ -61,5 +63,17 @@ class OutageListController : BaseController() {
       view.swipeRefresh.isRefreshing = false
       viewModel.fetchOutages()
     }
+
+    view.searchView.setOnQueryTextListener(this)
+  }
+
+  override fun onQueryTextSubmit(query: String): Boolean {
+    viewModel.queryQao(query)
+    return true
+  }
+
+  override fun onQueryTextChange(newText: String): Boolean {
+    if (newText.isEmpty()) viewModel.queryQao(null)
+    return true
   }
 }

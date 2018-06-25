@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.bluelinelabs.conductor.ViewModelController
 import com.christianbahl.conductor.ConductorInjection
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,12 +30,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.pennylabs.lekkie.R
-import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
 import kotlinx.android.synthetic.main.controller_outage_map.view.*
 import javax.inject.Inject
 
-class OutageMapController : BaseController(), OnMapReadyCallback {
+class OutageMapController : ViewModelController(), OnMapReadyCallback {
   @Inject
   lateinit var outageDao: OutageDao
 
@@ -73,7 +73,7 @@ class OutageMapController : BaseController(), OnMapReadyCallback {
     map.moveCamera(CameraUpdateFactory.newLatLng(middleish))
     map.animateCamera(CameraUpdateFactory.newLatLngZoom(middleish, 7f))
 
-    outageDao.fetchAll().observe(this, Observer { outages ->
+    outageDao.fetchAllLive().observe(this, Observer { outages ->
       outages?.forEach { outage ->
         val point = LatLng(outage.point.latitude, outage.point.longitude)
         map.addMarker(MarkerOptions().position(point).title(outage.location))
