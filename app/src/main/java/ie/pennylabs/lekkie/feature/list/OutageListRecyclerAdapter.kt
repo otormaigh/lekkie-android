@@ -69,6 +69,6 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
 }
 
 private val diffCallback = object : DiffUtil.ItemCallback<Outage>() {
-  override fun areContentsTheSame(oldItem: Outage, newItem: Outage) = oldItem === newItem
+  override fun areContentsTheSame(oldItem: Outage, newItem: Outage) = oldItem.hashCode() == newItem.hashCode()
   override fun areItemsTheSame(oldItem: Outage, newItem: Outage) = oldItem.id === newItem.id
 }
