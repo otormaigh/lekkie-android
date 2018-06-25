@@ -1,4 +1,4 @@
-Version 0.1.6
+Version 0.1.6 - 3ed3e56
 ------------------------
 bf65cf1 - improve lifecycleness of mapview (Mon, 18 Jun 2018 22:41:18 +0100) <Elliot Tormey>
 20a0dcb - add hasStableIds to list recycler adapter (Mon, 18 Jun 2018 22:40:30 +0100) <Elliot Tormey>
