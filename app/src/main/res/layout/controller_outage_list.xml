@@ -16,31 +16,29 @@
   -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/parentViewGroup"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:descendantFocusability="beforeDescendants"
   android:focusableInTouchMode="true">
 
   <View
+    android:id="@+id/bgSearchBar"
     android:layout_width="0dp"
-    android:layout_height="0dp"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    app:layout_constraintBottom_toBottomOf="@id/etQuery"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
-  <ImageView
+  <androidx.appcompat.widget.AppCompatImageView
     android:id="@+id/ivSearch"
     android:layout_width="?attr/actionBarSize"
     android:layout_height="?attr/actionBarSize"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:src="@drawable/ic_search"
-    app:layout_constraintBottom_toBottomOf="@id/etQuery"
-    app:layout_constraintEnd_toStartOf="@id/etQuery"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintEnd_toEndOf="parent" />
 
   <EditText
     android:id="@+id/etQuery"
@@ -54,8 +52,7 @@
     android:selectAllOnFocus="true"
     android:textColor="@color/white"
     android:textColorHint="@color/white_50"
-    app:layout_constraintEnd_toStartOf="@id/ivClear"
-    app:layout_constraintStart_toEndOf="@id/ivSearch" />
+    app:layout_constraintStart_toEndOf="parent" />
 
   <ImageView
     android:id="@+id/ivClear"
@@ -63,10 +60,7 @@
     android:layout_height="?attr/actionBarSize"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:visibility="invisible"
-    app:layout_constraintBottom_toBottomOf="@id/etQuery"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toEndOf="parent"
     app:srcCompat="@drawable/ic_close" />
 
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
