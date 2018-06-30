@@ -19,11 +19,16 @@ buildscript {
   repositories {
     google()
     jcenter()
+
+    maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:3.3.0-alpha01'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$Deps.kotlin"
     classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
+    classpath 'com.google.gms:google-services:4.0.1'
+    classpath 'com.google.firebase:firebase-plugins:1.1.5'
+    classpath 'io.fabric.tools:gradle:1.25.4'
   }
 }
 
@@ -37,6 +42,7 @@ allprojects {
     jcenter()
 
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.google.com/' }
   }
 }
 
