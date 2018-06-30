@@ -29,6 +29,7 @@ openssl aes-256-cbc -a -md sha256 -in buildSrc/src/main/java/KeyStore.kt -out en
 openssl aes-256-cbc -a -md sha256 -in signing/release.keystore -out enc/release.keystore.aes -k $LEKKIE_ENCRYPT_KEY
 openssl aes-256-cbc -a -md sha256 -in signing/play.json -out enc/play.json.aes -k $LEKKIE_ENCRYPT_KEY
 openssl aes-256-cbc -a -md sha256 -in enc.properties -out enc/enc.properties.aes -k $LEKKIE_ENCRYPT_KEY
+openssl aes-256-cbc -a -md sha256 -in app/google-services.json -out enc/google-services.json.aes -k $LEKKIE_ENCRYPT_KEY
 log "Files encrypted"
 
 echo "Finishing up"

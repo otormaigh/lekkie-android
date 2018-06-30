@@ -24,6 +24,7 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import ie.pennylabs.lekkie.R
+import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
 import ie.pennylabs.lekkie.feature.list.OutageListController
 import ie.pennylabs.lekkie.feature.map.OutageMapController
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    GdprBottomSheet.show(this)
 
     router = Conductor.attachRouter(this, controllerContainer, savedInstanceState)
     router.setRoot(RouterTransaction.with(OutageListController()))

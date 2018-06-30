@@ -48,10 +48,7 @@ jobs:
           command: ./gradlew publishApkRelease
       - run:
           name: Cleanup
-          command: >-
-              rm -f buildSrc/src/main/java/KeyStore.kt
-              rm -f signing/release.keystore
-              rm -f signing/play.json
+          command: bash enc/encrypt.sh
 
 workflows:
   version: 2
