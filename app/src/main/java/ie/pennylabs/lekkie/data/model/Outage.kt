@@ -93,7 +93,7 @@ interface OutageDao {
   @Query("UPDATE $TABLE_NAME SET $LOCATION=:location WHERE $ID = :id")
   fun updateLocation(location: String, id: String)
 
-  @Query("SELECT * FROM $TABLE_NAME WHERE $COUNTY LIKE LOWER(:query) OR $LOCATION LIKE LOWER(:query)")
+  @Query("SELECT * FROM $TABLE_NAME WHERE $COUNTY LIKE LOWER(:query) OR $LOCATION LIKE LOWER(:query) ORDER BY $START_TIME DESC")
   fun searchForCountyAndLocation(query: String): List<Outage>
 }
 
