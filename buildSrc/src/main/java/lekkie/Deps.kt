@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package lekkie
 
 object Deps {
   // org.jetbrains.kotlin
@@ -32,5 +33,5 @@ object Deps {
   const val retrofit2 = "2.4.0"
 
   // androidx.room
-  const val arch_room = "2.0.0-alpha1"
+  const val arch_room = "2.0.0-beta01"
 }

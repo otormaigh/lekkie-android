@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2018 Elliot Tormey
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+import lekkie.Deps
 
 buildscript {
   repositories {
@@ -23,7 +8,7 @@ buildscript {
     maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.0-alpha01'
+    classpath 'com.android.tools.build:gradle:3.3.0-alpha02'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$Deps.kotlin"
     classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
     classpath 'com.google.gms:google-services:4.0.1'
@@ -59,7 +44,7 @@ detekt {
   version = "1.0.0.RC7-2"
   defaultProfile {
     config = file("$rootDir/detekt.yml")
-    input = file(projectDir)
+    input = file("$rootDir/app")
     output = "$projectDir/app/build/reports/detekt"
     filters = ".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
   }

@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import lekkie.*
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-kapt'
@@ -25,29 +26,17 @@ if (file('../enc.properties').exists()) {
 }
 
 android {
-  if (file('../signing/play.json').exists()) {
-    playAccountConfigs {
-      release {
-        jsonFile = file("../signing/play.json")
-      }
-    }
-  }
-
   compileSdkVersion 28
   defaultConfig {
     applicationId "ie.pennylabs.lekkie"
     minSdkVersion 21
     targetSdkVersion 28
-    versionCode 6
-    versionName "0.2.0"
+    versionCode BuildConst.Version.code
+    versionName BuildConst.Version.name
     archivesBaseName = "lekkie-$versionName"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     buildConfigField "String", "BASE_URL", project.properties["base_url"]
-
-    if (file('../signing/play.json').exists()) {
-      playAccountConfig = playAccountConfigs.release
-    }
 
     javaCompileOptions {
       annotationProcessorOptions {
@@ -107,10 +96,13 @@ android {
   }
 }
 
-play {
-  track = 'internal'
-  untrackOld = true
-  uploadImages = true
+if (file('../signing/play.json').exists()) {
+  play {
+    jsonFile = file("../signing/play.json")
+    track = 'internal'
+    untrackOld = true
+    uploadImages = true
+  }
 }
 
 dependencies {
@@ -118,15 +110,15 @@ dependencies {
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$Deps.coroutines"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Deps.coroutines"
 
-  implementation 'com.google.android.material:material:1.0.0-alpha3'
-  implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
-  implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha3'
+  implementation 'com.google.android.material:material:1.0.0-beta01'
+  implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+  implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
   implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-  implementation "androidx.lifecycle:lifecycle-livedata:2.0.0-alpha1"
+  implementation "androidx.lifecycle:lifecycle-livedata:2.0.0-beta01"
   implementation "androidx.room:room-runtime:$Deps.arch_room"
   implementation 'com.google.android.gms:play-services-maps:15.0.1'
   kapt "androidx.room:room-compiler:$Deps.arch_room"
-  implementation 'androidx.core:core-ktx:1.0.0-alpha3'
+  implementation 'androidx.core:core-ktx:1.0.0-beta01'
 
   implementation 'com.github.otormaigh:conductor-dagger:c918a23'
   implementation "com.google.dagger:dagger:$Deps.dagger"
@@ -170,16 +162,9 @@ task prepareNextRelease {
     // 7. Create a new release branch `git checkout -b release-{versionName}`
     exec { commandLine 'git', 'checkout', '-b', "release-$new_version" }
 
-    def stdout = new ByteArrayOutputStream()
     exec {
-      commandLine 'git', 'rev-parse', '--short', 'HEAD'
-      standardOutput = stdout
-    }
-    exec {
-      def short_hash = stdout.toString().take(7) // make sure there's no unwanted chars
-
       // 8. Update previous `CHANGELOG.md` entry to append title with the build commit of that release
-      commandLine 'sed', '-i', "", '-e', "1 s/\$/ - $short_hash/", file('../CHANGELOG.md')
+      commandLine 'sed', '-i', "", '-e', "1 s/\$/ - ${BuildConst.Git.shortHash}/", file('../CHANGELOG.md')
     }
 
     // 9. Commit changes `git commit -am 'bump version to {versionName}'`
