@@ -69,7 +69,7 @@ class OutageListViewModel(
     }
   }
 
-  private fun updateOutageCounty(outage: Outage) {
+  fun updateOutageCounty(outage: Outage) {
     if (outage.county?.isEmpty() == true) return
     launch(job) {
       try {
