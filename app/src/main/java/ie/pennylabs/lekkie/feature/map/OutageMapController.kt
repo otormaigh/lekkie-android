@@ -17,19 +17,30 @@
 
 package ie.pennylabs.lekkie.feature.map
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import com.bluelinelabs.conductor.ViewModelController
 import com.christianbahl.conductor.ConductorInjection
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.pennylabs.lekkie.R
+import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import kotlinx.android.synthetic.main.controller_outage_map.view.*
 import javax.inject.Inject
@@ -74,10 +85,31 @@ class OutageMapController : ViewModelController(), OnMapReadyCallback {
     map.animateCamera(CameraUpdateFactory.newLatLngZoom(middleish, 7f))
 
     outageDao.fetchAllLive().observe(this, Observer { outages ->
+
+      val icFault = view?.context?.vectorToBitmap(R.drawable.ic_outage_fault)
+      val icPlanned = view?.context?.vectorToBitmap(R.drawable.ic_outage_planned)
+      val icUnknown = view?.context?.vectorToBitmap(R.drawable.ic_outage_unkonwn)
       outages?.forEach { outage ->
         val point = LatLng(outage.point.latitude, outage.point.longitude)
-        map.addMarker(MarkerOptions().position(point).title(outage.location))
+        map.addMarker(MarkerOptions()
+          .position(point)
+          .title(outage.location)
+          .icon(when (outage.type) {
+            Outage.FAULT -> icFault
+            Outage.PLANNED -> icPlanned
+            else -> icUnknown
+          }))
       }
     })
   }
+}
+
+private fun Context.vectorToBitmap(@DrawableRes id: Int, @ColorRes color: Int = R.color.colorPrimaryDark): BitmapDescriptor {
+  val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
+  val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+  val canvas = Canvas(bitmap)
+  vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+  DrawableCompat.setTint(vectorDrawable, ContextCompat.getColor(this, color))
+  vectorDrawable.draw(canvas)
+  return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
