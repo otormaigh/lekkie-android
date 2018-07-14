@@ -1,5 +1,15 @@
+![Header](https://raw.githubusercontent.com/otormaigh/lekkie-design/master/misc/github_header.png)
+
 Lekkie
 ======
+An app to keep up to date with power outages in Ireland.
+
+
+Related Projects
+----------------
+  design: https://github.com/otormaigh/lekkie-design<br/>
+  android: https://github.com/otormaigh/lekkie-android<br/>
+  ios: https://github.com/otormaigh/lekkie-ios
 
 License
 =======
