@@ -60,7 +60,6 @@ data class Outage(
     const val FAULT = "Fault"
   }
 
-
   object Key {
     const val TABLE_NAME = "outage"
     const val ID = "id"
@@ -73,10 +72,7 @@ data class Outage(
 @Dao
 interface OutageDao {
   @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
-  fun fetchAll(): List<Outage>
-
-  @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
-  fun fetchAllLive(): LiveData<List<Outage>>
+  fun fetchAll(): LiveData<List<Outage>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insert(outage: Outage)
@@ -94,7 +90,7 @@ interface OutageDao {
   fun updateLocation(location: String, id: String)
 
   @Query("SELECT * FROM $TABLE_NAME WHERE $COUNTY LIKE LOWER(:query) OR $LOCATION LIKE LOWER(:query) ORDER BY $START_TIME DESC")
-  fun searchForCountyAndLocation(query: String): List<Outage>
+  fun searchForCountyAndLocation(query: String): LiveData<List<Outage>>
 }
 
 data class OutageConcise(

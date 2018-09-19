@@ -84,7 +84,7 @@ class OutageMapController : ViewModelController(), OnMapReadyCallback {
     map.moveCamera(CameraUpdateFactory.newLatLng(middleish))
     map.animateCamera(CameraUpdateFactory.newLatLngZoom(middleish, 7f))
 
-    outageDao.fetchAllLive().observe(this, Observer { outages ->
+    outageDao.fetchAll().observe(this, Observer { outages ->
 
       val icFault = view?.context?.vectorToBitmap(R.drawable.ic_outage_fault)
       val icPlanned = view?.context?.vectorToBitmap(R.drawable.ic_outage_planned)

@@ -33,7 +33,7 @@
     app:layout_constraintHorizontal_bias="0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:text="Middletown" />
+    tools:text="Middletown, Carlow" />
 
   <TextView
     android:id="@+id/tvEstimatedRestore"
@@ -64,6 +64,7 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintDimensionRatio="H,1:1"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="parent"
+    tools:src="@drawable/ic_outage_planned" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

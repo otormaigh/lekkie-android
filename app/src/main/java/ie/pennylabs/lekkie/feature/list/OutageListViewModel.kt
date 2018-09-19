@@ -19,6 +19,7 @@ package ie.pennylabs.lekkie.feature.list
 
 import android.location.Geocoder
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
@@ -37,7 +38,8 @@ class OutageListViewModel(
   private val geocoder: Geocoder
 ) : ViewModel() {
   private val job = Job()
-  var liveData: MutableLiveData<List<Outage>> = MutableLiveData()
+  private val _outages: MutableLiveData<LiveData<List<Outage>>> = MutableLiveData()
+  val outages: LiveData<LiveData<List<Outage>>> = _outages
 
   init {
     queryQao(null)
@@ -53,7 +55,9 @@ class OutageListViewModel(
     launch(job) {
       val result = fetcher.getOutages().awaitResult()
       when (result) {
-        is Result.Ok -> result.value.outageMessage.forEach { fetchOutageDetail(it.id) }
+        is Result.Ok -> result.value.outageMessage
+          .sortedByDescending { it.id }
+          .forEach { fetchOutageDetail(it.id) }
         else -> Timber.e("result -> $result")
       }
     }
@@ -61,7 +65,7 @@ class OutageListViewModel(
 
   fun queryQao(query: String?) {
     launch(job) {
-      liveData.postValue(if (query == null) {
+      _outages.postValue(if (query == null) {
         persister.fetchAll()
       } else {
         persister.searchForCountyAndLocation("%$query%")
@@ -70,11 +74,11 @@ class OutageListViewModel(
   }
 
   fun updateOutageCounty(outage: Outage) {
-    if (outage.county?.isEmpty() == true) return
+    if (outage.county?.isNotEmpty() == true) return
     launch(job) {
       try {
         geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.let { address ->
-          persister.update(address.subAdminArea, address.locality, outage.id)
+          persister.update(address.adminArea, address.locality, outage.id)
         }
       } catch (e: IOException) {
         Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")

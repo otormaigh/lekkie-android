@@ -92,10 +92,12 @@ class OutageListController : BaseController(), TextWatcher {
     view.rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
-      viewModel.liveData.observe(this@OutageListController, Observer {
-        recyclerAdapter.submitList(it)
+      viewModel.outages.observe(this@OutageListController, Observer { liveData ->
+        liveData.observe(this@OutageListController, Observer { outages ->
+          recyclerAdapter.submitList(outages)
 
-        launch(onDetachJob) { it.forEach { viewModel.updateOutageCounty(it) } }
+          launch(onDetachJob) { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
+        })
       })
     }
 
