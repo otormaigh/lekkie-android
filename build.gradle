@@ -8,7 +8,7 @@ buildscript {
     maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.0-alpha02'
+    classpath 'com.android.tools.build:gradle:3.3.0-alpha10'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$Deps.kotlin"
     classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
     classpath 'com.google.gms:google-services:4.0.1'
@@ -36,7 +36,7 @@ task clean(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = "4.8.1"
+  gradleVersion = "4.10"
   distributionType = "all"
 }
 
