@@ -30,6 +30,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
+
     <activity
       android:name=".feature.main.MainActivity"
       android:screenOrientation="portrait"
@@ -54,6 +55,10 @@
     <meta-data
       android:name="firebase_performance_collection_enabled"
       android:value="false" />
+
+    <uses-library
+      android:name="org.apache.http.legacy"
+      android:required="false" />
   </application>
 
 </manifest>
