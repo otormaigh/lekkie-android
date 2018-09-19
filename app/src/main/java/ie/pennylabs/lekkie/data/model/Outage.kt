@@ -53,7 +53,8 @@ data class Outage(
   @ColumnInfo(name = "start_time")
   val startTime: Long,
   val statusMessage: String,
-  val point: Point
+  val point: Point,
+  var delta: Long = System.currentTimeMillis()
 ) {
   companion object {
     const val PLANNED = "Planned"
@@ -73,6 +74,9 @@ data class Outage(
 interface OutageDao {
   @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
   fun fetchAll(): LiveData<List<Outage>>
+
+  @Query("SELECT * FROM outage WHERE id = :id")
+  fun fetch(id: String): Outage?
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insert(outage: Outage)
@@ -95,5 +99,5 @@ interface OutageDao {
 
 data class OutageConcise(
   @field:Json(name = "outageId")
-  val id: String
+  val id: Int
 )

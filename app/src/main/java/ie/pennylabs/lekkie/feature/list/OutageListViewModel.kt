@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.extension.isStale
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import ru.gildor.coroutines.retrofit.Result
@@ -57,7 +58,7 @@ class OutageListViewModel(
       when (result) {
         is Result.Ok -> result.value.outageMessage
           .sortedByDescending { it.id }
-          .forEach { fetchOutageDetail(it.id) }
+          .forEach { fetchOutageDetail(it.id.toString()) }
         else -> Timber.e("result -> $result")
       }
     }
@@ -77,9 +78,11 @@ class OutageListViewModel(
     if (outage.county?.isNotEmpty() == true) return
     launch(job) {
       try {
-        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()?.let { address ->
-          persister.update(address.adminArea, address.locality, outage.id)
-        }
+        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1)
+          .firstOrNull()
+          ?.let { address ->
+            persister.update(address.adminArea, address.locality, outage.id)
+          }
       } catch (e: IOException) {
         Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")
       }
@@ -87,13 +90,16 @@ class OutageListViewModel(
   }
 
   private suspend fun fetchOutageDetail(id: String) = launch(job) {
-    val result = fetcher.getOutage(id).awaitResult()
-    when (result) {
-      is Result.Ok -> {
-        persister.insert(result.value)
-        updateOutageCounty(result.value)
+    val savedOutage = persister.fetch(id)
+    if (savedOutage == null || savedOutage.isStale) {
+      val result = fetcher.getOutage(id).awaitResult()
+      when (result) {
+        is Result.Ok -> {
+          persister.insert(result.value.apply { delta = System.currentTimeMillis() })
+          updateOutageCounty(result.value)
+        }
+        else -> Timber.e("result -> $result")
       }
-      else -> Timber.e("result -> $result")
     }
   }
 }
