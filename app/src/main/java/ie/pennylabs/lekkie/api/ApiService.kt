@@ -33,6 +33,6 @@ interface ApiService {
 
   @GET("outages/")
   fun getOutages(
-    @Query("_") delta: Long = System.currentTimeMillis())
+    @Query("_") delta: Long = 0)
     : Call<OutageMessage>
 }

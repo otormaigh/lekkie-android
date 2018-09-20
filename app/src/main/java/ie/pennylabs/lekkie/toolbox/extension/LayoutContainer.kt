@@ -17,12 +17,10 @@
 
 package ie.pennylabs.lekkie.toolbox.extension
 
-import ie.pennylabs.lekkie.data.model.Outage
+import kotlinx.android.extensions.LayoutContainer
 
-private const val OUTAGE_TIMEOUT = 60 * 60 * 1000
+fun LayoutContainer.getString(resId: Int): String =
+  containerView?.context?.getString(resId) ?: ""
 
-val Outage.shouldRefresh: Boolean
-  get() =
-    System.currentTimeMillis() - delta > OUTAGE_TIMEOUT &&
-      (System.currentTimeMillis() > estRestoreTime ||
-        System.currentTimeMillis() < estRestoreTime - 60 * 60 * 1000)
+fun LayoutContainer.getString(resId: Int, vararg formatArgs: Any): String =
+  containerView?.context?.resources?.getString(resId, *formatArgs) ?: ""

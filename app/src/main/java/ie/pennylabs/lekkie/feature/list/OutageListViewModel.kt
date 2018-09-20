@@ -25,7 +25,7 @@ import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.toolbox.extension.isStale
+import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import ru.gildor.coroutines.retrofit.Result
@@ -36,8 +36,8 @@ import java.io.IOException
 class OutageListViewModel(
   private val fetcher: ApiService,
   private val persister: OutageDao,
-  private val geocoder: Geocoder
-) : ViewModel() {
+  private val geocoder: Geocoder) : ViewModel() {
+
   private val job = Job()
   private val _outages: MutableLiveData<LiveData<List<Outage>>> = MutableLiveData()
   val outages: LiveData<LiveData<List<Outage>>> = _outages
@@ -79,8 +79,7 @@ class OutageListViewModel(
     launch(job) {
       try {
         geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1)
-          .firstOrNull()
-          ?.let { address ->
+          .firstOrNull()?.let { address ->
             persister.update(address.adminArea, address.locality, outage.id)
           }
       } catch (e: IOException) {
@@ -91,7 +90,7 @@ class OutageListViewModel(
 
   private suspend fun fetchOutageDetail(id: String) = launch(job) {
     val savedOutage = persister.fetch(id)
-    if (savedOutage == null || savedOutage.isStale) {
+    if (savedOutage == null || savedOutage.shouldRefresh) {
       val result = fetcher.getOutage(id).awaitResult()
       when (result) {
         is Result.Ok -> {

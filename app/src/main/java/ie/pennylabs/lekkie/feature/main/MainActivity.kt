@@ -27,6 +27,7 @@ import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
 import ie.pennylabs.lekkie.feature.list.OutageListController
 import ie.pennylabs.lekkie.feature.map.OutageMapController
+import ie.pennylabs.lekkie.toolbox.extension.setRoot
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,16 +44,10 @@ class MainActivity : AppCompatActivity() {
     bottomNav.selectedItemId = R.id.menuList
     bottomNav.setOnNavigationItemSelectedListener { item ->
       when (item.itemId) {
-        R.id.menuMap -> {
-          router.setRoot(RouterTransaction.with(OutageMapController().apply {
-            retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
-          }))
-          true
-        }
-        R.id.menuList -> {
-          router.setRoot(RouterTransaction.with(OutageListController()))
-          true
-        }
+        R.id.menuMap -> router.setRoot(OutageMapController().apply {
+          retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
+        })
+        R.id.menuList -> router.setRoot(OutageListController())
         else -> false
       }
     }

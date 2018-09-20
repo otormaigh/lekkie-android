@@ -25,18 +25,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.data.model.Outage
+import ie.pennylabs.lekkie.toolbox.extension.formatTimestamp
+import ie.pennylabs.lekkie.toolbox.extension.getString
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_item_outage.*
-import org.threeten.bp.Instant
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
 
 class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.ViewHolder>(diffCallback) {
-  private val dateFormatter =
-    DateTimeFormatter
-      .ofPattern("dd/MM/yyyy HH:mm")
-      .withZone(ZoneId.systemDefault())
-
   init {
     setHasStableIds(true)
   }
@@ -56,8 +50,8 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
       tvLocation.text = "${outage.location}, ${outage.county ?: ""}"
       tvType.text = outage.type
 
-      val timeStamp = dateFormatter.format(Instant.ofEpochSecond(outage.estRestoreTime).atZone(ZoneId.systemDefault()))
-      tvEstimatedRestore.text = "Est restore: $timeStamp"
+      tvEstimatedRestore.text = getString(R.string.est_restore, outage.estRestoreTime.formatTimestamp())
+      tvStartTime.text = getString(R.string.started, outage.startTime.formatTimestamp())
 
       ivType.setImageResource(when (outage.type) {
         Outage.PLANNED -> R.drawable.ic_outage_planned

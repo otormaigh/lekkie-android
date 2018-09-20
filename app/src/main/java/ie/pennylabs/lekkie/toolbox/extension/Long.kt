@@ -17,12 +17,17 @@
 
 package ie.pennylabs.lekkie.toolbox.extension
 
-import ie.pennylabs.lekkie.data.model.Outage
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 
-private const val OUTAGE_TIMEOUT = 60 * 60 * 1000
+fun Long.formatTimestamp(dateFormat: String = "dd/MM/yyyy HH:mm"): String {
+  val dateFormatter =
+    DateTimeFormatter
+      .ofPattern(dateFormat)
+      .withZone(ZoneId.systemDefault())
 
-val Outage.shouldRefresh: Boolean
-  get() =
-    System.currentTimeMillis() - delta > OUTAGE_TIMEOUT &&
-      (System.currentTimeMillis() > estRestoreTime ||
-        System.currentTimeMillis() < estRestoreTime - 60 * 60 * 1000)
+  return dateFormatter
+    .format(Instant.ofEpochSecond(this)
+      .atZone(ZoneId.systemDefault()))
+}

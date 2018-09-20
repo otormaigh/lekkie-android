@@ -17,12 +17,11 @@
 
 package ie.pennylabs.lekkie.toolbox.extension
 
-import ie.pennylabs.lekkie.data.model.Outage
+import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.Router
+import com.bluelinelabs.conductor.RouterTransaction
 
-private const val OUTAGE_TIMEOUT = 60 * 60 * 1000
-
-val Outage.shouldRefresh: Boolean
-  get() =
-    System.currentTimeMillis() - delta > OUTAGE_TIMEOUT &&
-      (System.currentTimeMillis() > estRestoreTime ||
-        System.currentTimeMillis() < estRestoreTime - 60 * 60 * 1000)
+fun Router.setRoot(controller: Controller): Boolean {
+  setRoot(RouterTransaction.with(controller))
+  return true
+}

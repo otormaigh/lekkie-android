@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 @file:Suppress("detekt.StringLiteralDuplication")
+
 package ie.pennylabs.lekkie.toolbox.extension
 
 import android.content.Context
@@ -28,3 +29,9 @@ fun Controller.requireActivity(): Context = activity.takeIf { it != null }
 
 fun Controller.requireApplicationContext(): Context = applicationContext.takeIf { it != null }
   ?: throw NullPointerException("Controller : $this not attached to an Activity")
+
+fun Controller.getString(resId: Int): String =
+  activity?.resources?.getString(resId) ?: ""
+
+fun Controller.getString(resId: Int, vararg formatArgs: Any): String =
+  activity?.resources?.getString(resId, *formatArgs) ?: ""

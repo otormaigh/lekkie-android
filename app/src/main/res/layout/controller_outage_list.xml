@@ -16,6 +16,7 @@
   -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/parentViewGroup"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -30,6 +31,20 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/tvOutageCount"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+    android:textColor="@color/white"
+    app:layout_constraintBottom_toBottomOf="@id/bgSearchBar"
+    app:layout_constraintEnd_toStartOf="@id/ivSearch"
+    app:layout_constraintHorizontal_bias="0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/bgSearchBar"
+    tools:text="42 Outages" />
 
   <androidx.appcompat.widget.AppCompatImageView
     android:id="@+id/ivSearch"
@@ -79,6 +94,7 @@
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rvOutages"
       android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+      android:layout_height="match_parent"
+      android:scrollbars="vertical" />
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

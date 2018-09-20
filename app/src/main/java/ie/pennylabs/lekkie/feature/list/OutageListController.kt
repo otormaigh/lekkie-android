@@ -29,11 +29,11 @@ import androidx.constraintlayout.widget.ConstraintSet.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
-import com.christianbahl.conductor.ConductorInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.arch.BaseController
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.extension.getString
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
@@ -55,6 +55,7 @@ class OutageListController : BaseController(), TextWatcher {
       connect(R.id.etQuery, END, R.id.ivClear, START)
       connect(R.id.ivClear, START, R.id.etQuery, END)
       connect(R.id.ivClear, END, PARENT_ID, END)
+      clear(R.id.tvOutageCount, START)
     }
   }
   private val constraintSetHideSearch by lazy {
@@ -66,6 +67,7 @@ class OutageListController : BaseController(), TextWatcher {
       connect(R.id.etQuery, START, PARENT_ID, END)
       clear(R.id.ivClear, END)
       connect(R.id.ivClear, START, PARENT_ID, END)
+      connect(R.id.tvOutageCount, START, PARENT_ID, START)
     }
   }
 
@@ -80,7 +82,6 @@ class OutageListController : BaseController(), TextWatcher {
     inflater.inflate(R.layout.controller_outage_list, container, false)
 
   override fun onAttach(view: View) {
-    ConductorInjection.inject(this)
     super.onAttach(view)
 
     view.swipeRefresh.setOnRefreshListener {
@@ -95,6 +96,7 @@ class OutageListController : BaseController(), TextWatcher {
       viewModel.outages.observe(this@OutageListController, Observer { liveData ->
         liveData.observe(this@OutageListController, Observer { outages ->
           recyclerAdapter.submitList(outages)
+          view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
 
           launch(onDetachJob) { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
         })

@@ -28,4 +28,11 @@
   <string name="crash_reporting">Crash reporting</string>
   <string name="analytics">Analytics</string>
   <string name="accept">Accept</string>
+
+  <!-- OutageListRecyclerAdapter.kt -->
+  <string name="est_restore">Est restore: %s</string>
+  <string name="started">Started: %s</string>
+
+  <!-- OutageListController.kt -->
+  <string name="outage_count">%d outages</string>
 </resources>

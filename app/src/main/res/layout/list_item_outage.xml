@@ -40,9 +40,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-    app:layout_constraintBottom_toTopOf="@id/tvType"
+    app:layout_constraintBottom_toTopOf="@id/tvStartTime"
     app:layout_constraintStart_toStartOf="@id/tvLocation"
     app:layout_constraintTop_toBottomOf="@id/tvLocation"
+    tools:text="January 1, 1970" />
+
+  <TextView
+    android:id="@+id/tvStartTime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+    app:layout_constraintBottom_toTopOf="@id/tvType"
+    app:layout_constraintStart_toStartOf="@id/tvLocation"
+    app:layout_constraintTop_toBottomOf="@id/tvEstimatedRestore"
     tools:text="January 1, 1970" />
 
   <TextView
@@ -50,9 +60,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="@id/tvLocation"
-    app:layout_constraintTop_toBottomOf="@id/tvEstimatedRestore"
+    app:layout_constraintTop_toBottomOf="@id/tvStartTime"
     tools:text="Planned" />
 
   <ImageView
@@ -60,8 +69,8 @@
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:layout_marginStart="16dp"
-    android:padding="16dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+    android:padding="8dp"
+    app:layout_constraintBottom_toBottomOf="@id/tvEstimatedRestore"
     app:layout_constraintDimensionRatio="H,1:1"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"

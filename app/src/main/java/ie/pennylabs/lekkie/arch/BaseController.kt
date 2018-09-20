@@ -19,10 +19,16 @@ package ie.pennylabs.lekkie.arch
 
 import android.view.View
 import com.bluelinelabs.conductor.ViewModelController
+import com.christianbahl.conductor.ConductorInjection
 import kotlinx.coroutines.experimental.Job
 
 abstract class BaseController : ViewModelController() {
   val onDetachJob = Job()
+
+  override fun onAttach(view: View) {
+    ConductorInjection.inject(this)
+    super.onAttach(view)
+  }
 
   override fun onDetach(view: View) {
     super.onDetach(view)
