@@ -36,5 +36,5 @@ object Deps {
   const val arch_room = "2.0.0-rc01"
 
   // androidx
-  const val androidx = "1.0.0-rc02"
+  const val androidx = "1.0.0"
 }
