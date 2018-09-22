@@ -48,6 +48,10 @@ class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
       }
     }
 
+    switchPerf.isChecked = context.prefs.enablePerformance
+    switchCrash.isChecked = context.prefs.enableCrashReporting
+    switchAnalytics.isChecked = context.prefs.enableAnalytics
+
     switchPerf.setOnCheckedChangeListener { _, isChecked -> context.prefs.enablePerformance = isChecked }
     switchCrash.setOnCheckedChangeListener { _, isChecked -> context.prefs.enableCrashReporting = isChecked }
     switchAnalytics.setOnCheckedChangeListener { _, isChecked -> context.prefs.enableAnalytics = isChecked }
@@ -68,8 +72,8 @@ class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
   }
 
   companion object {
-    fun show(context: Context) {
-      if (!context.prefs.hasAcceptedGdpr) {
+    fun show(context: Context, forceShow: Boolean = false) {
+      if (forceShow || !context.prefs.hasAcceptedGdpr) {
         GdprBottomSheet(context).show()
       }
     }

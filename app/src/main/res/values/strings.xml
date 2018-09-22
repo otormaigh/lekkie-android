@@ -35,4 +35,7 @@
 
   <!-- OutageListController.kt -->
   <string name="outage_count">%d outages</string>
+
+  <!-- controller_info.xml -->
+  <string name="info">Info</string>
 </resources>

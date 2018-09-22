@@ -25,6 +25,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
+import ie.pennylabs.lekkie.feature.info.InfoController
 import ie.pennylabs.lekkie.feature.list.OutageListController
 import ie.pennylabs.lekkie.feature.map.OutageMapController
 import ie.pennylabs.lekkie.toolbox.extension.setRoot
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
           retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
         })
         R.id.menuList -> router.setRoot(OutageListController())
+        R.id.menuInfo -> router.setRoot(InfoController())
         else -> false
       }
     }
