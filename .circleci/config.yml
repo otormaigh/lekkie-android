@@ -41,6 +41,9 @@ jobs:
           <<: *cache_key
 
       - run:
+          name: Generate changelog
+          command: ./gradlew generateChangelog
+      - run:
           name: Decrypt files
           command: bash enc/decrypt.sh
       - run:
