@@ -17,25 +17,18 @@
 
 package ie.pennylabs.lekkie.arch
 
-import android.view.View
-import com.bluelinelabs.conductor.ViewModelController
-import com.christianbahl.conductor.ConductorInjection
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.cancel
 import kotlin.coroutines.experimental.CoroutineContext
 
-abstract class BaseController : ViewModelController(), CoroutineScope {
+open class BaseViewModel : ViewModel(), CoroutineScope {
   override val coroutineContext: CoroutineContext
     get() = Job()
 
-  override fun onAttach(view: View) {
-    ConductorInjection.inject(this)
-    super.onAttach(view)
-  }
-
-  override fun onDetach(view: View) {
-    super.onDetach(view)
+  override fun onCleared() {
+    super.onCleared()
     coroutineContext.cancel()
   }
 }

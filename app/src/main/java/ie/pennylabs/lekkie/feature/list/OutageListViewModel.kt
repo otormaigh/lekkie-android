@@ -21,12 +21,11 @@ import android.location.Geocoder
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
-import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import ru.gildor.coroutines.retrofit.Result
 import ru.gildor.coroutines.retrofit.awaitResult
@@ -36,9 +35,8 @@ import java.io.IOException
 class OutageListViewModel(
   private val fetcher: ApiService,
   private val persister: OutageDao,
-  private val geocoder: Geocoder) : ViewModel() {
+  private val geocoder: Geocoder) : BaseViewModel() {
 
-  private val job = Job()
   private val _outages: MutableLiveData<LiveData<List<Outage>>> = MutableLiveData()
   val outages: LiveData<LiveData<List<Outage>>> = _outages
 
@@ -47,13 +45,8 @@ class OutageListViewModel(
     fetchOutages()
   }
 
-  override fun onCleared() {
-    super.onCleared()
-    job.cancel()
-  }
-
   fun fetchOutages() {
-    launch(job) {
+    launch {
       val result = fetcher.getOutages().awaitResult()
       when (result) {
         is Result.Ok -> result.value.outageMessage
@@ -65,7 +58,7 @@ class OutageListViewModel(
   }
 
   fun queryQao(query: String?) {
-    launch(job) {
+    launch {
       _outages.postValue(if (query == null) {
         persister.fetchAll()
       } else {
@@ -76,7 +69,7 @@ class OutageListViewModel(
 
   fun updateOutageCounty(outage: Outage) {
     if (outage.county?.isNotEmpty() == true) return
-    launch(job) {
+    launch {
       try {
         geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1)
           .firstOrNull()?.let { address ->
@@ -88,7 +81,7 @@ class OutageListViewModel(
     }
   }
 
-  private suspend fun fetchOutageDetail(id: String) = launch(job) {
+  private suspend fun fetchOutageDetail(id: String) = launch {
     val savedOutage = persister.fetch(id)
     if (savedOutage == null || savedOutage.shouldRefresh) {
       val result = fetcher.getOutage(id).awaitResult()

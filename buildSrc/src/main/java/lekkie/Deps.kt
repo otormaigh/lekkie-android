@@ -18,16 +18,16 @@ package lekkie
 
 object Deps {
   // org.jetbrains.kotlin
-  const val kotlin = "1.2.70"
+  const val kotlin = "1.2.71"
 
   // org.jetbrains.kotlinx
-  const val coroutines = "0.25.3"
+  const val coroutines = "0.30.0"
 
   // com.google.dagger
   const val dagger = "2.16"
 
   // com.squareup.okhttp3
-  const val okhttp3 = "3.10.0"
+  const val okhttp3 = "3.11.0"
 
   // com.squareup.retrofit2
   const val retrofit2 = "2.4.0"

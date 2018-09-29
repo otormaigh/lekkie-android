@@ -38,7 +38,8 @@ import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_outage_list.view.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
@@ -98,7 +99,7 @@ class OutageListController : BaseController(), TextWatcher {
           recyclerAdapter.submitList(outages)
           view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
 
-          launch(onDetachJob) { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
+          launch { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
         })
       })
     }
@@ -107,7 +108,7 @@ class OutageListController : BaseController(), TextWatcher {
       TransitionManager.beginDelayedTransition(view.parentViewGroup)
       constraintSetShowSearch.applyTo(view.parentViewGroup)
 
-      launch(UI, parent = onDetachJob) {
+      launch(coroutineContext + Dispatchers.Main) {
         delay(300)
         view.etQuery.apply {
           requestFocus()
@@ -144,7 +145,7 @@ class OutageListController : BaseController(), TextWatcher {
   }
 
   override fun onTextChanged(text: CharSequence, p1: Int, p2: Int, p3: Int) {
-    launch(onDetachJob) {
+    launch {
       delay(300)
       viewModel.queryQao(text.toString())
     }
@@ -154,7 +155,7 @@ class OutageListController : BaseController(), TextWatcher {
     TransitionManager.beginDelayedTransition(view.parentViewGroup)
     constraintSetHideSearch.applyTo(view.parentViewGroup)
 
-    launch(UI, parent = onDetachJob) {
+    launch(coroutineContext + Dispatchers.Main) {
       afterTextChanged(null)
       view.etQuery.apply {
         text.clear()
