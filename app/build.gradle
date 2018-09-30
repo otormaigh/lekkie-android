@@ -179,7 +179,7 @@ task generateChangelog {
       if (!commitRange.contains("...")) commitRange = "HEAD^..$commitRange"
       println("COMMIT_RANGE -> $commitRange")
 
-      commandLine 'git', 'log', '--pretty=%s', "$commitRange"
+      commandLine 'git', 'log', '--pretty=- %s', "$commitRange"
       standardOutput = new FileOutputStream('app/src/main/play/release-notes/en-GB/internal.txt')
     }
   }
