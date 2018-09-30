@@ -19,6 +19,7 @@ package ie.pennylabs.lekkie.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
+import ie.pennylabs.lekkie.feature.info.InfoController
 import ie.pennylabs.lekkie.feature.list.OutageListController
 import ie.pennylabs.lekkie.feature.map.OutageMapController
 
@@ -32,4 +33,10 @@ interface OutageListComponent : AndroidInjector<OutageListController> {
 interface OutageMapComponent : AndroidInjector<OutageMapController> {
   @Subcomponent.Builder
   abstract class Builder : AndroidInjector.Builder<OutageMapController>()
+}
+
+@Subcomponent
+interface InfoComponent : AndroidInjector<InfoController> {
+  @Subcomponent.Builder
+  abstract class Builder : AndroidInjector.Builder<InfoController>()
 }

@@ -18,8 +18,10 @@
 package ie.pennylabs.lekkie.arch
 
 import android.view.View
+import android.widget.Toast
 import com.bluelinelabs.conductor.ViewModelController
 import com.christianbahl.conductor.ConductorInjection
+import ie.pennylabs.lekkie.toolbox.extension.requireContext
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.cancel
@@ -37,5 +39,9 @@ abstract class BaseController : ViewModelController(), CoroutineScope {
   override fun onDetach(view: View) {
     super.onDetach(view)
     coroutineContext.cancel()
+  }
+
+  fun toast(message: String?, length: Int = Toast.LENGTH_LONG) {
+    if (message?.isNotEmpty() == true) Toast.makeText(requireContext(), message, length).show()
   }
 }

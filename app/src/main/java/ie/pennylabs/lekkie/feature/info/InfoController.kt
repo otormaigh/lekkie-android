@@ -17,15 +17,22 @@
 
 package ie.pennylabs.lekkie.feature.info
 
+import android.Manifest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bluelinelabs.conductor.Controller
+import androidx.lifecycle.Observer
 import ie.pennylabs.lekkie.R
+import ie.pennylabs.lekkie.arch.BaseController
+import ie.pennylabs.lekkie.data.room.LekkieDatabase
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
+import ie.pennylabs.lekkie.toolbox.extension.isPermissiontGranted
+import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_info.view.*
 
-class InfoController : Controller() {
+class InfoController : BaseController() {
+  private val viewModel by viewModelProvider { InfoViewModel() }
+
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
     inflater.inflate(R.layout.controller_info, container, false)
 
@@ -33,5 +40,25 @@ class InfoController : Controller() {
     super.onAttach(view)
 
     view.tvDataCollection.setOnClickListener { GdprBottomSheet.show(view.context, true) }
+    view.tvExportDatabase.setOnClickListener {
+      if (isPermissiontGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        viewModel.exportDatabase(applicationContext?.getDatabasePath(LekkieDatabase.NAME))
+      } else {
+        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_WRITE_EXTERNAL_STORAGE)
+      }
+    }
+
+    viewModel.showToast.observe(this, Observer { toast(message = it) })
+  }
+
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    if (requestCode == RC_WRITE_EXTERNAL_STORAGE && isPermissiontGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+      viewModel.exportDatabase(applicationContext?.getDatabasePath(LekkieDatabase.NAME))
+    }
+  }
+
+  companion object {
+    const val RC_WRITE_EXTERNAL_STORAGE = 42
   }
 }

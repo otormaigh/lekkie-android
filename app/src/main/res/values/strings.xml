@@ -38,4 +38,5 @@
 
   <!-- controller_info.xml -->
   <string name="info">Info</string>
+  <string name="export_database">Export database</string>
 </resources>

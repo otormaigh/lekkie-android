@@ -27,4 +27,8 @@ import ie.pennylabs.lekkie.data.model.OutageDao
 @TypeConverters(PointTypeConverter::class)
 abstract class LekkieDatabase : RoomDatabase() {
   abstract fun outageDao(): OutageDao
+
+  companion object {
+    const val NAME = "lekkie.db"
+  }
 }

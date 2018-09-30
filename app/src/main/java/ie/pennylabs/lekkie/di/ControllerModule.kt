@@ -23,10 +23,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.IntoMap
+import ie.pennylabs.lekkie.feature.info.InfoController
 import ie.pennylabs.lekkie.feature.list.OutageListController
 import ie.pennylabs.lekkie.feature.map.OutageMapController
 
-@Module(subcomponents = [OutageListComponent::class, OutageMapComponent::class])
+@Module(subcomponents = [OutageListComponent::class, OutageMapComponent::class, InfoComponent::class])
 interface ControllerModule {
   @Binds
   @IntoMap
@@ -37,4 +38,9 @@ interface ControllerModule {
   @IntoMap
   @ControllerKey(OutageMapController::class)
   fun bindOutageMap(builder: OutageMapComponent.Builder): AndroidInjector.Factory<out Controller>
+
+  @Binds
+  @IntoMap
+  @ControllerKey(InfoController::class)
+  fun bindInfo(builder: InfoComponent.Builder): AndroidInjector.Factory<out Controller>
 }

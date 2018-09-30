@@ -19,6 +19,8 @@
 package ie.pennylabs.lekkie.toolbox.extension
 
 import android.content.Context
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import com.bluelinelabs.conductor.Controller
 
 fun Controller.requireContext(): Context = view?.context.takeIf { it != null }
@@ -35,3 +37,6 @@ fun Controller.getString(resId: Int): String =
 
 fun Controller.getString(resId: Int, vararg formatArgs: Any): String =
   activity?.resources?.getString(resId, *formatArgs) ?: ""
+
+fun Controller.isPermissiontGranted(permission: String): Boolean =
+  ActivityCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED

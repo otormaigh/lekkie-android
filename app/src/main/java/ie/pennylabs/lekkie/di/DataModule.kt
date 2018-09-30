@@ -43,7 +43,7 @@ object DataModule {
   @Singleton
   @JvmStatic
   fun provideDatabase(context: LekkieApplication): LekkieDatabase =
-    Room.databaseBuilder(context.applicationContext, LekkieDatabase::class.java, "lekkie.db")
+    Room.databaseBuilder(context.applicationContext, LekkieDatabase::class.java, LekkieDatabase.NAME)
       .fallbackToDestructiveMigration()
       .build()
 
