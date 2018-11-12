@@ -26,7 +26,7 @@ import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import ru.gildor.coroutines.retrofit.Result
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber

@@ -21,9 +21,8 @@ import android.os.Environment
 import androidx.lifecycle.LiveData
 import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.toolbox.SingleLiveEvent
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

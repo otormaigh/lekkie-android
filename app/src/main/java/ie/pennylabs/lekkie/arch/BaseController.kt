@@ -22,10 +22,10 @@ import android.widget.Toast
 import com.bluelinelabs.conductor.ViewModelController
 import com.christianbahl.conductor.ConductorInjection
 import ie.pennylabs.lekkie.toolbox.extension.requireContext
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.cancel
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlin.coroutines.CoroutineContext
 
 abstract class BaseController : ViewModelController(), CoroutineScope {
   override val coroutineContext: CoroutineContext

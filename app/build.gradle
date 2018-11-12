@@ -17,9 +17,9 @@
 import lekkie.*
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 if (file('../enc.properties').exists()) {
   apply from: '../enc.properties'
 }
@@ -127,7 +127,7 @@ dependencies {
   implementation "com.squareup.retrofit2:converter-moshi:$Deps.retrofit2"
   implementation "com.squareup.okhttp3:okhttp:$Deps.okhttp3"
   implementation "com.squareup.okhttp3:logging-interceptor:$Deps.okhttp3"
-  implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.12.0'
+  implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.13.0-eap13'
   debugImplementation "com.squareup.okhttp3:mockwebserver:$Deps.okhttp3"
 
   implementation 'com.bluelinelabs:conductor:2.1.5'
@@ -182,12 +182,6 @@ task generateChangelog {
       commandLine 'git', 'log', '--pretty=- %s', "$commitRange"
       standardOutput = new FileOutputStream('app/src/main/play/release-notes/en-GB/internal.txt')
     }
-  }
-}
-
-kotlin {
-  experimental {
-    coroutines 'enable'
   }
 }
 
