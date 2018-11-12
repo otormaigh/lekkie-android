@@ -34,7 +34,4 @@ object Deps {
 
   // androidx.room
   const val arch_room = "2.0.0"
-
-  // androidx
-  const val androidx = "1.0.0"
 }
