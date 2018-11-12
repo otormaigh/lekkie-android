@@ -38,10 +38,9 @@ import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_outage_list.view.*
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OutageListController : BaseController(), TextWatcher {

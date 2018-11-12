@@ -17,9 +17,9 @@
 import lekkie.*
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 if (file('../enc.properties').exists()) {
   apply from: '../enc.properties'
 }
@@ -28,6 +28,7 @@ if (file('../signing/play.json').exists()) {
   play {
     serviceAccountCredentials = file("../signing/play.json")
     track = 'internal'
+    defaultToAppBundles = true
   }
 }
 
@@ -107,15 +108,15 @@ dependencies {
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$Deps.coroutines"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Deps.coroutines"
 
-  implementation "com.google.android.material:material:$Deps.androidx"
-  implementation "androidx.appcompat:appcompat:$Deps.androidx"
-  implementation "androidx.recyclerview:recyclerview:$Deps.androidx"
+  implementation 'androidx.core:core-ktx:1.0.1'
+  implementation 'com.google.android.material:material:1.0.0'
+  implementation 'androidx.appcompat:appcompat:1.0.2'
+  implementation 'androidx.recyclerview:recyclerview:1.0.0'
   implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
   implementation "androidx.lifecycle:lifecycle-livedata:2.0.0"
-  implementation 'com.google.android.gms:play-services-maps:15.0.1'
+  implementation 'com.google.android.gms:play-services-maps:16.0.0'
   implementation "androidx.room:room-runtime:$Deps.arch_room"
   kapt "androidx.room:room-compiler:$Deps.arch_room"
-  implementation "androidx.core:core-ktx:$Deps.androidx"
 
   implementation 'com.github.otormaigh:conductor-dagger:971aa78'
   implementation "com.google.dagger:dagger:$Deps.dagger"
@@ -127,25 +128,25 @@ dependencies {
   implementation "com.squareup.retrofit2:converter-moshi:$Deps.retrofit2"
   implementation "com.squareup.okhttp3:okhttp:$Deps.okhttp3"
   implementation "com.squareup.okhttp3:logging-interceptor:$Deps.okhttp3"
-  implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.12.0'
+  implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.13.0-eap13'
   debugImplementation "com.squareup.okhttp3:mockwebserver:$Deps.okhttp3"
 
   implementation 'com.bluelinelabs:conductor:2.1.5'
   implementation 'com.jakewharton.timber:timber:4.7.1'
-  implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+  implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
 
-  implementation 'com.google.firebase:firebase-analytics:16.0.3'
-  implementation 'com.google.firebase:firebase-core:16.0.3'
-  implementation 'com.google.firebase:firebase-perf:16.1.0'
-  implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+  implementation 'com.google.firebase:firebase-analytics:16.0.5'
+  implementation 'com.google.firebase:firebase-core:16.0.5'
+  implementation 'com.google.firebase:firebase-perf:16.2.0'
+  implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'com.squareup.assertj:assertj-android:1.2.0'
   testImplementation("org.threeten:threetenbp:1.3.6") {
     exclude group: "com.jakewharton.threetenabp", module: "threetenabp"
   }
-  androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+  androidTestImplementation 'androidx.test:runner:1.1.0'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 
 check.dependsOn rootProject.detektCheck
@@ -182,12 +183,6 @@ task generateChangelog {
       commandLine 'git', 'log', '--pretty=- %s', "$commitRange"
       standardOutput = new FileOutputStream('app/src/main/play/release-notes/en-GB/internal.txt')
     }
-  }
-}
-
-kotlin {
-  experimental {
-    coroutines 'enable'
   }
 }
 
