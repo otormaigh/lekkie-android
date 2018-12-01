@@ -22,11 +22,13 @@ import android.app.Application
 import android.os.StrictMode
 import com.bluelinelabs.conductor.Controller
 import com.christianbahl.conductor.HasControllerInjector
+import com.crashlytics.android.core.CrashlyticsCore
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import ie.pennylabs.lekkie.di.DaggerAppComponent
+import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,6 +60,10 @@ class LekkieApplication : Application(), HasActivityInjector, HasControllerInjec
       .inject(this)
 
     AndroidThreeTen.init(this)
+
+    Fabric.with(this, CrashlyticsCore.Builder()
+      .disabled(BuildConfig.DEBUG)
+      .build())
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector

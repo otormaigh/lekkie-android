@@ -44,7 +44,7 @@ var SharedPreferences.enableCrashReporting: Boolean
   set(value) {
     edit { putBoolean(ENABLE_CRASH_REPORTING, value) }
   }
-  get() = getBoolean(ENABLE_CRASH_REPORTING, false)
+  get() = getBoolean(ENABLE_CRASH_REPORTING, true)
 
 private const val ENABLE_ANALYTICS = "enable_analytics"
 var SharedPreferences.enableAnalytics: Boolean
