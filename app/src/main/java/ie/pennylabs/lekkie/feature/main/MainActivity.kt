@@ -50,16 +50,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
   )
 
-  private fun replaceFragment(fragment: Fragment?): Boolean {
-    if (fragment == null) return false
-    if (currentFragment != null && fragment::class.java == currentFragment!!::class.java) return true
+  private fun replaceFragment(fragment: Fragment?): Boolean = when {
+    fragment == null -> false
+    currentFragment != null && fragment::class.java == currentFragment!!::class.java -> true
+    else -> {
+      currentFragment = fragment
+      supportFragmentManager.beginTransaction()
+        .replace(R.id.contentView, fragment, fragment::class.java.canonicalName)
+        .commit()
 
-    currentFragment = fragment
-    supportFragmentManager.beginTransaction()
-      .replace(R.id.contentView, fragment, fragment::class.java.canonicalName)
-      .commit()
-
-    // So [setOnNavigationItemSelectedListener] doesn't have to supply its own return.
-    return true
+      // So [setOnNavigationItemSelectedListener] doesn't have to supply its own return.
+      true
+    }
   }
 }

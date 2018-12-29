@@ -18,7 +18,7 @@ buildscript {
 }
 
 plugins {
-  id "io.gitlab.arturbosch.detekt" version "1.0.0.RC7-2"
+  id "io.gitlab.arturbosch.detekt" version "1.0.0-RC12"
 }
 
 allprojects {
@@ -40,11 +40,14 @@ wrapper {
 }
 
 detekt {
-  version = "1.0.0.RC7-2"
-  defaultProfile {
-    config = file("$rootDir/detekt.yml")
-    input = file("$rootDir/app")
-    output = "$projectDir/app/build/reports/detekt"
-    filters = ".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
+  toolVersion = "1.0.0-RC12"
+  config = files("$rootDir/detekt.yml")
+  input = files("$rootDir/app")
+  filters = ".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
+  reports {
+    html {
+      enabled = true
+      destination = file("$projectDir/app/build/reports/detekt/detekt.html")
+    }
   }
 }

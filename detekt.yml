@@ -39,5 +39,7 @@ style:
     maxLineLength: 200
   NewLineAtEndOfFile:
     active: false
+  UnnecessaryApply:
+    active: false
   WildcardImport:
     active: false
