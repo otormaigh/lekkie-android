@@ -26,8 +26,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.bluelinelabs.conductor.ChangeHandlerFrameLayout
-      android:id="@+id/controllerContainer"
+    <FrameLayout
+      android:id="@+id/contentView"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       app:layout_constraintBottom_toTopOf="@id/bottomNav"

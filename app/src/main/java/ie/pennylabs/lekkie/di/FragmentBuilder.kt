@@ -15,24 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.bluelinelabs.conductor
+package ie.pennylabs.lekkie.di
 
-import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStore
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+import ie.pennylabs.lekkie.feature.info.InfoFragment
+import ie.pennylabs.lekkie.feature.list.OutageListFragment
+import ie.pennylabs.lekkie.feature.map.OutageMapFragment
 
-abstract class ViewModelController : Controller, LifecycleOwner {
-  val viewModelStore = ViewModelStore()
-  val lifecycleOwner = ControllerLifecycleOwner(this)
+@Module
+interface FragmentBuilder {
+  @ContributesAndroidInjector
+  fun bindOutageList(): OutageListFragment
 
-  constructor() : super()
-  constructor(bundle: Bundle) : super(bundle)
+  @ContributesAndroidInjector
+  fun bindOutageMap(): OutageMapFragment
 
-  override fun onDestroy() {
-    super.onDestroy()
-    viewModelStore.clear()
-  }
-
-  override fun getLifecycle(): Lifecycle = lifecycleOwner.getLifecycle()
+  @ContributesAndroidInjector
+  fun bindInfo(): InfoFragment
 }

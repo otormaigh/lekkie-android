@@ -15,13 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.toolbox.extension
+package ie.pennylabs.lekkie.arch
 
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
+import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlin.coroutines.CoroutineContext
 
-fun Router.setRoot(controller: Controller): Boolean {
-  setRoot(RouterTransaction.with(controller))
-  return true
+open class BaseFragment : Fragment(), CoroutineScope {
+  override val coroutineContext: CoroutineContext
+    get() = Job()
+
+  override fun onDetach() {
+    super.onDetach()
+    coroutineContext.cancel()
+  }
 }

@@ -17,7 +17,9 @@
 
 package ie.pennylabs.lekkie.feature.list
 
+import android.content.Context
 import android.location.Geocoder
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -29,11 +31,11 @@ import androidx.constraintlayout.widget.ConstraintSet.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import dagger.android.support.AndroidSupportInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
-import ie.pennylabs.lekkie.arch.BaseController
+import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.toolbox.extension.getString
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
@@ -43,7 +45,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class OutageListController : BaseController(), TextWatcher {
+class OutageListFragment : BaseFragment(), TextWatcher {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
   private val viewModel by viewModelProvider { OutageListViewModel(api, outageDao, geocoder) }
   private val constraintSetShowSearch by lazy {
@@ -78,11 +80,16 @@ class OutageListController : BaseController(), TextWatcher {
   @Inject
   lateinit var geocoder: Geocoder
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
+  override fun onAttach(context: Context?) {
+    AndroidSupportInjection.inject(this)
+    super.onAttach(context)
+  }
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
     inflater.inflate(R.layout.controller_outage_list, container, false)
 
-  override fun onAttach(view: View) {
-    super.onAttach(view)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
     view.swipeRefresh.setOnRefreshListener {
       view.swipeRefresh.isRefreshing = false
@@ -93,8 +100,8 @@ class OutageListController : BaseController(), TextWatcher {
     view.rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
-      viewModel.outages.observe(this@OutageListController, Observer { liveData ->
-        liveData.observe(this@OutageListController, Observer { outages ->
+      viewModel.outages.observe(this@OutageListFragment, Observer { liveData ->
+        liveData.observe(this@OutageListFragment, Observer { outages ->
           recyclerAdapter.submitList(outages)
           view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
 
@@ -112,7 +119,7 @@ class OutageListController : BaseController(), TextWatcher {
         view.etQuery.apply {
           requestFocus()
           showKeyboard()
-          addTextChangedListener(this@OutageListController)
+          addTextChangedListener(this@OutageListFragment)
           setOnKeyListener { _, _, keyEvent ->
             when (keyEvent.keyCode) {
               KeyEvent.KEYCODE_ENTER -> {

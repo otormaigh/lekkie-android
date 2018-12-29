@@ -17,17 +17,21 @@
 
 package ie.pennylabs.lekkie.toolbox.extension
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 
-@Suppress("UNCHECKED_CAST")
-inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
-  mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-  crossinline provider: () -> VM) = lazy(mode) {
+fun Fragment.isPermissiontGranted(permission: String): Boolean =
+  ActivityCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
 
-  val factory = object : ViewModelProvider.Factory {
-    override fun <M : ViewModel> create(klass: Class<M>) = provider() as M
-  }
-  ViewModelProvider(viewModelStore, factory).get(VM::class.java)
+fun Fragment.requireApplicationContext(): Context = context?.applicationContext.takeIf { it != null }
+  ?: throw NullPointerException("Fragment : $this not attached to an Activity")
+
+fun Fragment.toast(message: String?, length: Int = Toast.LENGTH_LONG) {
+  if (message?.isNotEmpty() == true) Toast.makeText(requireContext(), message, length).show()
 }
+
+val Fragment.applicationContext: Context?
+  get() = context?.applicationContext

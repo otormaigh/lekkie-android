@@ -18,40 +18,48 @@
 package ie.pennylabs.lekkie.feature.main
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.bluelinelabs.conductor.Conductor
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
-import ie.pennylabs.lekkie.feature.info.InfoController
-import ie.pennylabs.lekkie.feature.list.OutageListController
-import ie.pennylabs.lekkie.feature.map.OutageMapController
-import ie.pennylabs.lekkie.toolbox.extension.setRoot
+import ie.pennylabs.lekkie.feature.info.InfoFragment
+import ie.pennylabs.lekkie.feature.list.OutageListFragment
+import ie.pennylabs.lekkie.feature.map.OutageMapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-  private lateinit var router: Router
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+  private var currentFragment: Fragment? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     GdprBottomSheet.show(this)
 
-    router = Conductor.attachRouter(this, controllerContainer, savedInstanceState)
-    router.setRoot(RouterTransaction.with(OutageListController()))
-
+    bottomNav.setOnNavigationItemSelectedListener(this)
     bottomNav.selectedItemId = R.id.menuList
-    bottomNav.setOnNavigationItemSelectedListener { item ->
-      when (item.itemId) {
-        R.id.menuMap -> router.setRoot(OutageMapController().apply {
-          retainViewMode = Controller.RetainViewMode.RETAIN_DETACH
-        })
-        R.id.menuList -> router.setRoot(OutageListController())
-        R.id.menuInfo -> router.setRoot(InfoController())
-        else -> false
-      }
+  }
+
+  override fun onNavigationItemSelected(item: MenuItem): Boolean = replaceFragment(
+    when (item.itemId) {
+      R.id.menuMap -> OutageMapFragment()
+      R.id.menuList -> OutageListFragment()
+      R.id.menuInfo -> InfoFragment()
+      else -> null
     }
+  )
+
+  private fun replaceFragment(fragment: Fragment?): Boolean {
+    if (fragment == null) return false
+    if (currentFragment != null && fragment::class.java == currentFragment!!::class.java) return true
+
+    currentFragment = fragment
+    supportFragmentManager.beginTransaction()
+      .replace(R.id.contentView, fragment, fragment::class.java.canonicalName)
+      .commit()
+
+    // So [setOnNavigationItemSelectedListener] doesn't have to supply its own return.
+    return true
   }
 }

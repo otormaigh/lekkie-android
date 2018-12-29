@@ -17,21 +17,21 @@
 
 package ie.pennylabs.lekkie.di
 
-import com.christianbahl.conductor.ConductorInjectionModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import ie.pennylabs.lekkie.LekkieApplication
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
   AndroidInjectionModule::class,
-  ConductorInjectionModule::class,
+  AndroidSupportInjectionModule::class,
   ActivityBuilder::class,
   ApiModule::class,
-  ControllerModule::class,
-  DataModule::class])
+  DataModule::class,
+  FragmentBuilder::class])
 interface AppComponent {
   @Component.Builder
   interface Builder {

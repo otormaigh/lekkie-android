@@ -30,8 +30,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
-import com.bluelinelabs.conductor.ViewModelController
-import com.christianbahl.conductor.ConductorInjection
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,39 +37,45 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.android.support.AndroidSupportInjection
 import ie.pennylabs.lekkie.R
+import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import kotlinx.android.synthetic.main.controller_outage_map.view.*
 import javax.inject.Inject
 
-class OutageMapController : ViewModelController(), OnMapReadyCallback {
+class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
   @Inject
   lateinit var outageDao: OutageDao
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
+  override fun onAttach(context: Context?) {
+    AndroidSupportInjection.inject(this)
+    super.onAttach(context)
+  }
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
     inflater.inflate(R.layout.controller_outage_map, container, false).apply {
-      mapView.onCreate(args)
+      mapView.onCreate(savedInstanceState)
     }
 
-  override fun onAttach(view: View) {
-    ConductorInjection.inject(this)
-
-    super.onAttach(view)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    AndroidSupportInjection.inject(this)
+    super.onViewCreated(view, savedInstanceState)
     view.mapView.apply {
       onResume()
-      getMapAsync(this@OutageMapController)
+      getMapAsync(this@OutageMapFragment)
     }
   }
 
-  override fun onDetach(view: View) {
-    super.onDetach(view)
-    view.mapView.onPause()
+  override fun onPause() {
+    super.onPause()
+    view?.mapView?.onPause()
   }
 
-  override fun onDestroyView(view: View) {
-    super.onDestroyView(view)
-    view.mapView.onDestroy()
+  override fun onDestroyView() {
+    super.onDestroyView()
+    view?.mapView?.onDestroy()
   }
 
   override fun onSaveInstanceState(outState: Bundle) {

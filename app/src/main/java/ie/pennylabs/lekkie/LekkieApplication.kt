@@ -20,24 +20,23 @@ package ie.pennylabs.lekkie
 import android.app.Activity
 import android.app.Application
 import android.os.StrictMode
-import com.bluelinelabs.conductor.Controller
-import com.christianbahl.conductor.HasControllerInjector
+import androidx.fragment.app.Fragment
 import com.crashlytics.android.core.CrashlyticsCore
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import ie.pennylabs.lekkie.di.DaggerAppComponent
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
 
-class LekkieApplication : Application(), HasActivityInjector, HasControllerInjector {
+class LekkieApplication : Application(), HasActivityInjector, HasSupportFragmentInjector {
   @Inject
   lateinit var activityInjector: DispatchingAndroidInjector<Activity>
-
   @Inject
-  lateinit var controllerInjector: DispatchingAndroidInjector<Controller>
+  lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
 
   override fun onCreate() {
     super.onCreate()
@@ -67,5 +66,5 @@ class LekkieApplication : Application(), HasActivityInjector, HasControllerInjec
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector
-  override fun controllerInjector(): DispatchingAndroidInjector<Controller> = controllerInjector
+  override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 }

@@ -33,7 +33,7 @@
   <string name="est_restore">Est restore: %s</string>
   <string name="started">Started: %s</string>
 
-  <!-- OutageListController.kt -->
+  <!-- OutageListFragmentt -->
   <string name="outage_count">%d outages</string>
 
   <!-- controller_info.xml -->
