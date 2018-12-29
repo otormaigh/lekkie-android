@@ -18,20 +18,20 @@ package lekkie
 
 object Deps {
   // org.jetbrains.kotlin
-  const val kotlin = "1.3.10"
+  const val kotlin = "1.3.11"
 
   // org.jetbrains.kotlinx
   const val coroutines = "1.0.1"
 
   // com.google.dagger
-  const val dagger = "2.16"
+  const val dagger = "2.20"
 
   // com.squareup.okhttp3
-  const val okhttp3 = "3.12.0"
+  const val okhttp3 = "3.12.1"
 
   // com.squareup.retrofit2
   const val retrofit2 = "2.5.0"
 
   // androidx.room
-  const val arch_room = "2.1.0-alpha02"
+  const val arch_room = "2.1.0-alpha03"
 }
