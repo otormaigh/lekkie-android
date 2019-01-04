@@ -1,7 +1,6 @@
 package lekkie
 
-import java.io.IOException
-import java.util.concurrent.TimeUnit
+import lekkie.extension.runCommand
 
 object BuildConst {
   object Git {
@@ -16,21 +15,5 @@ object BuildConst {
 
     val name = "$major.$minor.$patch-${Git.shortHash}"
     val code = major * 10000000 + minor * 100000 + patch * 1000 + build
-  }
-}
-
-private fun String.runCommand(): String? {
-  return try {
-    val parts = split("\\s".toRegex())
-    val proc = ProcessBuilder(*parts.toTypedArray())
-      .redirectOutput(ProcessBuilder.Redirect.PIPE)
-      .redirectError(ProcessBuilder.Redirect.PIPE)
-      .start()
-
-    proc.waitFor(60, TimeUnit.MINUTES)
-    proc.inputStream.bufferedReader().readText()
-  } catch (e: IOException) {
-    e.printStackTrace()
-    null
   }
 }
