@@ -36,6 +36,7 @@ import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.LazyViewModel
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
@@ -47,7 +48,7 @@ import javax.inject.Inject
 
 class OutageListFragment : BaseFragment(), TextWatcher {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
-  private val viewModel by viewModelProvider { OutageListViewModel(api, outageDao, geocoder) }
+  private val viewModel by LazyViewModel(OutageListViewModel::class.java)
   private val constraintSetShowSearch by lazy {
     ConstraintSet().apply {
       clone(view?.parentViewGroup)
@@ -72,13 +73,6 @@ class OutageListFragment : BaseFragment(), TextWatcher {
       connect(R.id.tvOutageCount, START, PARENT_ID, START)
     }
   }
-
-  @Inject
-  lateinit var api: ApiService
-  @Inject
-  lateinit var outageDao: OutageDao
-  @Inject
-  lateinit var geocoder: Geocoder
 
   override fun onAttach(context: Context?) {
     AndroidSupportInjection.inject(this)

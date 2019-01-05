@@ -17,30 +17,12 @@
 
 package ie.pennylabs.lekkie.di
 
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.support.AndroidSupportInjectionModule
-import ie.pennylabs.lekkie.LekkieApplication
-import javax.inject.Singleton
+import androidx.lifecycle.ViewModel
+import dagger.MapKey
+import kotlin.reflect.KClass
 
-@Singleton
-@Component(modules = [
-  AndroidInjectionModule::class,
-  AndroidSupportInjectionModule::class,
-  ActivityBuilder::class,
-  ApiModule::class,
-  DataModule::class,
-  FragmentBuilder::class,
-  ViewModelModule::class])
-interface AppComponent {
-  @Component.Builder
-  interface Builder {
-    @BindsInstance
-    fun application(application: LekkieApplication): Builder
-
-    fun build(): AppComponent
-  }
-
-  fun inject(application: LekkieApplication)
-}
+@MapKey
+@Target(AnnotationTarget.FUNCTION)
+annotation class ViewModelKey(
+  val value: KClass<out ViewModel>
+)

@@ -18,12 +18,17 @@
 package ie.pennylabs.lekkie.arch
 
 import androidx.fragment.app.Fragment
+import ie.pennylabs.lekkie.di.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 open class BaseFragment : Fragment(), CoroutineScope {
+  @Inject
+  lateinit var viewModelFactory: ViewModelFactory
+
   override val coroutineContext: CoroutineContext
     get() = Job()
 

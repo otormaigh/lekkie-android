@@ -14,27 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ie.pennylabs.lekkie.plugin.toolbox
 
-object Deps {
-  // org.jetbrains.kotlin
-  const val kotlin = "1.3.11"
+package ie.pennylabs.lekkie.toolbox
 
-  // org.jetbrains.kotlinx
-  const val coroutines = "1.0.1"
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
+import ie.pennylabs.lekkie.arch.BaseFragment
+import kotlin.reflect.KProperty
 
-  // com.google.dagger
-  const val dagger = "2.20"
-
-  // com.squareup.okhttp3
-  const val okhttp3 = "3.12.1"
-
-  // com.squareup.retrofit2
-  const val retrofit2 = "2.5.0"
-
-  // androidx.room
-  const val arch_room = "2.1.0-alpha03"
-
-  // androidx.lifecycle
-  const val lifecycle = "2.0.0"
+class LazyViewModel<VM : ViewModel>(private val viewModel: Class<VM>) {
+  operator fun getValue(fragment: BaseFragment, prop: KProperty<*>): VM =
+    ViewModelProviders.of(fragment, fragment.viewModelFactory).get(viewModel)
 }

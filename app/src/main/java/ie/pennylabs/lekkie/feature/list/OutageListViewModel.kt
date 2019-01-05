@@ -31,11 +31,13 @@ import ru.gildor.coroutines.retrofit.Result
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
 
-class OutageListViewModel(
-  private val fetcher: ApiService,
-  private val persister: OutageDao,
-  private val geocoder: Geocoder) : BaseViewModel() {
+class OutageListViewModel
+@Inject
+constructor(private val fetcher: ApiService,
+            private val persister: OutageDao,
+            private val geocoder: Geocoder) : BaseViewModel() {
 
   private val _outages: MutableLiveData<List<Outage>> = MutableLiveData()
   val outages: LiveData<List<Outage>> = _outages

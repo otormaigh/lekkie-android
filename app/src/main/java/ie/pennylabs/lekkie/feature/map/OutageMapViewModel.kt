@@ -23,8 +23,11 @@ import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OutageMapViewModel(private val outageDao: OutageDao) : BaseViewModel() {
+class OutageMapViewModel
+@Inject
+constructor(private val outageDao: OutageDao) : BaseViewModel() {
   val outages: LiveData<List<Outage>>
     get() {
       val resultLiveData = MutableLiveData<List<Outage>>()
