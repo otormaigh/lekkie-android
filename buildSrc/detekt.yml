@@ -16,6 +16,13 @@ complexity:
   StringLiteralDuplication:
     active: false
 
+naming:
+  VariableNaming:
+    active: true
+    variablePattern: '(?![ms]{1}[A-Z]{1})[A-Za-z0-9]*'
+    privateVariablePattern: '(_)?(?![ms]{1}[A-Z]{1})[A-Za-z0-9]*'
+    # No mHungarians
+
 performance:
   active: true
   SpreadOperator:

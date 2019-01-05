@@ -17,6 +17,7 @@
 
 package ie.pennylabs.lekkie.plugin
 
+import ie.pennylabs.lekkie.plugin.task.DetektTask
 import ie.pennylabs.lekkie.plugin.task.GenerateChangelogTask
 import ie.pennylabs.lekkie.plugin.task.PrepareNextReleaseTask
 import org.gradle.api.Plugin
@@ -29,6 +30,8 @@ class LekkiePlugin : Plugin<Project> {
   override fun apply(target: Project) {
     target.tasks.register("generateChangelog", GenerateChangelogTask::class.java)
     target.tasks.register("prepareNextRelease", PrepareNextReleaseTask::class.java)
+    target.tasks.register("detekt", DetektTask::class.java)
+
 
     target.task<Delete>("clean") {
       delete = setOf(target.rootProject.buildDir)

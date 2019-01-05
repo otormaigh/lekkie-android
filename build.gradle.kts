@@ -3,6 +3,7 @@ buildscript {
     google()
     jcenter()
 
+    maven("https://plugins.gradle.org/m2/")
     maven("https://maven.fabric.io/public")
     maven("http://storage.googleapis.com/r8-releases/raw/master")
   }
@@ -17,11 +18,6 @@ buildscript {
     classpath("io.fabric.tools:gradle:1.27.0")
   }
 }
-
-plugins {
-  id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12"
-}
-
 allprojects {
   repositories {
     google()
@@ -30,15 +26,3 @@ allprojects {
 }
 
 apply<ie.pennylabs.lekkie.plugin.LekkiePlugin>()
-
-tasks.withType(io.gitlab.arturbosch.detekt.Detekt::class.java) {
-  config = files("$rootDir/detekt.yml")
-  input = files("$rootDir/app")
-  filters = project.objects.property(String::class.java).apply { set(".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*") }
-  reports {
-    html {
-      enabled = true
-      destination = file("$projectDir/app/build/reports/detekt/detekt.html")
-    }
-  }
-}
