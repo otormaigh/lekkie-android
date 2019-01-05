@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lekkie.extension
+package ie.pennylabs.lekkie.plugin.toolbox.extension
 
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -40,6 +40,7 @@ fun String.runCommand(): String? {
       """\s(?=(?:[^\']*\'[^\']*\')*[^\']*$)""".toRegex())
       .map { it.replace("'", "") } // remove any single quotes
       .toList()
+    println("parts -> $parts")
 
     val proc = ProcessBuilder(parts)
       .redirectOutput(ProcessBuilder.Redirect.PIPE)

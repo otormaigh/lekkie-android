@@ -14,24 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lekkie
 
-object Deps {
-  // org.jetbrains.kotlin
-  const val kotlin = "1.3.11"
+package ie.pennylabs.lekkie.plugin.toolbox
 
-  // org.jetbrains.kotlinx
-  const val coroutines = "1.0.1"
+import org.gradle.api.Project
 
-  // com.google.dagger
-  const val dagger = "2.20"
+object KeyStore {
+  const val RELEASE_STORE = "../signing/release.keystore"
+  const val DEBUG_STORE = "../signing/debug.keystore"
+  const val PLAY_JSON = "../signing/play.json"
 
-  // com.squareup.okhttp3
-  const val okhttp3 = "3.12.1"
-
-  // com.squareup.retrofit2
-  const val retrofit2 = "2.5.0"
-
-  // androidx.room
-  const val arch_room = "2.1.0-alpha03"
+  val Project.STORE_PASSWORD: String get() = properties["store_password"] as String
+  val Project.KEY_ALIAS: String get() = properties["key_alias"] as String
+  val Project.KEY_PASSWORD: String get() = properties["key_password"] as String
 }

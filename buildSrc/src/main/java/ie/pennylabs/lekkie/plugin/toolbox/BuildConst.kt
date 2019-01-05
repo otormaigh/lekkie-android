@@ -15,16 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lekkie
+package ie.pennylabs.lekkie.plugin.toolbox
 
-import org.gradle.api.Project
+import ie.pennylabs.lekkie.plugin.toolbox.extension.runCommand
 
-object KeyStore {
-  const val RELEASE_STORE = "../signing/release.keystore"
-  const val DEBUG_STORE = "../signing/debug.keystore"
-  const val PLAY_JSON = "../signing/play.json"
+object BuildConst {
+  object Git {
+    val shortHash = "git rev-parse --short HEAD".runCommand()?.trim() ?: ""
+  }
 
-  val Project.STORE_PASSWORD: String get() = properties["store_password"] as String
-  val Project.KEY_ALIAS: String get() = properties["key_alias"] as String
-  val Project.KEY_PASSWORD: String get() = properties["key_password"] as String
+  object Version {
+    private const val major = 0
+    private const val minor = 2
+    private const val patch = 0
+    private val build = System.getenv("CIRCLE_BUILD_NUM")?.toInt() ?: 1
+
+    val name = "$major.$minor.$patch-${Git.shortHash}"
+    val code = major * 10000000 + minor * 100000 + patch * 1000 + build
+  }
 }

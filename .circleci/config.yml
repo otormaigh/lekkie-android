@@ -1,7 +1,7 @@
 version: 2
 
 cache_key: &cache_key
-  key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "buildSrc/src/main/java/lekkie/Deps.kt" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+  key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "buildSrc/src/main/java/ie/pennylabs/lekkie/toolbox/Deps.kt" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
 
 jobs:
   check:

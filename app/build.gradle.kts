@@ -14,11 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import lekkie.*
-import lekkie.KeyStore.KEY_ALIAS
-import lekkie.KeyStore.KEY_PASSWORD
-import lekkie.KeyStore.STORE_PASSWORD
-import lekkie.extension.runCommand
+import ie.pennylabs.lekkie.plugin.toolbox.*
+import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.KEY_ALIAS
+import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.KEY_PASSWORD
+import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.STORE_PASSWORD
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 plugins {
@@ -174,42 +173,6 @@ if (file("google-services.json").exists()) {
   apply(plugin = "io.fabric")
   apply(plugin = "com.google.firebase.firebase-perf")
   apply(plugin = "com.google.gms.google-services")
-}
-
-tasks.register("prepareNextRelease") {
-  group = "Releasing"
-  description = "Prepares the project for the next release version, see: RELEASING.md"
-
-  doLast {
-    val newVersion = BuildConst.Version.name
-      .replaceAfter("-", "")
-      .removeSuffix("-")
-
-    // 7. Create a new release branch `git checkout -b release-{versionName}`
-    """git checkout -b release-$newVersion""".runCommand()
-
-    // 8. Update previous `CHANGELOG.md` entry to append title with the build commit of that release
-    """sed -i '''' -e '1 s/$/ - ${BuildConst.Git.shortHash}/' ${file("../CHANGELOG.md")}""".runCommand()
-
-    // 9. Commit changes `git commit -am 'bump version to {versionName}'
-    """git commit -am 'bump version to $newVersion'""".runCommand()
-  }
-}
-tasks.register("generateChangelog") {
-  group = "Releasing"
-  description = "Generate a changelog based on the range of commits that triggered a build on CircleCI."
-
-  doLast {
-    var commitRange = System.getenv("CIRCLE_COMPARE_URL").split("/").last()
-    if (commitRange.isEmpty()) System.getenv("CIRCLE_SHA1")
-    if (!commitRange.contains("...")) commitRange = "HEAD^..$commitRange"
-    logger.info("commitRange -> $commitRange")
-
-    File("app/src/main/play/release-notes/en-GB/internal.txt").apply {
-      createNewFile()
-      writeText("""git log --pretty=-%s $commitRange""".runCommand() ?: "")
-    }
-  }
 }
 
 fun Project.play(configure: Action<com.github.triplet.gradle.play.PlayPublisherExtension>) {
