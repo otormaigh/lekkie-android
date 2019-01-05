@@ -13,6 +13,8 @@ complexity:
   active: true
   LabeledExpression:
     active: false
+  StringLiteralDuplication:
+    active: false
 
 performance:
   active: true

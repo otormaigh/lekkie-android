@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import lekkie.*
+import lekkie.KeyStore.KEY_ALIAS
+import lekkie.KeyStore.KEY_PASSWORD
+import lekkie.KeyStore.STORE_PASSWORD
 import lekkie.extension.runCommand
-import org.gradle.api.internal.AbstractTask
-import org.jetbrains.kotlin.android.synthetic.androidIdToName
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   id("com.android.application")
@@ -47,21 +47,21 @@ android {
 
     javaCompileOptions {
       annotationProcessorOptions {
-        arguments = mapOf(Pair("room.schemaLocation", "$projectDir/schemas"))
+        arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
       }
     }
   }
 
   signingConfigs {
     getByName("debug") {
-      storeFile = file("../signing/debug.keystore")
+      storeFile = file(KeyStore.DEBUG_STORE)
     }
-    if (file("../signing/release.keystore").exists()) {
+    if (file(KeyStore.RELEASE_STORE).exists()) {
       register("release") {
-        storeFile = file("../signing/release.keystore")
-        storePassword = lekkie.KeyStore.STORE_PASSWORD
-        keyAlias = lekkie.KeyStore.KEY_ALIAS
-        keyPassword = lekkie.KeyStore.KEY_PASSWORD
+        storeFile = file(KeyStore.RELEASE_STORE)
+        storePassword = STORE_PASSWORD
+        keyAlias = KEY_ALIAS
+        keyPassword = KEY_PASSWORD
         isV2SigningEnabled = true
       }
     }
@@ -71,12 +71,12 @@ android {
     named("debug").configure {
       signingConfig = signingConfigs.getByName("debug")
       applicationIdSuffix = ".debug"
-      manifestPlaceholders = mapOf(Pair("google_maps_key", project.properties["debug_map_key"]))
+      manifestPlaceholders = mapOf("google_maps_key" to project.properties["debug_map_key"])
     }
 
     named("release").configure {
       signingConfig = signingConfigs.getByName(if (file("../signing/release.keystore").exists()) "release" else "debug")
-      manifestPlaceholders = mapOf(Pair("google_maps_key", project.properties["release_map_key"]))
+      manifestPlaceholders = mapOf("google_maps_key" to project.properties["release_map_key"])
 
       postprocessing.apply {
         proguardFiles("proguard-rules.pro")
@@ -160,12 +160,12 @@ androidExtensions {
   })
 }
 
-if (file("../signing/play.json").exists()) {
+if (file(KeyStore.PLAY_JSON).exists()) {
   apply(plugin = "com.github.triplet.play")
 
   play {
     track = "internal"
-    serviceAccountCredentials = file("../signing/play.json")
+    serviceAccountCredentials = file(KeyStore.PLAY_JSON)
     defaultToAppBundles = true
   }
 }
