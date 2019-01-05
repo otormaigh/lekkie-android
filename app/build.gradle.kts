@@ -29,7 +29,7 @@ plugins {
 }
 
 if (file("../enc.properties").exists()) {
-  apply("../enc.properties")
+  apply(from = "../enc.properties")
 }
 
 android {
