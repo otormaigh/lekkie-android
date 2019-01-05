@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.di;
+package ie.pennylabs.lekkie.di
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
-import dagger.Binds;
-import dagger.Module;
-import dagger.multibindings.IntoMap;
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 import ie.pennylabs.lekkie.feature.list.OutageListViewModel
 import ie.pennylabs.lekkie.feature.map.OutageMapViewModel
 

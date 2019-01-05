@@ -18,7 +18,6 @@
 package ie.pennylabs.lekkie.feature.list
 
 import android.content.Context
-import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,18 +32,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import dagger.android.support.AndroidSupportInjection
 import ie.pennylabs.lekkie.R
-import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.arch.BaseFragment
-import ie.pennylabs.lekkie.data.model.OutageDao
 import ie.pennylabs.lekkie.toolbox.LazyViewModel
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
-import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import kotlinx.android.synthetic.main.controller_outage_list.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class OutageListFragment : BaseFragment(), TextWatcher {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }

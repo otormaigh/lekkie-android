@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.controller_info.view.*
 class InfoFragment : BaseFragment() {
   private val viewModel by viewModelProvider { InfoViewModel() }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?=
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
     inflater.inflate(R.layout.controller_info, container, false)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

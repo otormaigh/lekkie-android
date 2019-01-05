@@ -40,7 +40,6 @@ fun String.runCommand(): String? {
       """\s(?=(?:[^\']*\'[^\']*\')*[^\']*$)""".toRegex())
       .map { it.replace("'", "") } // remove any single quotes
       .toList()
-    println("parts -> $parts")
 
     val proc = ProcessBuilder(parts)
       .redirectOutput(ProcessBuilder.Redirect.PIPE)
