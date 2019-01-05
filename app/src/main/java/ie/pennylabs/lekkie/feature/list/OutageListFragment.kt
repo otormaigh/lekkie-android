@@ -29,6 +29,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.ConstraintSet.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.TransitionManager
 import dagger.android.support.AndroidSupportInjection
 import ie.pennylabs.lekkie.R
@@ -36,17 +37,18 @@ import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.toolbox.LazyViewModel
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
-import kotlinx.android.synthetic.main.controller_outage_list.view.*
+import ie.pennylabs.lekkie.worker.ApiWorker
+import kotlinx.android.synthetic.main.controller_outage_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class OutageListFragment : BaseFragment(), TextWatcher {
+class OutageListFragment : BaseFragment(), TextWatcher, SwipeRefreshLayout.OnRefreshListener {
   private val recyclerAdapter by lazy { OutageListRecyclerAdapter() }
   private val viewModel by LazyViewModel(OutageListViewModel::class.java)
   private val constraintSetShowSearch by lazy {
     ConstraintSet().apply {
-      clone(view?.parentViewGroup)
+      clone(parentViewGroup)
       connect(R.id.ivSearch, START, PARENT_ID, START)
       connect(R.id.ivSearch, END, R.id.etQuery, START)
       connect(R.id.etQuery, START, R.id.ivSearch, END)
@@ -58,7 +60,7 @@ class OutageListFragment : BaseFragment(), TextWatcher {
   }
   private val constraintSetHideSearch by lazy {
     ConstraintSet().apply {
-      clone(view?.parentViewGroup)
+      clone(parentViewGroup)
       clear(R.id.ivSearch, START)
       connect(R.id.ivSearch, END, PARENT_ID, END)
       clear(R.id.etQuery, END)
@@ -80,30 +82,24 @@ class OutageListFragment : BaseFragment(), TextWatcher {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    view.swipeRefresh.setOnRefreshListener {
-      view.swipeRefresh.isRefreshing = false
-      viewModel.fetchOutages()
-      hideSearch(view)
-    }
-
-    view.rvOutages.apply {
+    swipeRefresh.setOnRefreshListener(this)
+    rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
+
       viewModel.outages.observe(this@OutageListFragment, Observer { outages ->
         recyclerAdapter.submitList(outages)
-        view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
-
-        launch { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
+        tvOutageCount.text = getString(R.string.outage_count, outages.size)
       })
     }
 
-    view.ivSearch.setOnClickListener {
-      TransitionManager.beginDelayedTransition(view.parentViewGroup)
-      constraintSetShowSearch.applyTo(view.parentViewGroup)
+    ivSearch.setOnClickListener {
+      TransitionManager.beginDelayedTransition(parentViewGroup)
+      constraintSetShowSearch.applyTo(parentViewGroup)
 
       launch(coroutineContext + Dispatchers.Main) {
         delay(300)
-        view.etQuery.apply {
+        etQuery.apply {
           requestFocus()
           showKeyboard()
           addTextChangedListener(this@OutageListFragment)
@@ -112,7 +108,6 @@ class OutageListFragment : BaseFragment(), TextWatcher {
               KeyEvent.KEYCODE_ENTER -> {
                 viewModel.queryQao(text.toString())
                 hideKeyboard()
-                true
               }
               else -> false
             }
@@ -121,15 +116,15 @@ class OutageListFragment : BaseFragment(), TextWatcher {
       }
     }
 
-    view.ivClear.setOnClickListener { hideSearch(view) }
+    ivClear.setOnClickListener { hideSearch() }
   }
 
   override fun afterTextChanged(text: Editable?) {
     if (text.isNullOrEmpty()) {
       viewModel.queryQao(null)
-      view?.ivClear?.visibility = View.INVISIBLE
+      ivClear?.visibility = View.INVISIBLE
     } else {
-      view?.ivClear?.visibility = View.VISIBLE
+      ivClear?.visibility = View.VISIBLE
     }
   }
 
@@ -144,15 +139,24 @@ class OutageListFragment : BaseFragment(), TextWatcher {
     }
   }
 
-  private fun hideSearch(view: View) {
-    TransitionManager.beginDelayedTransition(view.parentViewGroup)
-    constraintSetHideSearch.applyTo(view.parentViewGroup)
+  override fun onRefresh() {
+    ApiWorker.oneTimeRequest().observe(this, Observer { workInfo ->
+      swipeRefresh.isRefreshing = !workInfo.state.isFinished
+    })
+
+    hideSearch()
+  }
+
+  private fun hideSearch() {
+    TransitionManager.beginDelayedTransition(parentViewGroup)
+    constraintSetHideSearch.applyTo(parentViewGroup)
 
     launch(coroutineContext + Dispatchers.Main) {
       afterTextChanged(null)
-      view.etQuery.apply {
+      etQuery.apply {
         text.clear()
         hideKeyboard()
+        removeTextChangedListener(this@OutageListFragment)
       }
     }
   }

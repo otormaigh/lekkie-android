@@ -60,6 +60,12 @@
     <uses-library
       android:name="org.apache.http.legacy"
       android:required="false" />
-  </application>
 
+    <provider
+      android:name="androidx.work.impl.WorkManagerInitializer"
+      android:authorities="ie.pennylabs.lekkie.workmanager-init"
+      android:enabled="false"
+      android:exported="false"
+      tools:replace="android:authorities" />
+  </application>
 </manifest>

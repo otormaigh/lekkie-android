@@ -17,6 +17,7 @@
 
 package ie.pennylabs.lekkie.data.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
@@ -74,6 +75,9 @@ interface OutageDao {
   @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
   suspend fun fetchAll(): List<Outage>
 
+  @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
+  fun fetchAllLive(): LiveData<List<Outage>>
+
   @Query("SELECT * FROM outage WHERE id = :id")
   suspend fun fetch(id: String): Outage?
 
@@ -102,5 +106,5 @@ interface OutageDao {
 
 data class OutageConcise(
   @field:Json(name = "outageId")
-  val id: Int
+  val id: String
 )

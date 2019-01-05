@@ -17,47 +17,23 @@
 
 package ie.pennylabs.lekkie.feature.list
 
-import android.location.Geocoder
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
 import kotlinx.coroutines.launch
-import ru.gildor.coroutines.retrofit.Result
-import ru.gildor.coroutines.retrofit.awaitResult
-import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 class OutageListViewModel
 @Inject
-constructor(private val fetcher: ApiService,
-            private val persister: OutageDao,
-            private val geocoder: Geocoder) : BaseViewModel() {
-
+constructor(private val persister: OutageDao) : BaseViewModel() {
   private val _outages: MutableLiveData<List<Outage>> = MutableLiveData()
-  val outages: LiveData<List<Outage>> = _outages
-
-  init {
-    queryQao(null)
-    fetchOutages()
-  }
-
-  fun fetchOutages() {
-    launch {
-      val result = fetcher.getOutages().awaitResult()
-      when (result) {
-        is Result.Ok -> result.value.outageMessage
-          .sortedByDescending { it.id }
-          .forEach { fetchOutageDetail(it.id.toString()) }
-        else -> Timber.e("result -> $result")
-      }
+  val outages: LiveData<List<Outage>>
+    get() {
+      queryQao(null)
+      return _outages
     }
-  }
 
   fun queryQao(query: String?) {
     launch {
@@ -66,34 +42,6 @@ constructor(private val fetcher: ApiService,
       } else {
         persister.searchForCountyAndLocation("%$query%")
       })
-    }
-  }
-
-  fun updateOutageCounty(outage: Outage) {
-    if (outage.county?.isNotEmpty() == true) return
-    launch {
-      try {
-        geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1)
-          .firstOrNull()?.let { address ->
-            persister.update(address.adminArea, address.locality, outage.id)
-          }
-      } catch (e: IOException) {
-        Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")
-      }
-    }
-  }
-
-  private suspend fun fetchOutageDetail(id: String) = launch {
-    val savedOutage = persister.fetch(id)
-    if (savedOutage == null || savedOutage.shouldRefresh) {
-      val result = fetcher.getOutage(id).awaitResult()
-      when (result) {
-        is Result.Ok -> {
-          persister.insert(result.value.apply { delta = System.currentTimeMillis() })
-          updateOutageCounty(result.value)
-        }
-        else -> Timber.e("result -> $result")
-      }
     }
   }
 }

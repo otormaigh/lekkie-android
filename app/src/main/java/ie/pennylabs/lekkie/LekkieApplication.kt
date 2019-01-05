@@ -21,6 +21,8 @@ import android.app.Activity
 import android.app.Application
 import android.os.StrictMode
 import androidx.fragment.app.Fragment
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.crashlytics.android.core.CrashlyticsCore
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
@@ -28,6 +30,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import ie.pennylabs.lekkie.di.DaggerAppComponent
+import ie.pennylabs.lekkie.worker.ApiWorker
+import ie.pennylabs.lekkie.worker.LekkieWorkerFactory
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,6 +41,8 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
   lateinit var activityInjector: DispatchingAndroidInjector<Activity>
   @Inject
   lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+  @Inject
+  lateinit var lekkieWorkerFactory: LekkieWorkerFactory
 
   override fun onCreate() {
     super.onCreate()
@@ -53,6 +59,10 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
       StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
     }
 
+    Fabric.with(this, CrashlyticsCore.Builder()
+      .disabled(BuildConfig.DEBUG)
+      .build())
+
     DaggerAppComponent.builder()
       .application(this)
       .build()
@@ -60,11 +70,22 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
 
     AndroidThreeTen.init(this)
 
-    Fabric.with(this, CrashlyticsCore.Builder()
-      .disabled(BuildConfig.DEBUG)
-      .build())
+    initWorkManager()
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector
   override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
+
+  private fun initWorkManager() {
+    WorkManager.initialize(this, Configuration.Builder()
+      .setWorkerFactory(lekkieWorkerFactory)
+      .build())
+
+    ApiWorker.recurringRequest()
+    ApiWorker.recurringRequest()
+    ApiWorker.recurringRequest()
+
+//    if (BuildConfig.DEBUG) ApiWorker.oneTimeRequest()
+//    else ApiWorker.recurringRequest()
+  }
 }
