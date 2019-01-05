@@ -100,13 +100,11 @@ class OutageListFragment : BaseFragment(), TextWatcher {
     view.rvOutages.apply {
       adapter = recyclerAdapter
       layoutManager = LinearLayoutManager(view.context)
-      viewModel.outages.observe(this@OutageListFragment, Observer { liveData ->
-        liveData.observe(this@OutageListFragment, Observer { outages ->
-          recyclerAdapter.submitList(outages)
-          view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
+      viewModel.outages.observe(this@OutageListFragment, Observer { outages ->
+        recyclerAdapter.submitList(outages)
+        view.tvOutageCount.text = getString(R.string.outage_count, recyclerAdapter.itemCount)
 
-          launch { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
-        })
+        launch { outages.forEach { outage -> viewModel.updateOutageCounty(outage) } }
       })
     }
 

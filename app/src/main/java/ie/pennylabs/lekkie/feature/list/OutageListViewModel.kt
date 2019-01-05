@@ -37,8 +37,8 @@ class OutageListViewModel(
   private val persister: OutageDao,
   private val geocoder: Geocoder) : BaseViewModel() {
 
-  private val _outages: MutableLiveData<LiveData<List<Outage>>> = MutableLiveData()
-  val outages: LiveData<LiveData<List<Outage>>> = _outages
+  private val _outages: MutableLiveData<List<Outage>> = MutableLiveData()
+  val outages: LiveData<List<Outage>> = _outages
 
   init {
     queryQao(null)

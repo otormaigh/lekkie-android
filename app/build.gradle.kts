@@ -106,6 +106,7 @@ android {
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
     implementation("androidx.lifecycle:lifecycle-livedata:2.0.0")
     implementation("com.google.android.gms:play-services-maps:16.0.0")
+    implementation("androidx.room:room-coroutines:${Deps.arch_room}")
     implementation("androidx.room:room-runtime:${Deps.arch_room}")
     kapt("androidx.room:room-compiler:${Deps.arch_room}")
 

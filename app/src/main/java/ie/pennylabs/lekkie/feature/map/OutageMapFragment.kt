@@ -48,6 +48,7 @@ import javax.inject.Inject
 class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
   @Inject
   lateinit var outageDao: OutageDao
+  private val viewModel by lazy { OutageMapViewModel(outageDao) }
 
   override fun onAttach(context: Context?) {
     AndroidSupportInjection.inject(this)
@@ -88,7 +89,7 @@ class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
     map.moveCamera(CameraUpdateFactory.newLatLng(middleish))
     map.animateCamera(CameraUpdateFactory.newLatLngZoom(middleish, 7f))
 
-    outageDao.fetchAll().observe(this, Observer { outages ->
+    viewModel.outages.observe(this, Observer { outages ->
       val icFault = view?.context?.vectorToBitmap(R.drawable.ic_outage_fault)
       val icPlanned = view?.context?.vectorToBitmap(R.drawable.ic_outage_planned)
       val icUnknown = view?.context?.vectorToBitmap(R.drawable.ic_outage_unkonwn)
