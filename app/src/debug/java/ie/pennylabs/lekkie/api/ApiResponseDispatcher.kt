@@ -39,14 +39,13 @@ class ApiResponseDispatcher : QueueDispatcher() {
       setResponseCode(200)
     }
 
-  private fun readFile(fileName: String): String {
-    ApiResponseDispatcher::class.java.getResourceAsStream("/$fileName").use {
+  private fun readFile(fileName: String): String =
+    ApiResponseDispatcher::class.java.getResourceAsStream("/$fileName")?.use {
       val size = it.available()
       val buffer = ByteArray(size)
       it.read(buffer)
       it.close()
 
       return String(buffer, StandardCharsets.UTF_8)
-    }
-  }
+    } ?: ""
 }

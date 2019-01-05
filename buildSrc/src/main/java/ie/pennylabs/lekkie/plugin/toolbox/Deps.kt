@@ -36,5 +36,5 @@ object Deps {
   const val arch_room = "2.1.0-alpha03"
 
   // androidx.lifecycle
-  const val lifecycle = "2.0.0"
+  const val lifecycle = "2.1.0-alpha01"
 }

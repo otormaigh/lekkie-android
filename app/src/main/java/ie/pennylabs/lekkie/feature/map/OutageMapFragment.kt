@@ -47,7 +47,7 @@ import kotlinx.android.synthetic.main.controller_outage_map.view.*
 class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
   private val viewModel by LazyViewModel(OutageMapViewModel::class.java)
 
-  override fun onAttach(context: Context?) {
+  override fun onAttach(context: Context) {
     AndroidSupportInjection.inject(this)
     super.onAttach(context)
   }

@@ -39,12 +39,13 @@ class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
     setContentView(R.layout.sheet_gdpr)
     setCancelable(false)
 
-    val bottomSheet = window.findViewById(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
-    bottomSheet.setBackgroundResource(R.drawable.bg_top_rounded_sheet)
-    bottomSheet.doOnLayout {
-      BottomSheetBehavior.from(bottomSheet).apply {
-        state = BottomSheetBehavior.STATE_EXPANDED
-        peekHeight = it.height
+    (window?.findViewById(com.google.android.material.R.id.design_bottom_sheet) as? FrameLayout)?.let { bottomSheet ->
+      bottomSheet.setBackgroundResource(R.drawable.bg_top_rounded_sheet)
+      bottomSheet.doOnLayout {
+        BottomSheetBehavior.from(bottomSheet).apply {
+          state = BottomSheetBehavior.STATE_EXPANDED
+          peekHeight = it.height
+        }
       }
     }
 

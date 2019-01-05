@@ -37,7 +37,7 @@ open class GenerateChangelogTask : DefaultTask() {
 
     File("app/src/main/play/release-notes/en-GB/internal.txt").apply {
       createNewFile()
-      writeText("""git log --pretty=-%s $commitRange""".runCommand() ?: "")
+      writeText("""git log '--pretty=- %s' $commitRange""".runCommand() ?: "")
     }
   }
 }

@@ -99,13 +99,14 @@ android {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.0.1")
+    implementation("androidx.core:core-ktx:1.1.0-alpha03")
     implementation("com.google.android.material:material:1.1.0-alpha02")
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    implementation("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.1.0-alpha01")
+    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha01")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.0.0")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Deps.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
     implementation("com.google.android.gms:play-services-maps:16.0.0")
     implementation("androidx.room:room-coroutines:${Deps.arch_room}")
     implementation("androidx.room:room-runtime:${Deps.arch_room}")
@@ -145,13 +146,9 @@ android {
 tasks.getByName("check").dependsOn(rootProject.tasks.getByName("detekt"))
 
 kapt {
-  correctErrorTypes = true
   useBuildCache = true
-  mapDiagnosticLocations = true
   arguments {
     arg("room.schemaLocation", "$projectDir/schemas")
-    arg("moshi.generated", "javax.annotation.Generated")
-    arg("dagger.formatGeneratedSource", "disabled")
   }
 }
 
