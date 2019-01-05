@@ -106,7 +106,7 @@ class OutageListFragment : BaseFragment(), TextWatcher, SwipeRefreshLayout.OnRef
           setOnKeyListener { _, _, keyEvent ->
             when (keyEvent.keyCode) {
               KeyEvent.KEYCODE_ENTER -> {
-                viewModel.queryQao(text.toString())
+                viewModel.filterOutages(text.toString())
                 hideKeyboard()
               }
               else -> false
@@ -121,7 +121,7 @@ class OutageListFragment : BaseFragment(), TextWatcher, SwipeRefreshLayout.OnRef
 
   override fun afterTextChanged(text: Editable?) {
     if (text.isNullOrEmpty()) {
-      viewModel.queryQao(null)
+      viewModel.filterOutages("")
       ivClear?.visibility = View.INVISIBLE
     } else {
       ivClear?.visibility = View.VISIBLE
@@ -135,7 +135,7 @@ class OutageListFragment : BaseFragment(), TextWatcher, SwipeRefreshLayout.OnRef
   override fun onTextChanged(text: CharSequence, p1: Int, p2: Int, p3: Int) {
     launch {
       delay(300)
-      viewModel.queryQao(text.toString())
+      viewModel.filterOutages(text.toString())
     }
   }
 

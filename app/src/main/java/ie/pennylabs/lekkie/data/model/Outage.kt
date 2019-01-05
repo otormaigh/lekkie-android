@@ -45,9 +45,9 @@ data class Outage(
   @field:EpochTime
   val estRestoreTime: Long,
   @ColumnInfo(name = LOCATION)
-  val location: String,
+  var location: String,
   @ColumnInfo(name = COUNTY)
-  val county: String?,
+  var county: String?,
   val numCustAffected: String,
   @field:EpochTime
   @ColumnInfo(name = "start_time")
@@ -84,6 +84,9 @@ interface OutageDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(outage: Outage)
 
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insert(outages: List<Outage>)
+
   @Transaction
   fun update(county: String?, location: String?, id: String) {
     county?.let { updateCounty(county, id) }
@@ -101,7 +104,7 @@ interface OutageDao {
     WHERE $COUNTY LIKE LOWER(:query)
     OR $LOCATION LIKE LOWER(:query)
     ORDER BY $START_TIME DESC""")
-  suspend fun searchForCountyAndLocation(query: String): List<Outage>
+  fun searchForCountyAndLocation(query: String): LiveData<List<Outage>>
 }
 
 data class OutageConcise(

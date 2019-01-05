@@ -44,38 +44,41 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
 
   override suspend fun doWork(): Result {
     when (val result = api.getOutages().awaitResult()) {
-      is ru.gildor.coroutines.retrofit.Result.Ok -> result.value.outageMessage
-        .forEach { fetchOutageDetail(it.id) }
+      is ru.gildor.coroutines.retrofit.Result.Ok ->
+        outageDao.insert(result.value.outageMessage.mapNotNull { fetchDetail(it.id) })
       else -> return Result.failure()
     }
 
     return Result.success()
   }
 
-  private suspend fun fetchOutageDetail(id: String) {
+  private suspend fun fetchDetail(id: String): Outage? {
     val savedOutage = outageDao.fetch(id)
     if (savedOutage == null || savedOutage.shouldRefresh) {
       val result = api.getOutage(id).awaitResult()
       when (result) {
-        is ru.gildor.coroutines.retrofit.Result.Ok -> {
-          outageDao.insert(result.value.apply { delta = System.currentTimeMillis() })
-          updateOutageCounty(result.value)
-        }
+        is ru.gildor.coroutines.retrofit.Result.Ok ->
+          return updateCounty(result.value.apply { delta = System.currentTimeMillis() })
         else -> Timber.e("result -> $result")
       }
     }
+
+    return savedOutage
   }
 
-  private fun updateOutageCounty(outage: Outage) {
-    if (outage.county?.isNotEmpty() == true) return
-    try {
-      geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1)
-        .firstOrNull()?.let { address ->
-          outageDao.update(address.adminArea, address.locality, outage.id)
-        }
+  private fun updateCounty(outage: Outage): Outage {
+    if (outage.county?.isNotEmpty() == true) return outage
+    else try {
+      val address = geocoder.getFromLocation(outage.point.latitude, outage.point.longitude, 1).firstOrNull()
+      outage.apply {
+        county = address?.adminArea ?: county ?: ""
+        location = address?.locality ?: location ?: ""
+      }
     } catch (e: IOException) {
       Timber.e("fetchCounty -> ${Log.getStackTraceString(e)}")
     }
+
+    return outage
   }
 
   companion object {

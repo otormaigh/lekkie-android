@@ -19,29 +19,27 @@ package ie.pennylabs.lekkie.feature.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OutageListViewModel
 @Inject
 constructor(private val persister: OutageDao) : BaseViewModel() {
-  private val _outages: MutableLiveData<List<Outage>> = MutableLiveData()
+  private val outageFilter = MutableLiveData<String>()
   val outages: LiveData<List<Outage>>
     get() {
-      queryQao(null)
-      return _outages
+      filterOutages("")
+
+      return Transformations.switchMap(outageFilter) {
+        if (it.isEmpty()) persister.fetchAllLive()
+        else persister.searchForCountyAndLocation("%$it%")
+      }
     }
 
-  fun queryQao(query: String?) {
-    launch {
-      _outages.postValue(if (query == null) {
-        persister.fetchAll()
-      } else {
-        persister.searchForCountyAndLocation("%$query%")
-      })
-    }
+  fun filterOutages(query: String) {
+    outageFilter.postValue(query)
   }
 }
