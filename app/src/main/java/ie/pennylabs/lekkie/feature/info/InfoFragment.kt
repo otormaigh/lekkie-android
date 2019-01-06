@@ -22,6 +22,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.work.WorkManager
 import ie.pennylabs.lekkie.R
@@ -37,7 +39,7 @@ import ie.pennylabs.lekkie.worker.ApiWorker
 import kotlinx.android.synthetic.main.controller_info.*
 import java.util.concurrent.TimeUnit
 
-class InfoFragment : BaseFragment() {
+class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
   private val viewModel by viewModelProvider { InfoViewModel() }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -54,8 +56,15 @@ class InfoFragment : BaseFragment() {
         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_WRITE_EXTERNAL_STORAGE)
       }
     }
+    tvSyncInterval.setOnClickListener {
+      sbInterval.isInvisible = !sbInterval.isInvisible
+    }
+    sbInterval.max = SYNC_INTERVAL_MAX
+    sbInterval.setOnSeekBarChangeListener(this)
     WorkManager.getInstance().intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
-      tvSyncMins.text = getString(R.string.sync_hours, TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS))
+      val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
+      sbInterval.progress = hours.toInt()
+      tvSyncMins.text = getString(R.string.sync_hours, hours)
     })
 
     viewModel.showToast.observe(this, Observer { toast(message = it) })
@@ -68,7 +77,26 @@ class InfoFragment : BaseFragment() {
     }
   }
 
+  override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+    if (seekBar.progress < SYNC_INTERVAL_MIN) return
+    tvSyncMins.text = getString(R.string.sync_hours, seekBar.progress)
+  }
+
+  override fun onStartTrackingTouch(seekBar: SeekBar?) {
+    // Ignore
+  }
+
+  override fun onStopTrackingTouch(seekBar: SeekBar) {
+    val interval = if (seekBar.progress < SYNC_INTERVAL_MIN) 1
+    else seekBar.progress
+
+    ApiWorker.updateRepeatInterval(interval.toLong(), TimeUnit.HOURS)
+    tvSyncMins.text = getString(R.string.sync_hours, seekBar.progress)
+  }
+
   companion object {
     const val RC_WRITE_EXTERNAL_STORAGE = 42
+    const val SYNC_INTERVAL_MIN = 1
+    const val SYNC_INTERVAL_MAX = 48
   }
 }

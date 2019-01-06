@@ -18,8 +18,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/parentViewGroup"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:animateLayoutChanges="true"
   android:orientation="vertical">
 
   <androidx.appcompat.widget.Toolbar
@@ -88,5 +90,17 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="@id/tvSyncInterval"
     tools:text="1 hour" />
+
+  <SeekBar
+    android:id="@+id/sbInterval"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/horizontal_spacing_double"
+    android:paddingTop="@dimen/vertical_spacing"
+    android:paddingEnd="@dimen/horizontal_spacing_double"
+    android:paddingBottom="@dimen/vertical_spacing"
+    android:visibility="invisible"
+    app:layout_constraintTop_toBottomOf="@id/tvSyncInterval"
+    tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
