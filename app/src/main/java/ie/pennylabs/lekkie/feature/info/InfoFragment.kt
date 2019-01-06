@@ -23,15 +23,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.work.WorkManager
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.data.room.LekkieDatabase
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
+import ie.pennylabs.lekkie.toolbox.extension.intervalOfUniqueWork
 import ie.pennylabs.lekkie.toolbox.extension.isPermissiontGranted
 import ie.pennylabs.lekkie.toolbox.extension.requireApplicationContext
 import ie.pennylabs.lekkie.toolbox.extension.toast
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
-import kotlinx.android.synthetic.main.controller_info.view.*
+import ie.pennylabs.lekkie.worker.ApiWorker
+import kotlinx.android.synthetic.main.controller_info.*
+import java.util.concurrent.TimeUnit
 
 class InfoFragment : BaseFragment() {
   private val viewModel by viewModelProvider { InfoViewModel() }
@@ -42,14 +46,17 @@ class InfoFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    view.tvDataCollection.setOnClickListener { GdprBottomSheet.show(view.context, true) }
-    view.tvExportDatabase.setOnClickListener {
+    tvDataCollection.setOnClickListener { GdprBottomSheet.show(view.context, true) }
+    tvExportDatabase.setOnClickListener {
       if (isPermissiontGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
         viewModel.exportDatabase(requireApplicationContext().getDatabasePath(LekkieDatabase.NAME))
       } else {
         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_WRITE_EXTERNAL_STORAGE)
       }
     }
+    WorkManager.getInstance().intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
+      tvSyncMins.text = getString(R.string.sync_hours, TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS))
+    })
 
     viewModel.showToast.observe(this, Observer { toast(message = it) })
   }

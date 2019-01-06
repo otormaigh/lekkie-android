@@ -39,4 +39,6 @@
   <!-- controller_info.xml -->
   <string name="info">Info</string>
   <string name="export_database">Export database</string>
+  <string name="sync_interval">Sync Interval</string>
+  <string name="sync_hours">%d hours</string>
 </resources>

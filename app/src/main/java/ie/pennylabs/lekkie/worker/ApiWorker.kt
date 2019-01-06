@@ -31,6 +31,7 @@ import androidx.work.WorkerParameters
 import ie.pennylabs.lekkie.api.ApiService
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.toolbox.Firebase
 import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
@@ -44,8 +45,10 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
 
   override suspend fun doWork(): Result {
     when (val result = api.getOutages().awaitResult()) {
-      is ru.gildor.coroutines.retrofit.Result.Ok ->
-        outageDao.insert(result.value.outageMessage.mapNotNull { fetchDetail(it.id) })
+      is ru.gildor.coroutines.retrofit.Result.Ok -> result.value.outageMessage.let { outages ->
+        Firebase.Event.outageFetch(applicationContext, outages.size)
+        outageDao.insert(outages.mapNotNull { fetchDetail(it.id) })
+      }
       else -> return Result.failure()
     }
 
@@ -82,6 +85,8 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
   }
 
   companion object {
+    const val RECURRING_TAG = "recurring_request"
+
     fun oneTimeRequest(): LiveData<WorkInfo> {
       val workRequest = OneTimeWorkRequestBuilder<ApiWorker>().build()
       WorkManager.getInstance().enqueue(workRequest)
@@ -89,11 +94,21 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
     }
 
     fun recurringRequest() {
+      _recurringRequest(ExistingPeriodicWorkPolicy.KEEP, 1, TimeUnit.HOURS)
+    }
+
+    fun updateRepeatInterval(repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
+      _recurringRequest(ExistingPeriodicWorkPolicy.REPLACE, repeatInterval, repeatIntervalTimeUnit)
+    }
+
+    @Suppress("detekt.FunctionNaming")
+    private fun _recurringRequest(workPolicy: ExistingPeriodicWorkPolicy, repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
       WorkManager.getInstance().enqueueUniquePeriodicWork(
         "unique_recurring_worker",
-        ExistingPeriodicWorkPolicy.KEEP,
-        PeriodicWorkRequestBuilder<ApiWorker>(3, TimeUnit.HOURS)
-          .addTag("recurring_request")
+        workPolicy,
+        PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval, repeatIntervalTimeUnit)
+          .addTag(RECURRING_TAG)
+          .addTag("interval:${TimeUnit.MILLISECONDS.convert(repeatInterval, repeatIntervalTimeUnit)}")
           .build())
     }
   }

@@ -17,6 +17,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
@@ -61,5 +62,31 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/tvDataCollection" />
+
+  <TextView
+    android:id="@+id/tvSyncInterval"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/horizontal_spacing"
+    android:paddingTop="@dimen/vertical_spacing"
+    android:paddingEnd="@dimen/horizontal_spacing"
+    android:paddingBottom="@dimen/vertical_spacing"
+    android:text="@string/sync_interval"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tvExportDatabase" />
+
+  <TextView
+    android:id="@+id/tvSyncMins"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/horizontal_spacing"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+    app:layout_constraintBottom_toBottomOf="@id/tvSyncInterval"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@id/tvSyncInterval"
+    tools:text="1 hour" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
