@@ -35,11 +35,13 @@ import ie.pennylabs.lekkie.toolbox.extension.isPermissiontGranted
 import ie.pennylabs.lekkie.toolbox.extension.requireApplicationContext
 import ie.pennylabs.lekkie.toolbox.extension.toast
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
+import ie.pennylabs.lekkie.toolbox.prefs
+import ie.pennylabs.lekkie.toolbox.syncEnabled
 import ie.pennylabs.lekkie.worker.ApiWorker
 import kotlinx.android.synthetic.main.controller_info.*
 import java.util.concurrent.TimeUnit
 
-class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
+class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, View.OnClickListener, View.OnLongClickListener {
   private val viewModel by viewModelProvider { InfoViewModel() }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -56,16 +58,8 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), RC_WRITE_EXTERNAL_STORAGE)
       }
     }
-    tvSyncInterval.setOnClickListener {
-      sbInterval.isInvisible = !sbInterval.isInvisible
-    }
-    sbInterval.max = SYNC_INTERVAL_MAX
-    sbInterval.setOnSeekBarChangeListener(this)
-    WorkManager.getInstance().intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
-      val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
-      sbInterval.progress = hours.toInt()
-      tvSyncMins.text = getString(R.string.sync_hours, hours)
-    })
+
+    enableBackgroundSync(requireContext().prefs.syncEnabled)
 
     viewModel.showToast.observe(this, Observer { toast(message = it) })
   }
@@ -92,6 +86,57 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
 
     ApiWorker.updateRepeatInterval(interval.toLong(), TimeUnit.HOURS)
     tvSyncMins.text = getString(R.string.sync_hours, seekBar.progress)
+  }
+
+  override fun onClick(v: View) {
+    when (v.id) {
+      R.id.tvSyncInterval -> sbInterval.isInvisible = !sbInterval.isInvisible
+    }
+  }
+
+  override fun onLongClick(v: View): Boolean {
+    when (v.id) {
+      R.id.tvSyncInterval -> {
+        toast("Background sync cleared")
+        enableBackgroundSync(false)
+      }
+    }
+    return true
+  }
+
+  private fun enableBackgroundSync(isEnabled: Boolean) {
+    if (isEnabled) {
+      tvSyncInterval.setOnClickListener(this)
+      tvSyncInterval.setOnLongClickListener(this)
+      sbInterval.setOnSeekBarChangeListener(this)
+      switchSync.setOnCheckedChangeListener(null)
+      tvSyncMins.visibility = View.VISIBLE
+      switchSync.visibility = View.INVISIBLE
+
+      sbInterval.max = SYNC_INTERVAL_MAX
+      WorkManager.getInstance().intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
+        val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
+        sbInterval.progress = hours.toInt()
+        tvSyncMins.text = getString(R.string.sync_hours, hours)
+      })
+
+    } else {
+      WorkManager.getInstance().cancelAllWork()
+
+      tvSyncInterval.setOnClickListener(null)
+      tvSyncInterval.setOnLongClickListener(null)
+      tvSyncMins.visibility = View.INVISIBLE
+      sbInterval.visibility = View.INVISIBLE
+      switchSync.visibility = View.VISIBLE
+
+      switchSync.isChecked = false
+      switchSync.setOnCheckedChangeListener { _, _ ->
+        enableBackgroundSync(true)
+      }
+    }
+
+    // Reset flag once all is setup.
+    requireContext().prefs.syncEnabled = isEnabled
   }
 
   companion object {

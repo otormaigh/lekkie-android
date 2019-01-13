@@ -53,9 +53,9 @@ var SharedPreferences.enableAnalytics: Boolean
   }
   get() = getBoolean(ENABLE_ANALYTICS, false)
 
-private const val SYNC_INTERVAL = "sync_interval"
-var SharedPreferences.syncInterval: Long
+private const val SYNC_ENABLED = "sync_enabled"
+var SharedPreferences.syncEnabled: Boolean
   set(value) {
-    edit { putLong(SYNC_INTERVAL, value) }
+    edit { putBoolean(SYNC_ENABLED, value) }
   }
-  get() = getLong(SYNC_INTERVAL, 0L)
+  get() = getBoolean(SYNC_ENABLED, false)
