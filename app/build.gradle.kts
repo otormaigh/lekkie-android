@@ -111,7 +111,7 @@ android {
     implementation("androidx.room:room-coroutines:${Deps.arch_room}")
     implementation("androidx.room:room-runtime:${Deps.arch_room}")
     kapt("androidx.room:room-compiler:${Deps.arch_room}")
-    implementation("android.arch.work:work-runtime-ktx:1.0.0-beta01")
+    implementation("android.arch.work:work-runtime-ktx:1.0.0-beta02")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")

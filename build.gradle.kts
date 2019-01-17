@@ -10,7 +10,7 @@ buildscript {
   dependencies {
     // see: https://github.com/otormaigh/lekkie-android/issues/31
     classpath("com.android.tools:r8:cf993049788d3d443b7b1007b396f96dd5e0598b")
-    classpath("com.android.tools.build:gradle:3.4.0-alpha10")
+    classpath("com.android.tools.build:gradle:3.5.0-alpha01")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ie.pennylabs.lekkie.plugin.toolbox.Deps.kotlin}")
     classpath("com.github.triplet.gradle:play-publisher:2.0.0")
     classpath("com.google.gms:google-services:4.2.0")
