@@ -81,6 +81,7 @@ class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
     view?.mapView?.onSaveInstanceState(outState)
   }
 
+  @Suppress("detekt.UnderscoresInNumericLiterals")
   override fun onMapReady(map: GoogleMap) {
     val middleish = LatLng(53.304886, -8.009181)
     map.moveCamera(CameraUpdateFactory.newLatLng(middleish))

@@ -51,6 +51,11 @@ android {
     }
   }
 
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+  }
+
   signingConfigs {
     getByName("debug") {
       storeFile = file(KeyStore.DEBUG_STORE)
@@ -99,19 +104,19 @@ android {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.1.0-alpha03")
-    implementation("com.google.android.material:material:1.1.0-alpha02")
-    implementation("androidx.appcompat:appcompat:1.1.0-alpha01")
-    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha01")
+    implementation("androidx.core:core-ktx:1.1.0-alpha04")
+    implementation("com.google.android.material:material:1.1.0-alpha03")
+    implementation("androidx.appcompat:appcompat:1.1.0-alpha02")
+    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha02")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
-    implementation("com.google.android.gms:play-services-maps:16.0.0")
+    implementation("com.google.android.gms:play-services-maps:16.1.0")
     implementation("androidx.room:room-coroutines:${Deps.arch_room}")
     implementation("androidx.room:room-runtime:${Deps.arch_room}")
     kapt("androidx.room:room-compiler:${Deps.arch_room}")
-    implementation("android.arch.work:work-runtime-ktx:1.0.0-beta02")
+    implementation("android.arch.work:work-runtime-ktx:1.0.0-rc02")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")
@@ -123,24 +128,24 @@ android {
     implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")
     implementation("com.squareup.okhttp3:okhttp:${Deps.okhttp3}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Deps.okhttp3}")
-    implementation("ru.gildor.coroutines:kotlin-coroutines-retrofit:0.13.0-eap13")
+    implementation("ru.gildor.coroutines:kotlin-coroutines-retrofit:1.1.0")
     debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
 
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.1.2")
 
-    implementation("com.google.firebase:firebase-analytics:16.0.6")
-    implementation("com.google.firebase:firebase-core:16.0.6")
+    implementation("com.google.firebase:firebase-analytics:16.3.0")
+    implementation("com.google.firebase:firebase-core:16.0.7")
     implementation("com.google.firebase:firebase-perf:16.2.3")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.8")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13-beta-2")
     testImplementation("com.squareup.assertj:assertj-android:1.2.0")
-    testImplementation("org.threeten:threetenbp:1.3.6") {
+    testImplementation("org.threeten:threetenbp:1.3.8") {
       exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
     }
-    androidTestImplementation("androidx.test:runner:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.1.1")
+    androidTestImplementation("androidx.test:runner:1.1.2-alpha01")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.1.2-alpha01")
   }
 }
 
