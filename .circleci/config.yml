@@ -8,6 +8,7 @@ jobs:
     working_directory: ~/lekkie
     docker:
       - image: circleci/android:api-28-alpha
+    parallelism: 4
     environment:
       TERM: dumb
 
@@ -32,6 +33,7 @@ jobs:
     working_directory: ~/lekkie
     docker:
       - image: circleci/android:api-28-alpha
+    parallelism: 4
     environment:
       TERM: dumb
 
