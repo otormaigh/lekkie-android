@@ -14,9 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ie.pennylabs.lekkie.toolbox
 
-package ie.pennylabs.lekkie.arch
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import timber.log.Timber
 
-import androidx.lifecycle.ViewModel
+object CoroutineContextPool {
+  val database = Dispatchers.IO
+  val network = Dispatchers.IO
+  val calculation = Dispatchers.IO
+  val ui = Dispatchers.Main
 
-open class BaseViewModel : ViewModel()
+  val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+    Timber.e(exception)
+  }
+}

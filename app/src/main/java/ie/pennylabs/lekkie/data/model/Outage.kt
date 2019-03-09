@@ -73,9 +73,6 @@ data class Outage(
 @Dao
 interface OutageDao {
   @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
-  suspend fun fetchAll(): List<Outage>
-
-  @Query("SELECT * FROM $TABLE_NAME ORDER BY $START_TIME DESC")
   fun fetchAllLive(): LiveData<List<Outage>>
 
   @Query("SELECT * FROM outage WHERE id = :id")

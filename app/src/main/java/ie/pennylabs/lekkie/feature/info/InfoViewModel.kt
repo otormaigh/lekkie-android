@@ -19,9 +19,9 @@ package ie.pennylabs.lekkie.feature.info
 
 import android.os.Environment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.toolbox.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
@@ -32,7 +32,7 @@ class InfoViewModel : BaseViewModel() {
   val showToast: LiveData<String> get() = _showToast
 
   fun exportDatabase(databaseFile: File?) {
-    launch(coroutineContext + Dispatchers.Main) {
+    viewModelScope.launch {
       val backupFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "lekkie_${System.currentTimeMillis()}.db")
       if (databaseFile?.exists() == true) {
         FileInputStream(databaseFile).channel.use { src ->

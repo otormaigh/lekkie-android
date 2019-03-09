@@ -18,22 +18,13 @@
 package ie.pennylabs.lekkie.feature.map
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import ie.pennylabs.lekkie.arch.BaseViewModel
 import ie.pennylabs.lekkie.data.model.Outage
 import ie.pennylabs.lekkie.data.model.OutageDao
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OutageMapViewModel
 @Inject
 constructor(private val outageDao: OutageDao) : BaseViewModel() {
-  val outages: LiveData<List<Outage>>
-    get() {
-      val resultLiveData = MutableLiveData<List<Outage>>()
-      launch {
-        resultLiveData.postValue(outageDao.fetchAll())
-      }
-      return resultLiveData
-    }
+  val outages: LiveData<List<Outage>> by lazy { outageDao.fetchAllLive() }
 }
