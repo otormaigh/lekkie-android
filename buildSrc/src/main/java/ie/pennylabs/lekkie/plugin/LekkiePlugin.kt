@@ -32,13 +32,12 @@ class LekkiePlugin : Plugin<Project> {
     target.tasks.register("prepareNextRelease", PrepareNextReleaseTask::class.java)
     target.tasks.register("detekt", DetektTask::class.java)
 
-
     target.task<Delete>("clean") {
       delete = setOf(target.rootProject.buildDir)
     }
 
     target.tasks.withType(Wrapper::class.java) {
-      gradleVersion = "5.2.1"
+      gradleVersion = "5.4"
       distributionType = Wrapper.DistributionType.ALL
     }
   }

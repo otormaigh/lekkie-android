@@ -18,7 +18,6 @@ import ie.pennylabs.lekkie.plugin.toolbox.*
 import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.KEY_ALIAS
 import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.KEY_PASSWORD
 import ie.pennylabs.lekkie.plugin.toolbox.KeyStore.STORE_PASSWORD
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 plugins {
   id("com.android.application")
@@ -76,6 +75,7 @@ android {
       signingConfig = signingConfigs.getByName("debug")
       applicationIdSuffix = ".debug"
       manifestPlaceholders = mapOf("google_maps_key" to project.properties["debug_map_key"])
+//      ext.enableCrashlytics = false
     }
 
     named("release").configure {
@@ -94,6 +94,7 @@ android {
 
   packagingOptions {
     exclude("META-INF/main.kotlin_module")
+    exclude("META-INF/atomicfu.kotlin_module")
   }
   lintOptions {
     setLintConfig(file("../quality/lint-config.xml"))
@@ -104,19 +105,19 @@ android {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.1.0-alpha04")
-    implementation("com.google.android.material:material:1.1.0-alpha04")
-    implementation("androidx.appcompat:appcompat:1.1.0-alpha02")
-    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha02")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
+    implementation("androidx.core:core-ktx:1.1.0-alpha05")
+    implementation("com.google.android.material:material:1.1.0-alpha05")
+    implementation("androidx.appcompat:appcompat:1.1.0-alpha04")
+    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha04")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
     implementation("com.google.android.gms:play-services-maps:16.1.0")
-    implementation("androidx.room:room-coroutines:${Deps.arch_room}")
+    implementation("androidx.room:room-ktx:${Deps.arch_room}")
     implementation("androidx.room:room-runtime:${Deps.arch_room}")
     kapt("androidx.room:room-compiler:${Deps.arch_room}")
-    implementation("androidx.work:work-runtime-ktx:2.0.0-rc01")
+    implementation("androidx.work:work-runtime-ktx:2.0.1")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")
@@ -134,9 +135,9 @@ android {
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
 
-    implementation("com.google.firebase:firebase-analytics:16.3.0")
-    implementation("com.google.firebase:firebase-core:16.0.7")
-    implementation("com.google.firebase:firebase-perf:16.2.3")
+    implementation("com.google.firebase:firebase-analytics:16.4.0")
+    implementation("com.google.firebase:firebase-core:16.0.8")
+    implementation("com.google.firebase:firebase-perf:16.2.5")
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
 
     testImplementation("junit:junit:4.13-beta-2")
@@ -144,8 +145,8 @@ android {
     testImplementation("org.threeten:threetenbp:1.3.8") {
       exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
     }
-    androidTestImplementation("androidx.test:runner:1.1.2-alpha02")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0-alpha02")
+    androidTestImplementation("androidx.test:runner:1.2.0-alpha03")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0-alpha03")
   }
 }
 
@@ -155,13 +156,12 @@ kapt {
   useBuildCache = true
   arguments {
     arg("room.schemaLocation", "$projectDir/schemas")
+    arg("dagger.formatGeneratedSource", "disabled")
   }
 }
 
 androidExtensions {
-  configure(delegateClosureOf<AndroidExtensionsExtension> {
-    isExperimental = true
-  })
+  isExperimental = true
 }
 
 if (file(KeyStore.PLAY_JSON).exists()) {

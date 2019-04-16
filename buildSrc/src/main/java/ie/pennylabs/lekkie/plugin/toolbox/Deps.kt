@@ -18,23 +18,23 @@ package ie.pennylabs.lekkie.plugin.toolbox
 
 object Deps {
   // org.jetbrains.kotlin
-  const val kotlin = "1.3.21"
+  const val kotlin = "1.3.30"
 
   // org.jetbrains.kotlinx
-  const val coroutines = "1.1.1"
+  const val coroutines = "1.2.0"
 
   // com.google.dagger
-  const val dagger = "2.21"
+  const val dagger = "2.22.1"
 
   // com.squareup.okhttp3
-  const val okhttp3 = "3.13.1"
+  const val okhttp3 = "3.14.1"
 
   // com.squareup.retrofit2
   const val retrofit2 = "2.5.0"
 
   // androidx.room
-  const val arch_room = "2.1.0-alpha04"
+  const val arch_room = "2.1.0-alpha06"
 
   // androidx.lifecycle
-  const val lifecycle = "2.1.0-alpha02"
+  const val lifecycle = "2.1.0-alpha04"
 }
