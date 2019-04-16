@@ -15,14 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//package ie.pennylabs.lekkie.di
-//
-//import androidx.lifecycle.ViewModel
-//import dagger.MapKey
-//import kotlin.reflect.KClass
-//
-//@MapKey
-//@Target(AnnotationTarget.FUNCTION)
-//annotation class ViewModelKey(
-//  val value: KClass<out ViewModel>
-//)
+package ie.pennylabs.lekkie.di;
+
+import androidx.lifecycle.ViewModel;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import dagger.MapKey;
+
+/**
+ * https://youtrack.jetbrains.com/issue/KT-30979
+ */
+@MapKey
+@Documented
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ViewModelKey {
+    Class<? extends ViewModel> value();
+}
