@@ -161,6 +161,8 @@ kapt {
   useBuildCache = true
   arguments {
     arg("room.schemaLocation", "$projectDir/schemas")
+    arg("dagger.formatGeneratedSource", "disabled")
+    arg("dagger.gradle.incremental", "true")
   }
 }
 
