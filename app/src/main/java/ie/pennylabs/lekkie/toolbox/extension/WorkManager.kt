@@ -22,7 +22,7 @@ import androidx.lifecycle.Transformations
 import androidx.work.WorkManager
 
 fun WorkManager.intervalOfUniqueWork(tag: String): LiveData<Long> {
-  val sourceLiveData = WorkManager.getInstance().getWorkInfosByTagLiveData(tag)
+  val sourceLiveData = getWorkInfosByTagLiveData(tag)
   return Transformations.map(sourceLiveData) {
     require(it.size <= 1) { "More than one unique work found with this tag '$tag'" }
     it.firstOrNull()

@@ -84,7 +84,7 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, View.OnCli
     val interval = if (seekBar.progress < SYNC_INTERVAL_MIN) 1
     else seekBar.progress
 
-    ApiWorker.updateRepeatInterval(interval.toLong(), TimeUnit.HOURS)
+    ApiWorker.updateRepeatInterval(requireContext(), interval.toLong(), TimeUnit.HOURS)
     tvSyncMins.text = getString(R.string.sync_hours, seekBar.progress)
   }
 
@@ -114,14 +114,14 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, View.OnCli
       switchSync.visibility = View.INVISIBLE
 
       sbInterval.max = SYNC_INTERVAL_MAX
-      WorkManager.getInstance().intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
+      WorkManager.getInstance(requireContext()).intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
         val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
         sbInterval.progress = hours.toInt()
         tvSyncMins.text = getString(R.string.sync_hours, hours)
       })
 
     } else {
-      WorkManager.getInstance().cancelAllWork()
+      WorkManager.getInstance(requireContext()).cancelAllWork()
 
       tvSyncInterval.setOnClickListener(null)
       tvSyncInterval.setOnLongClickListener(null)

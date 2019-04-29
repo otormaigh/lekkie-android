@@ -87,23 +87,23 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
   companion object {
     const val RECURRING_TAG = "recurring_request"
 
-    fun oneTimeRequest(): LiveData<WorkInfo> {
+    fun oneTimeRequest(context: Context): LiveData<WorkInfo> {
       val workRequest = OneTimeWorkRequestBuilder<ApiWorker>().build()
-      WorkManager.getInstance().enqueue(workRequest)
-      return WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
+      WorkManager.getInstance(context).enqueue(workRequest)
+      return WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.id)
     }
 
-    fun recurringRequest() {
-      _recurringRequest(ExistingPeriodicWorkPolicy.KEEP, 1, TimeUnit.HOURS)
+    fun recurringRequest(context: Context) {
+      _recurringRequest(context, ExistingPeriodicWorkPolicy.KEEP, 1, TimeUnit.HOURS)
     }
 
-    fun updateRepeatInterval(repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
-      _recurringRequest(ExistingPeriodicWorkPolicy.REPLACE, repeatInterval, repeatIntervalTimeUnit)
+    fun updateRepeatInterval(context: Context, repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
+      _recurringRequest(context, ExistingPeriodicWorkPolicy.REPLACE, repeatInterval, repeatIntervalTimeUnit)
     }
 
     @Suppress("detekt.FunctionNaming")
-    private fun _recurringRequest(workPolicy: ExistingPeriodicWorkPolicy, repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
-      WorkManager.getInstance().enqueueUniquePeriodicWork(
+    private fun _recurringRequest(context: Context, workPolicy: ExistingPeriodicWorkPolicy, repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
+      WorkManager.getInstance(context).enqueueUniquePeriodicWork(
         "unique_recurring_worker",
         workPolicy,
         PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval, repeatIntervalTimeUnit)

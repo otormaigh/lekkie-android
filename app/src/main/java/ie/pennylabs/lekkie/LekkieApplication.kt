@@ -81,7 +81,7 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
       .setWorkerFactory(lekkieWorkerFactory)
       .build())
 
-    if (BuildConfig.DEBUG) ApiWorker.oneTimeRequest()
-    else ApiWorker.recurringRequest()
+    if (BuildConfig.DEBUG) ApiWorker.oneTimeRequest(this)
+    else ApiWorker.recurringRequest(this)
   }
 }

@@ -140,7 +140,7 @@ class OutageListFragment : BaseFragment(), TextWatcher, SwipeRefreshLayout.OnRef
   }
 
   override fun onRefresh() {
-    ApiWorker.oneTimeRequest().observe(this, Observer { workInfo ->
+    ApiWorker.oneTimeRequest(requireContext()).observe(this, Observer { workInfo ->
       swipeRefresh.isRefreshing = !workInfo.state.isFinished
     })
 
