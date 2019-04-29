@@ -15,25 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie
+package ie.pennylabs.lekkie.data.room
 
-import androidx.test.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import androidx.room.TypeConverter
+import com.squareup.moshi.Moshi
+import ie.pennylabs.lekkie.data.model.Point
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
-  @Test
-  fun useAppContext() {
-    // Context of the app under test.
-    val appContext = InstrumentationRegistry.getTargetContext()
-    assertEquals("ie.pennylabs.lekkie", appContext.packageName)
-  }
+object PointTypeConverter {
+  private val adapter = Moshi.Builder().build().adapter<Point>(Point::class.java)
+
+  @TypeConverter
+  @JvmStatic
+  fun fromJson(json: String): Point = adapter.fromJson(json)!!
+
+  @TypeConverter
+  @JvmStatic
+  fun toJson(data: Point): String = adapter.toJson(data)
 }

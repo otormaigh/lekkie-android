@@ -25,3 +25,12 @@ allprojects {
 }
 
 apply<ie.pennylabs.lekkie.plugin.LekkiePlugin>()
+
+task<Delete>("clean") {
+  delete = setOf(rootProject.buildDir)
+}
+
+tasks.withType(Wrapper::class.java) {
+  gradleVersion = "5.4.1"
+  distributionType = Wrapper.DistributionType.ALL
+}

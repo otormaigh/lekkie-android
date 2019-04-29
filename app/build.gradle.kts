@@ -41,20 +41,11 @@ android {
     versionCode = BuildConst.Version.code
     versionName = BuildConst.Version.name
     the<BasePluginConvention>().archivesBaseName = "lekkie-$versionName"
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     buildConfigField("String", "BASE_URL", project.properties["base_url"] as String)
-
-    javaCompileOptions {
-      annotationProcessorOptions {
-        arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
-      }
-    }
   }
 
-//  kotlinOptions {
-//    jvmTarget = "1.8"
-//  }
+//  kotlinOptions.jvmTarget = "1.8"
 
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -106,6 +97,8 @@ android {
   }
 
   dependencies {
+    implementation(project(":lib-data"))
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Deps.kotlin}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
@@ -119,9 +112,6 @@ android {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
     implementation("com.google.android.gms:play-services-maps:16.1.0")
-    implementation("androidx.room:room-ktx:${Deps.arch_room}")
-    implementation("androidx.room:room-runtime:${Deps.arch_room}")
-    kapt("androidx.room:room-compiler:${Deps.arch_room}")
     implementation("androidx.work:work-runtime-ktx:2.1.0-alpha01")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
@@ -138,20 +128,11 @@ android {
     debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
 
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
 
     implementation("com.google.firebase:firebase-analytics:16.4.0")
     implementation("com.google.firebase:firebase-core:16.0.8")
     implementation("com.google.firebase:firebase-perf:16.2.5")
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
-
-    testImplementation("junit:junit:4.13-beta-2")
-    testImplementation("com.squareup.assertj:assertj-android:1.2.0")
-    testImplementation("org.threeten:threetenbp:1.3.8") {
-      exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
-    }
-    androidTestImplementation("androidx.test:runner:1.2.0-alpha04")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0-alpha04")
   }
 }
 

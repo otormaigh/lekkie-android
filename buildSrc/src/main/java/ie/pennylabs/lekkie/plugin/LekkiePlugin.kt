@@ -31,15 +31,5 @@ class LekkiePlugin : Plugin<Project> {
     target.tasks.register("generateChangelog", GenerateChangelogTask::class.java)
     target.tasks.register("prepareNextRelease", PrepareNextReleaseTask::class.java)
     target.tasks.register("detekt", DetektTask::class.java)
-
-
-    target.task<Delete>("clean") {
-      delete = setOf(target.rootProject.buildDir)
-    }
-
-    target.tasks.withType(Wrapper::class.java) {
-      gradleVersion = "5.4.1"
-      distributionType = Wrapper.DistributionType.ALL
-    }
   }
 }
