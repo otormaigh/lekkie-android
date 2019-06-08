@@ -1,47 +1,54 @@
-version: 2
+version: 2.1
 
-cache_key: &cache_key
-  key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "buildSrc/src/main/java/ie/pennylabs/lekkie/plugin/toolbox/Deps.kt" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+config: &config
+  working_directory: ~/lekkie
+  docker:
+    - image: circleci/android:api-28-alpha
+  parallelism: 1
+  environment:
+    TERM: dumb
+
+aliases:
+  - &restore_gradle_cache
+    key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}-{{ checksum "lib-data/build.gradle.kts" }}
+  - &save_gradle_cache
+    key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}-{{ checksum "lib-data/build.gradle.kts" }}
+    paths:
+      - ~/.gradle/caches
+      - ~/.gradle/wrapper
 
 jobs:
-  check:
-    working_directory: ~/lekkie
-    docker:
-      - image: circleci/android:api-28-alpha
-    parallelism: 4
-    environment:
-      TERM: dumb
-
+  checkout_code:
+    <<: *config
     steps:
       - checkout
-      - restore_cache:
-          <<: *cache_key
+      - restore_cache: *restore_gradle_cache
+      - run: yes | sdkmanager --licenses || exit 0
+      - run: yes | sdkmanager --update || exit 0
+      - run:
+          name: Install dependencies
+          command: ./gradlew dependencies
+      - save_cache: *save_gradle_cache
 
+  check:
+    <<: *config
+    steps:
+      - checkout
+      - restore_cache: *restore_gradle_cache
       - run:
           name: Check
           command: ./gradlew check test
       - store_artifacts:
           path: app/build/reports/
-
-      - save_cache:
-          <<: *cache_key
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
+      - store_artifacts:
+          path: lib-data/build/reports/
+      - save_cache: *save_gradle_cache
 
   deploy:
-    working_directory: ~/lekkie
-    docker:
-      - image: circleci/android:api-28-alpha
-    parallelism: 4
-    environment:
-      TERM: dumb
-
+    <<: *config
     steps:
       - checkout
-      - restore_cache:
-          <<: *cache_key
-
+      - restore_cache: *restore_gradle_cache
       - run:
           name: Generate changelog
           command: ./gradlew generateChangelog
@@ -59,7 +66,10 @@ workflows:
   version: 2
   check_deploy:
     jobs:
+      - checkout_code
       - check:
+         requires:
+           - checkout_code
          filters:
            branches:
              only:
