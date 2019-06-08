@@ -15,21 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.moshi
+package ie.pennylabs.lekkie.lib.data.room
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import androidx.room.TypeConverter
+import com.squareup.moshi.Moshi
+import ie.pennylabs.lekkie.lib.data.model.Point
 
-class EpochAdapterTest {
-  @Test
-  fun testDateFromJson() {
-    assertThat(EpochAdapter().fromJson("14/06/2018 14:00"))
-      .isEqualTo(1528981200)
-  }
+object PointTypeConverter {
+  private val adapter = Moshi.Builder().build().adapter<Point>(Point::class.java)
 
-  @Test
-  fun testDateToJson() {
-    assertThat(EpochAdapter().toJson(1528981200))
-      .isEqualTo("14/06/2018 14:00")
-  }
+  @TypeConverter
+  @JvmStatic
+  fun fromJson(json: String): Point = adapter.fromJson(json)!!
+
+  @TypeConverter
+  @JvmStatic
+  fun toJson(data: Point): String = adapter.toJson(data)
 }

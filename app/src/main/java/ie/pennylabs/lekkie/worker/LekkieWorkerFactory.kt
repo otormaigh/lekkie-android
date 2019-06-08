@@ -23,7 +23,7 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import ie.pennylabs.lekkie.api.ApiService
-import ie.pennylabs.lekkie.data.room.LekkieDatabase
+import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
 import javax.inject.Inject
 
 class LekkieWorkerFactory

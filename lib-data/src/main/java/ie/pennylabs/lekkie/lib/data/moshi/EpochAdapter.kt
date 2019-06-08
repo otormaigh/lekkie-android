@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.moshi
+package ie.pennylabs.lekkie.lib.data.moshi
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonQualifier

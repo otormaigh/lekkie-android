@@ -28,7 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.work.WorkManager
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.arch.BaseFragment
-import ie.pennylabs.lekkie.data.room.LekkieDatabase
+import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
 import ie.pennylabs.lekkie.toolbox.extension.intervalOfUniqueWork
 import ie.pennylabs.lekkie.toolbox.extension.isPermissiontGranted

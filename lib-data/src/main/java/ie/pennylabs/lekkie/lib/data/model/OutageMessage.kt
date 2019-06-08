@@ -15,20 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.room
+package ie.pennylabs.lekkie.lib.data.model
 
-import androidx.room.TypeConverter
-import com.squareup.moshi.Moshi
-import ie.pennylabs.lekkie.data.model.Point
-
-object PointTypeConverter {
-  private val adapter = Moshi.Builder().build().adapter<Point>(Point::class.java)
-
-  @TypeConverter
-  @JvmStatic
-  fun fromJson(json: String): Point = adapter.fromJson(json)!!
-
-  @TypeConverter
-  @JvmStatic
-  fun toJson(data: Point): String = adapter.toJson(data)
-}
+data class OutageMessage(
+  val outageMessage: List<OutageConcise>)

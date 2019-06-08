@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ie.pennylabs.lekkie.R
-import ie.pennylabs.lekkie.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.Outage
 import ie.pennylabs.lekkie.toolbox.extension.formatTimestamp
 import ie.pennylabs.lekkie.toolbox.extension.getString
 import kotlinx.android.extensions.LayoutContainer

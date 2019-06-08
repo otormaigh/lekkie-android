@@ -19,8 +19,8 @@ package ie.pennylabs.lekkie.feature.map
 
 import androidx.lifecycle.LiveData
 import ie.pennylabs.lekkie.arch.BaseViewModel
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.lib.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
 import javax.inject.Inject
 
 class OutageMapViewModel

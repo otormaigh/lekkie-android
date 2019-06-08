@@ -15,12 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.model
+package ie.pennylabs.lekkie.lib.data.room
 
-data class Point(
-  private val coordinates: String) {
-  val longitude: Double
-    get() = coordinates.split(",")[1].toDouble()
-  val latitude: Double
-    get() = coordinates.split(",")[0].toDouble()
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import ie.pennylabs.lekkie.lib.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
+
+@Database(entities = [Outage::class], version = 1)
+@TypeConverters(PointTypeConverter::class)
+abstract class LekkieDatabase : RoomDatabase() {
+  abstract fun outageDao(): OutageDao
+
+  companion object {
+    const val NAME = "lekkie.db"
+  }
 }

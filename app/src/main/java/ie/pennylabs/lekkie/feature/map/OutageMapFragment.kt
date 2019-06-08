@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import dagger.android.support.AndroidSupportInjection
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.arch.BaseFragment
-import ie.pennylabs.lekkie.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.Outage
 import ie.pennylabs.lekkie.toolbox.LazyViewModel
 import kotlinx.android.synthetic.main.controller_outage_map.view.*
 

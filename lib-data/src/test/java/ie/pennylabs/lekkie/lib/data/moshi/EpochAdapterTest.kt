@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.room
+package ie.pennylabs.lekkie.lib.data.moshi
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageDao
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
 
-@Database(entities = [Outage::class], version = 1)
-@TypeConverters(PointTypeConverter::class)
-abstract class LekkieDatabase : RoomDatabase() {
-  abstract fun outageDao(): OutageDao
+class EpochAdapterTest {
+  @Test
+  fun testDateFromJson() {
+    assertThat(EpochAdapter().fromJson("14/06/2018 14:00"))
+      .isEqualTo(1528981200)
+  }
 
-  companion object {
-    const val NAME = "lekkie.db"
+  @Test
+  fun testDateToJson() {
+    assertThat(EpochAdapter().toJson(1528981200))
+      .isEqualTo("14/06/2018 14:00")
   }
 }

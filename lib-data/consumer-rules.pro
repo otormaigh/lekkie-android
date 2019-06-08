@@ -1,5 +1,5 @@
 # local
--keep class ie.pennylabs.lekkie.data.model.** { *; }
+-keep class ie.pennylabs.lekkie.lib.data.model.** { *; }
 
 # https://github.com/square/moshi
 -dontwarn javax.annotation.**

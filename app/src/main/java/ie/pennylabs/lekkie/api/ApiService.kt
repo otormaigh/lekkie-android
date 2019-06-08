@@ -17,8 +17,8 @@
 
 package ie.pennylabs.lekkie.api
 
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageMessage
+import ie.pennylabs.lekkie.lib.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.OutageMessage
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

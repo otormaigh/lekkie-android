@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.model
+package ie.pennylabs.lekkie.lib.data.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
@@ -27,12 +27,12 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Transaction
 import com.squareup.moshi.Json
-import ie.pennylabs.lekkie.data.model.Outage.Key.COUNTY
-import ie.pennylabs.lekkie.data.model.Outage.Key.ID
-import ie.pennylabs.lekkie.data.model.Outage.Key.LOCATION
-import ie.pennylabs.lekkie.data.model.Outage.Key.START_TIME
-import ie.pennylabs.lekkie.data.model.Outage.Key.TABLE_NAME
-import ie.pennylabs.lekkie.data.moshi.EpochTime
+import ie.pennylabs.lekkie.lib.data.model.Outage.Key.COUNTY
+import ie.pennylabs.lekkie.lib.data.model.Outage.Key.ID
+import ie.pennylabs.lekkie.lib.data.model.Outage.Key.LOCATION
+import ie.pennylabs.lekkie.lib.data.model.Outage.Key.START_TIME
+import ie.pennylabs.lekkie.lib.data.model.Outage.Key.TABLE_NAME
+import ie.pennylabs.lekkie.lib.data.moshi.EpochTime
 
 @Entity(tableName = Outage.Key.TABLE_NAME)
 data class Outage(

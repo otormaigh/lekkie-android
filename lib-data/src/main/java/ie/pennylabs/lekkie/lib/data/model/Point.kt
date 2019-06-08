@@ -15,29 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.di
+package ie.pennylabs.lekkie.lib.data.model
 
-import android.app.Application
-import android.location.Geocoder
-import com.squareup.moshi.Moshi
-import dagger.BindsInstance
-import dagger.Component
-import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.data.room.LekkieDatabase
-
-@Component(modules = [
-  DataModule::class])
-interface DataComponent {
-  @Component.Builder
-  interface Builder {
-    @BindsInstance
-    fun application(application: Application): Builder
-
-    fun build(): DataComponent
-  }
-
-  fun lekkieDatabase(): LekkieDatabase
-  fun geocoder(): Geocoder
-  fun outageDao(): OutageDao
-  fun moshi(): Moshi
+data class Point(
+  private val coordinates: String) {
+  val longitude: Double
+    get() = coordinates.split(",")[1].toDouble()
+  val latitude: Double
+    get() = coordinates.split(",")[0].toDouble()
 }

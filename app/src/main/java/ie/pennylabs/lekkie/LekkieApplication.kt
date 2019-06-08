@@ -29,7 +29,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
-import ie.pennylabs.lekkie.data.di.DaggerDataComponent
+import ie.pennylabs.lekkie.lib.data.di.DaggerDataComponent
 import ie.pennylabs.lekkie.di.DaggerAppComponent
 import ie.pennylabs.lekkie.worker.ApiWorker
 import ie.pennylabs.lekkie.worker.LekkieWorkerFactory

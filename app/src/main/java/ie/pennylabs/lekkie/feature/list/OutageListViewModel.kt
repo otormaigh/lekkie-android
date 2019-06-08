@@ -21,8 +21,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import ie.pennylabs.lekkie.arch.BaseViewModel
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.lib.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
 import javax.inject.Inject
 
 class OutageListViewModel

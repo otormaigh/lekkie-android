@@ -23,7 +23,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import ie.pennylabs.lekkie.LekkieApplication
-import ie.pennylabs.lekkie.data.di.DataComponent
+import ie.pennylabs.lekkie.lib.data.di.DataComponent
 import javax.inject.Singleton
 
 @Singleton

@@ -29,8 +29,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ie.pennylabs.lekkie.api.ApiService
-import ie.pennylabs.lekkie.data.model.Outage
-import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.lib.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
 import ie.pennylabs.lekkie.toolbox.Firebase
 import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
 import ru.gildor.coroutines.retrofit.awaitResult

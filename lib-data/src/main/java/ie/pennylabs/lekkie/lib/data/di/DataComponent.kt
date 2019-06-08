@@ -15,7 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.model
+package ie.pennylabs.lekkie.lib.data.di
 
-data class OutageMessage(
-  val outageMessage: List<OutageConcise>)
+import android.app.Application
+import android.location.Geocoder
+import com.squareup.moshi.Moshi
+import dagger.BindsInstance
+import dagger.Component
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
+import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
+
+@Component(modules = [
+  DataModule::class])
+interface DataComponent {
+  @Component.Builder
+  interface Builder {
+    @BindsInstance
+    fun application(application: Application): Builder
+
+    fun build(): DataComponent
+  }
+
+  fun lekkieDatabase(): LekkieDatabase
+  fun geocoder(): Geocoder
+  fun outageDao(): OutageDao
+  fun moshi(): Moshi
+}

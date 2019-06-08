@@ -17,7 +17,7 @@
 
 package ie.pennylabs.lekkie.toolbox.extension
 
-import ie.pennylabs.lekkie.data.model.Outage
+import ie.pennylabs.lekkie.lib.data.model.Outage
 
 private const val OUTAGE_TIMEOUT = 60 * 60 * 1000
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.data.di
+package ie.pennylabs.lekkie.lib.data.di
 
 import android.app.Application
 import android.location.Geocoder
@@ -23,11 +23,10 @@ import androidx.room.Room
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import ie.pennylabs.lekkie.data.model.OutageDao
-import ie.pennylabs.lekkie.data.moshi.EpochAdapter
-import ie.pennylabs.lekkie.data.room.LekkieDatabase
+import ie.pennylabs.lekkie.lib.data.model.OutageDao
+import ie.pennylabs.lekkie.lib.data.moshi.EpochAdapter
+import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
 import java.util.*
-import javax.inject.Singleton
 
 @Module
 object DataModule {
