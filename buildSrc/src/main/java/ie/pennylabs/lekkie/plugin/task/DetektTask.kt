@@ -24,12 +24,11 @@ open class DetektTask : JavaExec() {
     main = "io.gitlab.arturbosch.detekt.cli.Main"
     classpath = project.configurations.getByName("detekt")
 
-    val input = "${project.rootDir}/app"
+    val input = "${project.rootDir}"
     val config = "${project.rootDir}/buildSrc/detekt.yml"
-    val filters = ".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
+    val excludes = "*/build/*,.*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
     val report = "html:${project.rootDir}/app/build/reports/detekt/detekt.html"
-    val params = listOf("-i", input, "-c", config, "-f", filters, "-r", report)
-    args(params)
+    args(listOf("-i", input, "-c", config, "-ex", excludes, "-r", report))
 
     project.dependencies.add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0-RC15")
   }
