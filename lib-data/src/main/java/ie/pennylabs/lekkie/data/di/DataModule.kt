@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.di
+package ie.pennylabs.lekkie.data.di
 
+import android.app.Application
 import android.location.Geocoder
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import ie.pennylabs.lekkie.LekkieApplication
 import ie.pennylabs.lekkie.data.model.OutageDao
 import ie.pennylabs.lekkie.data.moshi.EpochAdapter
 import ie.pennylabs.lekkie.data.room.LekkieDatabase
@@ -32,7 +32,6 @@ import javax.inject.Singleton
 @Module
 object DataModule {
   @Provides
-  @Singleton
   @JvmStatic
   fun provideMoshi(): Moshi =
     Moshi.Builder()
@@ -40,9 +39,8 @@ object DataModule {
       .build()
 
   @Provides
-  @Singleton
   @JvmStatic
-  fun provideDatabase(context: LekkieApplication): LekkieDatabase =
+  fun provideDatabase(context: Application): LekkieDatabase =
     Room.databaseBuilder(context.applicationContext, LekkieDatabase::class.java, LekkieDatabase.NAME)
       .fallbackToDestructiveMigration()
       .build()
@@ -53,5 +51,5 @@ object DataModule {
 
   @Provides
   @JvmStatic
-  fun provideGeocoder(application: LekkieApplication): Geocoder = Geocoder(application, Locale.getDefault())
+  fun provideGeocoder(application: Application): Geocoder = Geocoder(application, Locale.getDefault())
 }

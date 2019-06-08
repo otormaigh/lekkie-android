@@ -25,12 +25,14 @@ plugins {
 }
 
 android {
-  compileSdkVersion(28)
+  compileSdkVersion(29)
+
   defaultConfig {
     minSdkVersion(21)
-    targetSdkVersion(28)
+    targetSdkVersion(29)
     versionCode = BuildConst.Version.code
     versionName = BuildConst.Version.name
+    consumerProguardFiles("consumer-rules.pro")
 
     javaCompileOptions {
       annotationProcessorOptions {
@@ -45,24 +47,27 @@ android {
   }
 
   buildTypes {
-    named("debug").configure {}
-    named("release").configure {}
+    named("debug")
+    named("release")
   }
 }
 
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Deps.kotlin}")
-  implementation("androidx.room:room-ktx:${Deps.arch_room}")
-  implementation("androidx.room:room-runtime:${Deps.arch_room}")
-  kapt("androidx.room:room-compiler:${Deps.arch_room}")
+  implementation("androidx.room:room-ktx:${Deps.room}")
+  implementation("androidx.room:room-runtime:${Deps.room}")
+  kapt("androidx.room:room-compiler:${Deps.room}")
   implementation("androidx.lifecycle:lifecycle-livedata:${Deps.lifecycle}")
 
   implementation("com.squareup.moshi:moshi:1.9.0-SNAPSHOT")
-  implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
+  implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
-  testImplementation("junit:junit:4.13-beta-2")
+  implementation("com.google.dagger:dagger:${Deps.dagger}")
+  kapt("com.google.dagger:dagger-compiler:${Deps.dagger}")
+
+  testImplementation("junit:junit:4.13-beta-3")
   testImplementation("com.squareup.assertj:assertj-android:1.2.0")
-  testImplementation("org.threeten:threetenbp:1.3.8") {
+  testImplementation("org.threeten:threetenbp:1.4.0") {
     exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
   }
 }

@@ -31,6 +31,6 @@ open class DetektTask : JavaExec() {
     val params = listOf("-i", input, "-c", config, "-f", filters, "-r", report)
     args(params)
 
-    project.dependencies.add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0-RC14")
+    project.dependencies.add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0-RC15")
   }
 }

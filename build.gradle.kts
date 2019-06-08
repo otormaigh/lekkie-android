@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
   repositories {
     google()
@@ -7,12 +10,12 @@ buildscript {
     maven("https://maven.fabric.io/public")
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:3.5.0-alpha13")
+    classpath("com.android.tools.build:gradle:3.6.0-alpha03")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ie.pennylabs.lekkie.plugin.toolbox.Deps.kotlin}")
-    classpath("com.github.triplet.gradle:play-publisher:2.2.0")
+    classpath("com.github.triplet.gradle:play-publisher:2.2.1")
     classpath("com.google.gms:google-services:4.2.0")
-    classpath("com.google.firebase:firebase-plugins:1.2.0")
-    classpath("io.fabric.tools:gradle:1.28.1")
+    classpath("com.google.firebase:perf-plugin:1.2.1")
+    classpath("io.fabric.tools:gradle:1.29.0")
   }
 }
 allprojects {
@@ -21,6 +24,21 @@ allprojects {
     jcenter()
 
     maven("https://oss.sonatype.org/content/repositories/snapshots")
+  }
+
+  afterEvaluate {
+    (project.extensions.findByName("kapt") as? KaptExtension)?.apply {
+      arguments {
+        arg("dagger.gradle.incremental", "enabled")
+      }
+      useBuildCache = true
+    }
+  }
+
+  tasks.withType<KotlinCompile> {
+    kotlinOptions {
+      jvmTarget = "1.8"
+    }
   }
 }
 

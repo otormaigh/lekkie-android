@@ -29,6 +29,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
+import ie.pennylabs.lekkie.data.di.DaggerDataComponent
 import ie.pennylabs.lekkie.di.DaggerAppComponent
 import ie.pennylabs.lekkie.worker.ApiWorker
 import ie.pennylabs.lekkie.worker.LekkieWorkerFactory
@@ -63,8 +64,13 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
       .disabled(BuildConfig.DEBUG)
       .build())
 
+    val dataComponent = DaggerDataComponent.builder()
+      .application(this)
+      .build()
+
     DaggerAppComponent.builder()
       .application(this)
+      .dataComponent(dataComponent)
       .build()
       .inject(this)
 

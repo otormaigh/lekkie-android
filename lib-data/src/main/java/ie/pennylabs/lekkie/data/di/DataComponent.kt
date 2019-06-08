@@ -15,39 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.di
+package ie.pennylabs.lekkie.data.di
 
 import android.app.Application
+import android.location.Geocoder
+import com.squareup.moshi.Moshi
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.support.AndroidSupportInjectionModule
-import ie.pennylabs.lekkie.LekkieApplication
-import ie.pennylabs.lekkie.data.di.DataComponent
-import javax.inject.Singleton
+import ie.pennylabs.lekkie.data.model.OutageDao
+import ie.pennylabs.lekkie.data.room.LekkieDatabase
 
-@Singleton
-@Component(
-  dependencies = [
-    DataComponent::class
-  ],
-  modules = [
-    AndroidInjectionModule::class,
-    AndroidSupportInjectionModule::class,
-    ActivityBuilder::class,
-    ApiModule::class,
-    FragmentBuilder::class,
-    ViewModelModule::class])
-interface AppComponent {
+@Component(modules = [
+  DataModule::class])
+interface DataComponent {
   @Component.Builder
   interface Builder {
     @BindsInstance
     fun application(application: Application): Builder
 
-    fun dataComponent(dataComponent: DataComponent): Builder
-
-    fun build(): AppComponent
+    fun build(): DataComponent
   }
 
-  fun inject(application: LekkieApplication)
+  fun lekkieDatabase(): LekkieDatabase
+  fun geocoder(): Geocoder
+  fun outageDao(): OutageDao
+  fun moshi(): Moshi
 }

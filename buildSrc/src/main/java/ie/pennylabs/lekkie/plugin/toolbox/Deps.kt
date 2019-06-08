@@ -21,20 +21,20 @@ object Deps {
   const val kotlin = "1.3.31"
 
   // org.jetbrains.kotlinx
-  const val coroutines = "1.2.1"
+  const val coroutines = "1.3.0-M1"
 
   // com.google.dagger
-  const val dagger = "2.22.1"
+  const val dagger = "2.23.1"
 
   // com.squareup.okhttp3
   const val okhttp3 = "3.14.1"
 
   // com.squareup.retrofit2
-  const val retrofit2 = "2.5.0"
+  const val retrofit2 = "2.6.0"
 
   // androidx.room
-  const val arch_room = "2.1.0-alpha07"
+  const val room = "2.1.0-rc01"
 
   // androidx.lifecycle
-  const val lifecycle = "2.1.0-alpha04"
+  const val lifecycle = "2.2.0-alpha01"
 }

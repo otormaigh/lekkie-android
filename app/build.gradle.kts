@@ -33,19 +33,18 @@ if (file("../enc.properties").exists()) {
 }
 
 android {
-  compileSdkVersion(28)
+  compileSdkVersion(29)
+
   defaultConfig {
     applicationId = "ie.pennylabs.lekkie"
     minSdkVersion(21)
-    targetSdkVersion(28)
+    targetSdkVersion(29)
     versionCode = BuildConst.Version.code
     versionName = BuildConst.Version.name
     the<BasePluginConvention>().archivesBaseName = "lekkie-$versionName"
 
     buildConfigField("String", "BASE_URL", project.properties["base_url"] as String)
   }
-
-//  kotlinOptions.jvmTarget = "1.8"
 
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -69,6 +68,7 @@ android {
 
   buildTypes {
     named("debug").configure {
+      extra["enableCrashlytics"] = false
       signingConfig = signingConfigs.getByName("debug")
       applicationIdSuffix = ".debug"
       manifestPlaceholders = mapOf("google_maps_key" to project.properties["debug_map_key"])
@@ -79,7 +79,7 @@ android {
       manifestPlaceholders = mapOf("google_maps_key" to project.properties["release_map_key"])
 
       postprocessing.apply {
-        proguardFiles("proguard-rules.pro")
+        proguardFiles("consumer-rules.pro")
         isRemoveUnusedResources = false
         isRemoveUnusedCode = true
         isOptimizeCode = true
@@ -103,16 +103,16 @@ android {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.1.0-alpha05")
-    implementation("com.google.android.material:material:1.1.0-alpha05")
-    implementation("androidx.appcompat:appcompat:1.1.0-alpha04")
-    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha04")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha5")
+    implementation("androidx.core:core-ktx:1.2.0-alpha01")
+    implementation("com.google.android.material:material:1.1.0-alpha07")
+    implementation("androidx.appcompat:appcompat:1.1.0-beta01")
+    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha06")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
     implementation("com.google.android.gms:play-services-maps:16.1.0")
-    implementation("androidx.work:work-runtime-ktx:2.1.0-alpha01")
+    implementation("androidx.work:work-runtime-ktx:2.1.0-alpha03")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")
@@ -128,24 +128,16 @@ android {
     debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
 
     implementation("com.jakewharton.timber:timber:4.7.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
-    implementation("com.google.firebase:firebase-analytics:16.4.0")
-    implementation("com.google.firebase:firebase-core:16.0.8")
-    implementation("com.google.firebase:firebase-perf:16.2.5")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
+    implementation("com.google.firebase:firebase-analytics:16.5.0")
+    implementation("com.google.firebase:firebase-core:16.0.9")
+    implementation("com.google.firebase:firebase-perf:17.0.2")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
   }
 }
 
 tasks.getByName("check").dependsOn(rootProject.tasks.getByName("detekt"))
-
-kapt {
-  useBuildCache = true
-  arguments {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("dagger.formatGeneratedSource", "disabled")
-    arg("dagger.gradle.incremental", "true")
-  }
-}
 
 androidExtensions {
   isExperimental = true
