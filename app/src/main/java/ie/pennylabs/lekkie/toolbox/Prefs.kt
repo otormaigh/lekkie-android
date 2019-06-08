@@ -20,7 +20,6 @@ package ie.pennylabs.lekkie.toolbox
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import ie.pennylabs.lekkie.BuildConfig
 
 val Context.prefs: SharedPreferences
   get() = getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)

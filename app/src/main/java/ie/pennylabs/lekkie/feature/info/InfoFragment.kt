@@ -114,11 +114,12 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, View.OnCli
       switchSync.visibility = View.INVISIBLE
 
       sbInterval.max = SYNC_INTERVAL_MAX
-      WorkManager.getInstance(requireContext()).intervalOfUniqueWork(ApiWorker.RECURRING_TAG).observe(this, Observer { interval ->
-        val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
-        sbInterval.progress = hours.toInt()
-        tvSyncMins.text = getString(R.string.sync_hours, hours)
-      })
+      WorkManager.getInstance(requireContext()).intervalOfUniqueWork(ApiWorker.RECURRING_TAG)
+        .observe(this, Observer { interval ->
+          val hours = TimeUnit.HOURS.convert(interval, TimeUnit.MILLISECONDS)
+          sbInterval.progress = hours.toInt()
+          tvSyncMins.text = getString(R.string.sync_hours, hours)
+        })
 
     } else {
       WorkManager.getInstance(requireContext()).cancelAllWork()

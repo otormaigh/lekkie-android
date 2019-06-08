@@ -23,7 +23,7 @@ import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 
-fun View.hideKeyboard() : Boolean {
+fun View.hideKeyboard(): Boolean {
   val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
   return inputMethodManager.hideSoftInputFromWindow(windowToken, HIDE_NOT_ALWAYS)
 }

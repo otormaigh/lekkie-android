@@ -26,11 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.perf.FirebasePerformance
 import ie.pennylabs.lekkie.R
-import ie.pennylabs.lekkie.toolbox.enableAnalytics
-import ie.pennylabs.lekkie.toolbox.enableCrashReporting
-import ie.pennylabs.lekkie.toolbox.enablePerformance
-import ie.pennylabs.lekkie.toolbox.hasAcceptedGdpr
-import ie.pennylabs.lekkie.toolbox.prefs
+import ie.pennylabs.lekkie.toolbox.*
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.sheet_gdpr.*
 
@@ -67,9 +63,11 @@ class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
 
     FirebasePerformance.getInstance().isPerformanceCollectionEnabled = context.prefs.enablePerformance
     FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(context.prefs.enableAnalytics)
-    Fabric.with(context, CrashlyticsCore.Builder()
-      .disabled(!context.prefs.enableCrashReporting)
-      .build())
+    Fabric.with(
+      context, CrashlyticsCore.Builder()
+        .disabled(!context.prefs.enableCrashReporting)
+        .build()
+    )
   }
 
   companion object {

@@ -57,9 +57,11 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
 
     FirebaseApp.initializeApp(this)
 
-    Fabric.with(this, CrashlyticsCore.Builder()
-      .disabled(BuildConfig.DEBUG)
-      .build())
+    Fabric.with(
+      this, CrashlyticsCore.Builder()
+        .disabled(BuildConfig.DEBUG)
+        .build()
+    )
 
     val dataComponent = DaggerDataComponent.builder()
       .application(this)

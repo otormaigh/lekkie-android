@@ -27,8 +27,10 @@ import javax.inject.Singleton
 @Singleton
 class ViewModelFactory
 @Inject
-constructor(private val providers: Map<Class<out ViewModel>,
-  @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
+constructor(
+  private val providers: Map<Class<out ViewModel>,
+    @JvmSuppressWildcards Provider<ViewModel>>
+) : ViewModelProvider.Factory {
 
   override fun <T : ViewModel> create(modelClass: Class<T>): T =
     requireNotNull(getProvider(modelClass).get()) {

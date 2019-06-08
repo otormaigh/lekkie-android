@@ -33,7 +33,10 @@ class InfoViewModel : BaseViewModel() {
 
   fun exportDatabase(databaseFile: File?) {
     viewModelScope.launch {
-      val backupFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "lekkie_${System.currentTimeMillis()}.db")
+      val backupFile = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        "lekkie_${System.currentTimeMillis()}.db"
+      )
       if (databaseFile?.exists() == true) {
         FileInputStream(databaseFile).channel.use { src ->
           FileOutputStream(backupFile).channel.use { dst ->

@@ -93,14 +93,18 @@ class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
       val icUnknown = view?.context?.vectorToBitmap(R.drawable.ic_outage_unkonwn)
       outages?.forEach { outage ->
         val point = LatLng(outage.point.latitude, outage.point.longitude)
-        map.addMarker(MarkerOptions()
-          .position(point)
-          .title(outage.location)
-          .icon(when (outage.type) {
-            Outage.FAULT -> icFault
-            Outage.PLANNED -> icPlanned
-            else -> icUnknown
-          }))
+        map.addMarker(
+          MarkerOptions()
+            .position(point)
+            .title(outage.location)
+            .icon(
+              when (outage.type) {
+                Outage.FAULT -> icFault
+                Outage.PLANNED -> icPlanned
+                else -> icUnknown
+              }
+            )
+        )
       }
     })
   }
@@ -108,7 +112,8 @@ class OutageMapFragment : BaseFragment(), OnMapReadyCallback {
 
 private fun Context.vectorToBitmap(@DrawableRes id: Int, @ColorRes color: Int = R.color.colorPrimaryDark): BitmapDescriptor {
   val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
-  val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+  val bitmap =
+    Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
   val canvas = Canvas(bitmap)
   vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
   DrawableCompat.setTint(vectorDrawable, ContextCompat.getColor(this, color))

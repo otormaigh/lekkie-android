@@ -28,6 +28,8 @@ fun Long.formatTimestamp(dateFormat: String = "dd/MM/yyyy HH:mm"): String {
       .withZone(ZoneId.systemDefault())
 
   return dateFormatter
-    .format(Instant.ofEpochSecond(this)
-      .atZone(ZoneId.systemDefault()))
+    .format(
+      Instant.ofEpochSecond(this)
+        .atZone(ZoneId.systemDefault())
+    )
 }

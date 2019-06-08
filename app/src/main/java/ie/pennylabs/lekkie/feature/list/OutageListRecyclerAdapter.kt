@@ -53,11 +53,13 @@ class OutageListRecyclerAdapter : ListAdapter<Outage, OutageListRecyclerAdapter.
       tvEstimatedRestore.text = getString(R.string.est_restore, outage.estRestoreTime.formatTimestamp())
       tvStartTime.text = getString(R.string.started, outage.startTime.formatTimestamp())
 
-      ivType.setImageResource(when (outage.type) {
-        Outage.PLANNED -> R.drawable.ic_outage_planned
-        Outage.FAULT -> R.drawable.ic_outage_fault
-        else -> R.drawable.ic_outage_unkonwn
-      })
+      ivType.setImageResource(
+        when (outage.type) {
+          Outage.PLANNED -> R.drawable.ic_outage_planned
+          Outage.FAULT -> R.drawable.ic_outage_fault
+          else -> R.drawable.ic_outage_unkonwn
+        }
+      )
     }
   }
 }

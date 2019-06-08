@@ -24,7 +24,8 @@ import androidx.lifecycle.ViewModelProvider
 @Suppress("UNCHECKED_CAST")
 inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
   mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-  crossinline provider: () -> VM) = lazy(mode) {
+  crossinline provider: () -> VM
+) = lazy(mode) {
 
   val factory = object : ViewModelProvider.Factory {
     override fun <M : ViewModel> create(klass: Class<M>) = provider() as M
