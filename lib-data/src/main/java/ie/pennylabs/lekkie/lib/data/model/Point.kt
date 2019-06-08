@@ -17,8 +17,10 @@
 
 package ie.pennylabs.lekkie.lib.data.model
 
-data class Point(
-  private val coordinates: String) {
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class Point(val coordinates: String) {
   val longitude: Double
     get() = coordinates.split(",")[1].toDouble()
   val latitude: Double

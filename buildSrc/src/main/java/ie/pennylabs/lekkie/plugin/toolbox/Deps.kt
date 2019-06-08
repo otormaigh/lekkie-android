@@ -32,6 +32,9 @@ object Deps {
   // com.squareup.retrofit2
   const val retrofit2 = "2.6.0"
 
+  // com.squareup.moshi
+  const val moshi = "1.9.0-SNAPSHOT"
+
   // androidx.room
   const val room = "2.1.0-rc01"
 

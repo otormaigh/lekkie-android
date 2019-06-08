@@ -18,15 +18,9 @@
 package ie.pennylabs.lekkie.lib.data.model
 
 import androidx.lifecycle.LiveData
-import androidx.room.ColumnInfo
-import androidx.room.Dao
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.PrimaryKey
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import ie.pennylabs.lekkie.lib.data.model.Outage.Key.COUNTY
 import ie.pennylabs.lekkie.lib.data.model.Outage.Key.ID
 import ie.pennylabs.lekkie.lib.data.model.Outage.Key.LOCATION
@@ -34,13 +28,14 @@ import ie.pennylabs.lekkie.lib.data.model.Outage.Key.START_TIME
 import ie.pennylabs.lekkie.lib.data.model.Outage.Key.TABLE_NAME
 import ie.pennylabs.lekkie.lib.data.moshi.EpochTime
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = Outage.Key.TABLE_NAME)
 data class Outage(
   @PrimaryKey
-  @field:Json(name = "outageId")
+  @Json(name = "outageId")
   @ColumnInfo(name = ID)
   val id: String,
-  @field:Json(name = "outageType")
+  @Json(name = "outageType")
   val type: String,
   @field:EpochTime
   val estRestoreTime: Long,
@@ -96,15 +91,18 @@ interface OutageDao {
   @Query("UPDATE $TABLE_NAME SET $LOCATION=:location WHERE $ID = :id")
   fun updateLocation(location: String, id: String)
 
-  @Query("""
+  @Query(
+    """
     SELECT * FROM $TABLE_NAME
     WHERE $COUNTY LIKE LOWER(:query)
     OR $LOCATION LIKE LOWER(:query)
-    ORDER BY $START_TIME DESC""")
+    ORDER BY $START_TIME DESC"""
+  )
   fun searchForCountyAndLocation(query: String): LiveData<List<Outage>>
 }
 
+@JsonClass(generateAdapter = true)
 data class OutageConcise(
-  @field:Json(name = "outageId")
+  @Json(name = "outageId")
   val id: String
 )

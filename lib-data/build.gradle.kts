@@ -66,8 +66,8 @@ dependencies {
   implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")
   implementation("com.squareup.okhttp3:okhttp:${Deps.okhttp3}")
   implementation("com.squareup.okhttp3:logging-interceptor:${Deps.okhttp3}")
-  implementation("ru.gildor.coroutines:kotlin-coroutines-retrofit:1.1.0")
-  implementation("com.squareup.moshi:moshi:1.9.0-SNAPSHOT")
+  implementation("com.squareup.moshi:moshi:${Deps.moshi}")
+  kapt("com.squareup.moshi:moshi-kotlin-codegen:${Deps.moshi}")
   debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
 
   implementation("com.jakewharton.timber:timber:4.7.1")

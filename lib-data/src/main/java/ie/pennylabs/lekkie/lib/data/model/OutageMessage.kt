@@ -17,5 +17,8 @@
 
 package ie.pennylabs.lekkie.lib.data.model
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class OutageMessage(
   val outageMessage: List<OutageConcise>)

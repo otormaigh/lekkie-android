@@ -21,18 +21,11 @@ import android.content.Context
 import android.location.Geocoder
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
+import androidx.work.*
 import ie.pennylabs.lekkie.lib.data.api.ApiService
 import ie.pennylabs.lekkie.lib.data.model.Outage
 import ie.pennylabs.lekkie.lib.data.model.OutageDao
 import ie.pennylabs.lekkie.lib.toolbox.extension.shouldRefresh
-import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -42,28 +35,22 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
   lateinit var outageDao: OutageDao
   lateinit var geocoder: Geocoder
 
-  override suspend fun doWork(): Result {
-    when (val result = api.getOutages().awaitResult()) {
-      is ru.gildor.coroutines.retrofit.Result.Ok -> result.value.outageMessage.let { outages ->
-        outageDao.insert(outages.mapNotNull { fetchDetail(it.id) })
-      }
-      else -> return Result.failure()
-    }
+  override suspend fun doWork(): Result = try {
+    val response = api.getOutages()
+    outageDao.insert(response.outageMessage.mapNotNull { fetchDetail(it.id) })
 
-    return Result.success()
+    Result.success()
+  } catch (e: Exception) {
+    Timber.e(e)
+    Result.failure()
   }
 
   private suspend fun fetchDetail(id: String): Outage? {
     val savedOutage = outageDao.fetch(id)
     if (savedOutage == null || savedOutage.shouldRefresh) {
-      val result = api.getOutage(id).awaitResult()
-      when (result) {
-        is ru.gildor.coroutines.retrofit.Result.Ok ->
-          return updateCounty(result.value.apply { delta = System.currentTimeMillis() })
-        else -> Timber.e("result -> $result")
-      }
+      val response = api.getOutage(id)
+      return updateCounty(response.apply { delta = System.currentTimeMillis() })
     }
-
     return savedOutage
   }
 
@@ -100,14 +87,20 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
     }
 
     @Suppress("detekt.FunctionNaming")
-    private fun _recurringRequest(context: Context, workPolicy: ExistingPeriodicWorkPolicy, repeatInterval: Long, repeatIntervalTimeUnit: TimeUnit) {
+    private fun _recurringRequest(
+      context: Context,
+      workPolicy: ExistingPeriodicWorkPolicy,
+      repeatInterval: Long,
+      repeatIntervalTimeUnit: TimeUnit
+    ) {
       WorkManager.getInstance(context).enqueueUniquePeriodicWork(
         "unique_recurring_worker",
         workPolicy,
         PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval, repeatIntervalTimeUnit)
           .addTag(RECURRING_TAG)
           .addTag("interval:${TimeUnit.MILLISECONDS.convert(repeatInterval, repeatIntervalTimeUnit)}")
-          .build())
+          .build()
+      )
     }
   }
 }

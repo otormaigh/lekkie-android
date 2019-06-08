@@ -26,7 +26,7 @@ open class DetektTask : JavaExec() {
 
     val input = "${project.rootDir}"
     val config = "${project.rootDir}/buildSrc/detekt.yml"
-    val excludes = "*/build/*,.*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
+    val excludes = ".*Test.*,.*AndroidTest.*,.*/resources/.*,.*/tmp/.*"
     val report = "html:${project.rootDir}/app/build/reports/detekt/detekt.html"
     args(listOf("-i", input, "-c", config, "-ex", excludes, "-r", report))
 

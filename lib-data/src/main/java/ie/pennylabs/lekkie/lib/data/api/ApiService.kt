@@ -19,20 +19,19 @@ package ie.pennylabs.lekkie.lib.data.api
 
 import ie.pennylabs.lekkie.lib.data.model.Outage
 import ie.pennylabs.lekkie.lib.data.model.OutageMessage
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
   @GET("outages/{id}/")
-  fun getOutage(
+  suspend fun getOutage(
     @Path("id") id: String,
-    @Query("_") delta: Long = System.currentTimeMillis())
-    : Call<Outage>
+    @Query("_") delta: Long = System.currentTimeMillis()
+  ): Outage
 
   @GET("outages/")
-  fun getOutages(
-    @Query("_") delta: Long = 0)
-    : Call<OutageMessage>
+  suspend fun getOutages(
+    @Query("_") delta: Long = 0
+  ): OutageMessage
 }
