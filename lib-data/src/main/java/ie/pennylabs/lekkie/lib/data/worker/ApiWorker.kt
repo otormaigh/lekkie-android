@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.worker
+package ie.pennylabs.lekkie.lib.data.worker
 
 import android.content.Context
 import android.location.Geocoder
@@ -28,11 +28,10 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.lib.data.api.ApiService
 import ie.pennylabs.lekkie.lib.data.model.Outage
 import ie.pennylabs.lekkie.lib.data.model.OutageDao
-import ie.pennylabs.lekkie.toolbox.Firebase
-import ie.pennylabs.lekkie.toolbox.extension.shouldRefresh
+import ie.pennylabs.lekkie.lib.toolbox.extension.shouldRefresh
 import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
 import java.io.IOException
@@ -46,7 +45,6 @@ class ApiWorker(context: Context, workerParams: WorkerParameters) : CoroutineWor
   override suspend fun doWork(): Result {
     when (val result = api.getOutages().awaitResult()) {
       is ru.gildor.coroutines.retrofit.Result.Ok -> result.value.outageMessage.let { outages ->
-        Firebase.Event.outageFetch(applicationContext, outages.size)
         outageDao.insert(outages.mapNotNull { fetchDetail(it.id) })
       }
       else -> return Result.failure()

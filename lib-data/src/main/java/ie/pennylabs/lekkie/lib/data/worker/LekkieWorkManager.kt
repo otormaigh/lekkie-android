@@ -15,20 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.toolbox.extension
+package ie.pennylabs.lekkie.lib.data.worker
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import android.app.Application
+import androidx.work.Configuration
 import androidx.work.WorkManager
+import ie.pennylabs.lekkie.lib.data.BuildConfig
 
-fun WorkManager.intervalOfUniqueWork(tag: String): LiveData<Long> {
-  val sourceLiveData = getWorkInfosByTagLiveData(tag)
-  return Transformations.map(sourceLiveData) {
-    require(it.size <= 1) { "More than one unique work found with this tag '$tag'" }
-    it.firstOrNull()
-      ?.tags
-      ?.firstOrNull { tag -> tag.contains("interval") }
-      ?.replace("interval:", "")
-      ?.toLong() ?: 0
+object LekkieWorkManager {
+  fun init(application: Application, lekkieWorkerFactory: LekkieWorkerFactory) {
+    WorkManager.initialize(application, Configuration.Builder()
+      .setWorkerFactory(lekkieWorkerFactory)
+      .build())
+
+    if (BuildConfig.DEBUG) ApiWorker.oneTimeRequest(application)
+    else ApiWorker.recurringRequest(application)
   }
 }

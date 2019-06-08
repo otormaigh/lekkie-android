@@ -28,16 +28,16 @@ import androidx.lifecycle.Observer
 import androidx.work.WorkManager
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.arch.BaseFragment
-import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
-import ie.pennylabs.lekkie.toolbox.extension.intervalOfUniqueWork
+import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
+import ie.pennylabs.lekkie.lib.data.worker.ApiWorker
+import ie.pennylabs.lekkie.lib.toolbox.extension.intervalOfUniqueWork
 import ie.pennylabs.lekkie.toolbox.extension.isPermissiontGranted
 import ie.pennylabs.lekkie.toolbox.extension.requireApplicationContext
 import ie.pennylabs.lekkie.toolbox.extension.toast
 import ie.pennylabs.lekkie.toolbox.extension.viewModelProvider
 import ie.pennylabs.lekkie.toolbox.prefs
 import ie.pennylabs.lekkie.toolbox.syncEnabled
-import ie.pennylabs.lekkie.worker.ApiWorker
 import kotlinx.android.synthetic.main.controller_info.*
 import java.util.concurrent.TimeUnit
 

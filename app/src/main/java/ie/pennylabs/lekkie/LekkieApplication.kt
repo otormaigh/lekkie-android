@@ -19,20 +19,18 @@ package ie.pennylabs.lekkie
 
 import android.app.Activity
 import android.app.Application
-import android.os.StrictMode
 import androidx.fragment.app.Fragment
-import androidx.work.Configuration
-import androidx.work.WorkManager
 import com.crashlytics.android.core.CrashlyticsCore
+import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
-import ie.pennylabs.lekkie.lib.data.di.DaggerDataComponent
 import ie.pennylabs.lekkie.di.DaggerAppComponent
-import ie.pennylabs.lekkie.worker.ApiWorker
-import ie.pennylabs.lekkie.worker.LekkieWorkerFactory
+import ie.pennylabs.lekkie.lib.data.di.DaggerDataComponent
+import ie.pennylabs.lekkie.lib.data.worker.LekkieWorkManager
+import ie.pennylabs.lekkie.lib.data.worker.LekkieWorkerFactory
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
@@ -55,10 +53,9 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
           return "(${element.fileName}:${element.lineNumber})"
         }
       })
-
-      // MockWebServer
-      StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
     }
+
+    FirebaseApp.initializeApp(this)
 
     Fabric.with(this, CrashlyticsCore.Builder()
       .disabled(BuildConfig.DEBUG)
@@ -76,18 +73,9 @@ class LekkieApplication : Application(), HasActivityInjector, HasSupportFragment
 
     AndroidThreeTen.init(this)
 
-    initWorkManager()
+    LekkieWorkManager.init(this, lekkieWorkerFactory)
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector
   override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
-
-  private fun initWorkManager() {
-    WorkManager.initialize(this, Configuration.Builder()
-      .setWorkerFactory(lekkieWorkerFactory)
-      .build())
-
-    if (BuildConfig.DEBUG) ApiWorker.oneTimeRequest(this)
-    else ApiWorker.recurringRequest(this)
-  }
 }

@@ -18,15 +18,16 @@
 package ie.pennylabs.lekkie.lib.data.di
 
 import android.app.Application
-import android.location.Geocoder
-import com.squareup.moshi.Moshi
 import dagger.BindsInstance
 import dagger.Component
+import ie.pennylabs.lekkie.lib.data.di.ApiModule
 import ie.pennylabs.lekkie.lib.data.model.OutageDao
 import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
+import ie.pennylabs.lekkie.lib.data.worker.LekkieWorkerFactory
 
 @Component(modules = [
-  DataModule::class])
+  DataModule::class,
+  ApiModule::class])
 interface DataComponent {
   @Component.Builder
   interface Builder {
@@ -37,7 +38,6 @@ interface DataComponent {
   }
 
   fun lekkieDatabase(): LekkieDatabase
-  fun geocoder(): Geocoder
   fun outageDao(): OutageDao
-  fun moshi(): Moshi
+  fun lekkieWorkerFactory(): LekkieWorkerFactory
 }

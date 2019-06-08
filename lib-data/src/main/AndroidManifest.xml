@@ -16,4 +16,20 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="ie.pennylabs.lekkie.lib.data" />
+  xmlns:tools="http://schemas.android.com/tools"
+  package="ie.pennylabs.lekkie.lib.data">
+
+  <application>
+
+    <uses-library
+      android:name="org.apache.http.legacy"
+      android:required="false" />
+
+    <provider
+      android:name="androidx.work.impl.WorkManagerInitializer"
+      android:authorities="{applicationId}.workmanager-init"
+      android:enabled="false"
+      android:exported="false"
+      tools:replace="android:authorities" />
+  </application>
+</manifest>

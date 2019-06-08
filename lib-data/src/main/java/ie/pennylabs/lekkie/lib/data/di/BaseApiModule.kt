@@ -1,4 +1,5 @@
-/* Copyright (C) 2018 Elliot Tormey
+/*
+ * Copyright (C) 2018 Elliot Tormey
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,15 +13,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
-package ie.pennylabs.lekkie.di
+package ie.pennylabs.lekkie.lib.data.di
 
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import ie.pennylabs.lekkie.BuildConfig
-import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.lib.data.BuildConfig
+import ie.pennylabs.lekkie.lib.data.api.ApiService
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
@@ -28,7 +29,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 private const val TIMEOUT = 30_000L
 
@@ -58,7 +58,6 @@ object BaseApiModule {
       }).build()
 
   @Provides
-  @Singleton
   @JvmStatic
   fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 }

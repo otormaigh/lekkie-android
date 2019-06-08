@@ -34,6 +34,8 @@ android {
     versionName = BuildConst.Version.name
     consumerProguardFiles("consumer-rules.pro")
 
+    buildConfigField("String", "BASE_URL", project.properties["base_url"] as String)
+
     javaCompileOptions {
       annotationProcessorOptions {
         arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
@@ -58,8 +60,17 @@ dependencies {
   implementation("androidx.room:room-runtime:${Deps.room}")
   kapt("androidx.room:room-compiler:${Deps.room}")
   implementation("androidx.lifecycle:lifecycle-livedata:${Deps.lifecycle}")
+  api("androidx.work:work-runtime-ktx:2.1.0-alpha03")
 
+  implementation("com.squareup.retrofit2:retrofit:${Deps.retrofit2}")
+  implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")
+  implementation("com.squareup.okhttp3:okhttp:${Deps.okhttp3}")
+  implementation("com.squareup.okhttp3:logging-interceptor:${Deps.okhttp3}")
+  implementation("ru.gildor.coroutines:kotlin-coroutines-retrofit:1.1.0")
   implementation("com.squareup.moshi:moshi:1.9.0-SNAPSHOT")
+  debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
+
+  implementation("com.jakewharton.timber:timber:4.7.1")
   implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
   implementation("com.google.dagger:dagger:${Deps.dagger}")

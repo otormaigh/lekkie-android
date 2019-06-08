@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.worker
+package ie.pennylabs.lekkie.lib.data.worker
 
 import android.content.Context
 import android.location.Geocoder
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import ie.pennylabs.lekkie.api.ApiService
+import ie.pennylabs.lekkie.lib.data.api.ApiService
 import ie.pennylabs.lekkie.lib.data.room.LekkieDatabase
 import javax.inject.Inject
 

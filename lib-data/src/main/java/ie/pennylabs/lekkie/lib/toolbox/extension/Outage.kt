@@ -15,24 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.api
+package ie.pennylabs.lekkie.lib.toolbox.extension
 
 import ie.pennylabs.lekkie.lib.data.model.Outage
-import ie.pennylabs.lekkie.lib.data.model.OutageMessage
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
-interface ApiService {
-  @GET("outages/{id}/")
-  fun getOutage(
-    @Path("id") id: String,
-    @Query("_") delta: Long = System.currentTimeMillis())
-    : Call<Outage>
+private const val OUTAGE_TIMEOUT = 60 * 60 * 1000
 
-  @GET("outages/")
-  fun getOutages(
-    @Query("_") delta: Long = 0)
-    : Call<OutageMessage>
-}
+val Outage.shouldRefresh: Boolean
+  get() =
+    System.currentTimeMillis() - delta > OUTAGE_TIMEOUT &&
+      (System.currentTimeMillis() > estRestoreTime ||
+        System.currentTimeMillis() < estRestoreTime - 60 * 60 * 1000)

@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.pennylabs.lekkie.di
+package ie.pennylabs.lekkie.lib.data.di
 
+import android.os.StrictMode
 import dagger.Module
 import dagger.Provides
-import ie.pennylabs.lekkie.api.ApiResponseDispatcher
+import ie.pennylabs.lekkie.lib.data.api.ApiResponseDispatcher
 import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockWebServer
 
@@ -27,10 +28,12 @@ import okhttp3.mockwebserver.MockWebServer
 object ApiModule {
   @Provides
   @JvmStatic
-  fun provideMockWebServer(): MockWebServer =
-    MockWebServer().apply {
-      setDispatcher(ApiResponseDispatcher())
+  fun provideMockWebServer(): MockWebServer {
+    StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
+    return MockWebServer().apply {
+      dispatcher = ApiResponseDispatcher()
     }
+  }
 
   @Provides
   @JvmStatic

@@ -37,7 +37,7 @@ import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.toolbox.LazyViewModel
 import ie.pennylabs.lekkie.toolbox.extension.hideKeyboard
 import ie.pennylabs.lekkie.toolbox.extension.showKeyboard
-import ie.pennylabs.lekkie.worker.ApiWorker
+import ie.pennylabs.lekkie.lib.data.worker.ApiWorker
 import kotlinx.android.synthetic.main.controller_outage_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

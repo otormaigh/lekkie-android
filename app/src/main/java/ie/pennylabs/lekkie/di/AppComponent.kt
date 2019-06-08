@@ -35,7 +35,6 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     AndroidSupportInjectionModule::class,
     ActivityBuilder::class,
-    ApiModule::class,
     FragmentBuilder::class,
     ViewModelModule::class])
 interface AppComponent {

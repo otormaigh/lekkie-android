@@ -42,8 +42,6 @@ android {
     versionCode = BuildConst.Version.code
     versionName = BuildConst.Version.name
     the<BasePluginConvention>().archivesBaseName = "lekkie-$versionName"
-
-    buildConfigField("String", "BASE_URL", project.properties["base_url"] as String)
   }
 
   compileOptions {
@@ -92,6 +90,7 @@ android {
     exclude("META-INF/main.kotlin_module")
     exclude("META-INF/atomicfu.kotlin_module")
   }
+
   lintOptions {
     setLintConfig(file("../quality/lint-config.xml"))
   }
@@ -112,20 +111,12 @@ android {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
     implementation("com.google.android.gms:play-services-maps:16.1.0")
-    implementation("androidx.work:work-runtime-ktx:2.1.0-alpha03")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android-support:${Deps.dagger}")
     kapt("com.google.dagger:dagger-compiler:${Deps.dagger}")
     kapt("com.google.dagger:dagger-android-processor:${Deps.dagger}")
-
-    implementation("com.squareup.retrofit2:retrofit:${Deps.retrofit2}")
-    implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")
-    implementation("com.squareup.okhttp3:okhttp:${Deps.okhttp3}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${Deps.okhttp3}")
-    implementation("ru.gildor.coroutines:kotlin-coroutines-retrofit:1.1.0")
-    debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
 
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")

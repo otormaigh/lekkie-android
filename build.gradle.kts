@@ -26,6 +26,10 @@ allprojects {
     maven("https://oss.sonatype.org/content/repositories/snapshots")
   }
 
+  if (file("../enc.properties").exists()) {
+    apply(from = "../enc.properties")
+  }
+
   afterEvaluate {
     (project.extensions.findByName("kapt") as? KaptExtension)?.apply {
       arguments {
