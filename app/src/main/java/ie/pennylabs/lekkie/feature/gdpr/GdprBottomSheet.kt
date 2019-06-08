@@ -29,6 +29,7 @@ import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.toolbox.*
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.sheet_gdpr.*
+import timber.log.Timber
 
 class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
   init {
@@ -60,14 +61,17 @@ class GdprBottomSheet(context: Context) : BottomSheetDialog(context) {
 
   override fun dismiss() {
     super.dismiss()
-
-    FirebasePerformance.getInstance().isPerformanceCollectionEnabled = context.prefs.enablePerformance
-    FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(context.prefs.enableAnalytics)
-    Fabric.with(
-      context, CrashlyticsCore.Builder()
-        .disabled(!context.prefs.enableCrashReporting)
-        .build()
-    )
+    try {
+      FirebasePerformance.getInstance().isPerformanceCollectionEnabled = context.prefs.enablePerformance
+      FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(context.prefs.enableAnalytics)
+      Fabric.with(
+        context, CrashlyticsCore.Builder()
+          .disabled(!context.prefs.enableCrashReporting)
+          .build()
+      )
+    } catch (e: Exception) {
+      Timber.e(e)
+    }
   }
 
   companion object {

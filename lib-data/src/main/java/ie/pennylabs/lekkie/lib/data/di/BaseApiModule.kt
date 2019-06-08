@@ -17,6 +17,8 @@
 
 package ie.pennylabs.lekkie.lib.data.di
 
+import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -46,12 +48,13 @@ object BaseApiModule {
 
   @Provides
   @JvmStatic
-  fun provideOkHttp(): OkHttpClient =
+  fun provideOkHttp(application: Application): OkHttpClient =
     OkHttpClient.Builder()
       .protocols(listOf(Protocol.HTTP_1_1))
       .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
       .readTimeout(TIMEOUT, TimeUnit.SECONDS)
       .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+      .addInterceptor(ChuckerInterceptor(application))
       .addNetworkInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.NONE
         if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY

@@ -66,15 +66,18 @@ dependencies {
   implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")
   implementation("com.squareup.okhttp3:okhttp:${Deps.okhttp3}")
   implementation("com.squareup.okhttp3:logging-interceptor:${Deps.okhttp3}")
+  debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
   implementation("com.squareup.moshi:moshi:${Deps.moshi}")
   kapt("com.squareup.moshi:moshi-kotlin-codegen:${Deps.moshi}")
-  debugImplementation("com.squareup.okhttp3:mockwebserver:${Deps.okhttp3}")
+  debugApi("com.github.ChuckerTeam.Chucker:library:${Deps.chucker}")
+  releaseApi("com.github.ChuckerTeam.Chucker:library-no-op:${Deps.chucker}")
 
   implementation("com.jakewharton.timber:timber:4.7.1")
   implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
   implementation("com.google.dagger:dagger:${Deps.dagger}")
   kapt("com.google.dagger:dagger-compiler:${Deps.dagger}")
+
 
   testImplementation("junit:junit:4.13-beta-3")
   testImplementation("com.squareup.assertj:assertj-android:1.2.0")

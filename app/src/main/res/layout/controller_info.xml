@@ -113,4 +113,21 @@
     app:layout_constraintTop_toBottomOf="@id/tvSyncInterval"
     tools:visibility="visible" />
 
+  <TextView
+    android:id="@+id/tvChucker"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/horizontal_spacing"
+    android:paddingTop="@dimen/vertical_spacing"
+    android:paddingEnd="@dimen/horizontal_spacing"
+    android:paddingBottom="@dimen/vertical_spacing"
+    android:text="@string/chucker"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/sbInterval"
+    tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

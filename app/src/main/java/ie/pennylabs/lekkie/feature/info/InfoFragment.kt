@@ -26,6 +26,8 @@ import android.widget.SeekBar
 import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.work.WorkManager
+import com.chuckerteam.chucker.api.Chucker
+import ie.pennylabs.lekkie.BuildConfig
 import ie.pennylabs.lekkie.R
 import ie.pennylabs.lekkie.arch.BaseFragment
 import ie.pennylabs.lekkie.feature.gdpr.GdprBottomSheet
@@ -62,6 +64,11 @@ class InfoFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener, View.OnCli
     enableBackgroundSync(requireContext().prefs.syncEnabled)
 
     viewModel.showToast.observe(this, Observer { toast(message = it) })
+
+    if (BuildConfig.DEBUG) {
+      tvChucker.visibility = View.VISIBLE
+      tvChucker.setOnClickListener { startActivity(Chucker.getLaunchIntent(requireContext(), Chucker.SCREEN_HTTP)) }
+    }
   }
 
   override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

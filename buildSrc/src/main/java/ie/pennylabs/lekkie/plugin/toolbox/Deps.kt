@@ -40,4 +40,7 @@ object Deps {
 
   // androidx.lifecycle
   const val lifecycle = "2.2.0-alpha01"
+
+  // com.github.ChuckerTeam.Chucker
+  const val chucker = "3.0.0-alpha1"
 }
