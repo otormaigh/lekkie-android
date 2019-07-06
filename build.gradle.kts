@@ -10,10 +10,10 @@ buildscript {
     maven("https://maven.fabric.io/public")
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:3.6.0-alpha03")
+    classpath("com.android.tools.build:gradle:3.6.0-alpha04")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ie.pennylabs.lekkie.plugin.toolbox.Deps.kotlin}")
     classpath("com.github.triplet.gradle:play-publisher:2.2.1")
-    classpath("com.google.gms:google-services:4.2.0")
+    classpath("com.google.gms:google-services:4.3.0")
     classpath("com.google.firebase:perf-plugin:1.2.1")
     classpath("io.fabric.tools:gradle:1.29.0")
   }
@@ -55,6 +55,6 @@ task<Delete>("clean") {
 }
 
 tasks.withType(Wrapper::class.java) {
-  gradleVersion = "5.4.1"
+  gradleVersion = "5.5"
   distributionType = Wrapper.DistributionType.ALL
 }

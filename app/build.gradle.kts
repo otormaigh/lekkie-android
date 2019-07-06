@@ -102,15 +102,15 @@ android {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Deps.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Deps.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.2.0-alpha01")
+    implementation("androidx.core:core-ktx:1.2.0-alpha02")
     implementation("com.google.android.material:material:1.1.0-alpha07")
-    implementation("androidx.appcompat:appcompat:1.1.0-beta01")
-    implementation("androidx.recyclerview:recyclerview:1.1.0-alpha06")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
+    implementation("androidx.appcompat:appcompat:1.1.0-rc01")
+    implementation("androidx.recyclerview:recyclerview:1.1.0-beta01")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3") // https://issuetracker.google.com/issues/136103084
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Deps.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Deps.lifecycle}")
-    implementation("com.google.android.gms:play-services-maps:16.1.0")
+    implementation("com.google.android.gms:play-services-maps:17.0.0")
 
     implementation("com.google.dagger:dagger:${Deps.dagger}")
     implementation("com.google.dagger:dagger-android:${Deps.dagger}")
@@ -121,9 +121,9 @@ android {
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
-    implementation("com.google.firebase:firebase-analytics:16.5.0")
-    implementation("com.google.firebase:firebase-core:16.0.9")
-    implementation("com.google.firebase:firebase-perf:17.0.2")
+    implementation("com.google.firebase:firebase-analytics:17.0.0")
+    implementation("com.google.firebase:firebase-core:17.0.0")
+    implementation("com.google.firebase:firebase-perf:18.0.1")
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
   }
 }

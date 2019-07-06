@@ -30,6 +30,6 @@ open class DetektTask : JavaExec() {
     val report = "html:${project.rootDir}/app/build/reports/detekt/detekt.html"
     args(listOf("-i", input, "-c", config, "-ex", excludes, "-r", report))
 
-    project.dependencies.add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0-RC15")
+    project.dependencies.add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0-RC16")
   }
 }

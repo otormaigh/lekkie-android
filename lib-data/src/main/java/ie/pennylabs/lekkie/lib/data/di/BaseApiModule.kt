@@ -54,7 +54,7 @@ object BaseApiModule {
       .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
       .readTimeout(TIMEOUT, TimeUnit.SECONDS)
       .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-      .addInterceptor(ChuckerInterceptor(application))
+      /*.addInterceptor(ChuckerInterceptor(application))*/
       .addNetworkInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.NONE
         if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY

@@ -16,6 +16,7 @@
  */
 import ie.pennylabs.lekkie.plugin.toolbox.BuildConst
 import ie.pennylabs.lekkie.plugin.toolbox.Deps
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 
 plugins {
@@ -60,7 +61,7 @@ dependencies {
   implementation("androidx.room:room-runtime:${Deps.room}")
   kapt("androidx.room:room-compiler:${Deps.room}")
   implementation("androidx.lifecycle:lifecycle-livedata:${Deps.lifecycle}")
-  api("androidx.work:work-runtime-ktx:2.1.0-alpha03")
+  api("androidx.work:work-runtime-ktx:2.1.0-rc01")
 
   implementation("com.squareup.retrofit2:retrofit:${Deps.retrofit2}")
   implementation("com.squareup.retrofit2:converter-moshi:${Deps.retrofit2}")

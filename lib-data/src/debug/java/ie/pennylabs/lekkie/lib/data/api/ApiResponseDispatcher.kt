@@ -27,12 +27,12 @@ import java.util.*
 class ApiResponseDispatcher : QueueDispatcher() {
   override fun dispatch(request: RecordedRequest): MockResponse =
     MockResponse().apply {
-      val requestedMethod = request.method.toLowerCase(Locale.getDefault())
+      val requestedMethod = request.method?.toLowerCase(Locale.getDefault())
       val fileName = requestedMethod +
         request.path
-          .replace("/", "_")
-          .replaceAfter("?", "")
-          .dropLast(2) + ".json"
+          ?.replace("/", "_")
+          ?.replaceAfter("?", "")
+          ?.dropLast(2) + ".json"
       Timber.e("fileName = $fileName")
 
       setBody(readFile(fileName))
